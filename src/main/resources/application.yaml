@@ -1,0 +1,59 @@
+spring:
+  management:
+    health:
+      mail:
+        enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://remotemysql.com:3306/egBtwGHWNJ
+    username: egBtwGHWNJ
+    password: NzNi7VdgOL
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: iran.digifootball@gmail.com
+    password: ENC(Qv11tF6Sf8Ym4+cpQgmEJ2CA85u3beKR)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+# Logging settings
+logging:
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss}){magenta} %clr(%-5level) %clr(%logger:){cyan} %clr(%marker){red} %msg%n'
+  level:
+    root: info
+    com.bitex: debug
+    org.apache.http: debug
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    session.cookie:
+      path: /
+      http-only: true
+piana:
+  email:
+    send: false
+    link.prefix: http://localhost:8080/
+  user.jwt.issuer: piana.herokuapp.com
+  user.jwt.secret: secret
+jasypt:
+  encryptor:
+    password: test
+    property:
+      prefix: "ENC("
+      suffix: ")"

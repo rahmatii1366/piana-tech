@@ -1,0 +1,10 @@
+GET http://localhost:8080/api/sample
+
+###
+GET http://localhost:8080/api/sample/one
+
+###
+GET http://localhost:8080/api/user
+cookie: JSESSIONID=D407F36EA62290156B95F2E8916F334D
+
+###

@@ -1,0 +1,95 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'org.hidetake.swagger.generator' version '2.15.0'
+}
+
+group = 'ir.piana.tech'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+apply plugin: 'io.spring.dependency-management'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+ext {
+	set('springCloudVersion', "Greenwich.SR2")
+	set('springCloudVersion', "Greenwich.RELEASE")
+	set('swaggerCodeGeneratorVersion', "2.4.1")
+	set('javaJwtVersion', "3.4.+")
+	set('jacksonVersion', "2.9.+")
+}
+
+sourceSets.main.java.srcDir "${buildDir}/generated/source/annotationProcessor/java/main"
+sourceSets.test.java.srcDir "${buildDir}/generated/source/annotationProcessor/java/test"
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1'
+
+	implementation group: 'com.auth0', name: 'java-jwt', version: '3.8.1'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
+
+	implementation('io.swagger:swagger-codegen:2.4.1') {
+		exclude group: 'org.slf4j'
+		exclude group: 'com.google.code.gson'
+	}
+
+	swaggerCodegen('io.swagger:swagger-codegen-cli:2.4.1') {
+		exclude group: 'ch.qos.logback'
+		exclude group: 'org.slf4j'
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+swaggerSources {
+	server {
+		inputFile = file("${rootDir}/src/main/resources/static/swagger/api.yaml")
+		code {
+			language = "spring"
+			components = ["models", "apis"]
+			outputDir = file("${buildDir}/generated/swagger/server")
+			additionalProperties = [
+					"library"          : "spring-boot",
+					"useOptional"      : "true",
+					"useBeanValidation": "true",
+					"serializableModel": "true",
+					"delegatePattern"  : "true",
+					"java8"            : "false",
+					"dateLibrary"      : "java8",
+					"apiPackage"       : "ir.piana.tech.api.service",
+					"modelPackage"     : "ir.piana.tech.api.dto",
+			]
+		}
+
+		compileJava.dependsOn swaggerSources.server.code
+		sourceSets.main.java.srcDir "${swaggerSources.server.code.outputDir}/src/main/java"
+		sourceSets.main.resources.srcDir "${swaggerSources.server.code.outputDir}/src/main/resources"
+	}
+}

@@ -1,0 +1,69 @@
+definitions:
+  SampleDto:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Ali
+      message:
+        type: string
+        example: Hi
+    title: SampleDto
+  SignupDto:
+    type: object
+    properties:
+      email:
+        type: string
+  PasswordDto:
+    type: object
+    properties:
+      email:
+        type: string
+  LoginDto:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  MeDto:
+    type: object
+    properties:
+      email:
+        type: string
+      role:
+        $ref: '#/definitions/RoleEnum'
+  RoleEnum:
+    type: string
+    enum:
+      - GUEST
+      - USER
+      - SUSPENDED
+      - ADMIN
+  MessageDto:
+    type: object
+    properties:
+      timestamp:
+        type: integer
+        format: int64
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+      path:
+        type: string
+  ErrorDto:
+    type: object
+    properties:
+      timestamp:
+        type: integer
+        format: int64
+      status:
+        type: string
+      error:
+        type: string
+      message:
+        type: string
+      path:
+        type: string

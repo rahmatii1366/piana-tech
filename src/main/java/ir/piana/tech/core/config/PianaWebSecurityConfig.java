@@ -41,7 +41,7 @@ public class PianaWebSecurityConfig {
     }
 
     @Configuration
-    @Order(2)
+    @Order(3)
     public static class CustomWebSecurityConfigurerAdapterB extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -61,7 +61,7 @@ public class PianaWebSecurityConfig {
     }
 
     @Configuration
-    @Order(3)
+    @Order(4)
     public static class CustomWebSecurityConfigurerAdapterC extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;

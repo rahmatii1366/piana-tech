@@ -26,7 +26,7 @@ paths:
       tags:
         - guest
       summary: return a user
-      operationId: signup
+      operationId: signUp
       consumes:
         - application/json
       produces:
@@ -41,7 +41,7 @@ paths:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/MessageDto'
+            $ref: './dto.yaml#/definitions/MeDto'
         '500':
           description: Error occurred during execution of request.
           schema:
@@ -51,7 +51,7 @@ paths:
       tags:
         - guest
       summary: return a user
-      operationId: signup
+      operationId: signUpVerify
       produces:
         - application/json
       parameters:
@@ -68,20 +68,22 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: './dto.yaml#/definitions/ErrorDto'
-  '/user/signup/password':
+  '/guest/login':
     post:
       tags:
-        - user
+        - guest
       summary: return a user
-      operationId: setPassword
+      operationId: login
+      consumes:
+        - application/json
       produces:
         - application/json
       parameters:
         - in: body
-          name: passwordDto
+          name: loginDto
           required: true
           schema:
-            $ref: './dto.yaml#/definitions/PasswordDto'
+            $ref: './dto.yaml#/definitions/LoginDto'
       responses:
         '200':
           description: Successful operation.

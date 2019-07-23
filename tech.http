@@ -8,3 +8,23 @@ GET http://localhost:8080/api/user
 cookie: JSESSIONID=D407F36EA62290156B95F2E8916F334D
 
 ###
+POST http://localhost:8080/api/guest/login
+Content-Type: application/json
+
+{
+  "email": "rahmatii1366@gmail.com",
+  "password": "123456"
+}
+###
+POST http://localhost:8080/api/guest/signup
+Content-Type: application/json
+
+{
+  "email": "rahmatii1367@gmail.com",
+  "password": "123456"
+}
+###
+GET http://localhost:8080/api/guest/signup/verify?link=941254
+cookie: JSESSIONID=62AEAD10928CF4B1579DC340099F3AAD
+
+###

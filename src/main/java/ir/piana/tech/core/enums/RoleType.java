@@ -5,10 +5,10 @@ package ir.piana.tech.core.enums;
  * Date: 7/20/2019 11:55 AM
  **/
 public enum RoleType {
-    UNKNOWN(7, "UNKNOWN"),
-    USER(8, "USER"),
-    NEED_PASSWORD(9, "NEED_PASSWORD"),
-    SUSPENDED(10, "SUSPENDED");
+    UNKNOWN(0, "UNKNOWN"),
+    GUEST(1, "USER"),
+    USER(2, "USER"),
+    SUSPENDED(3, "SUSPENDED");
 
     private int code;
     private String name;

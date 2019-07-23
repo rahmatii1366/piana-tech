@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+import java.util.Random;
+
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/22/2019 11:06 AM
@@ -21,6 +23,11 @@ public class PianaConfiguration {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JodaModule());
         return mapper;
+    }
+
+    @Bean
+    public Random random() {
+        return new Random();
     }
 
     @Bean

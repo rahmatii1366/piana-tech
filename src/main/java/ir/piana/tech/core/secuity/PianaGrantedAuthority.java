@@ -7,14 +7,14 @@ import org.springframework.security.core.GrantedAuthority;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/15/2019 3:53 PM
  **/
-public class GrantedAuthorityImpl implements GrantedAuthority {
+public class PianaGrantedAuthority implements GrantedAuthority {
     private String authority;
 
-    public GrantedAuthorityImpl(String authority) {
+    public PianaGrantedAuthority(String authority) {
         this.authority = authority;
     }
 
-    public GrantedAuthorityImpl(RoleType authority) {
+    public PianaGrantedAuthority(RoleType authority) {
         this.authority = authority.getName();
     }
 

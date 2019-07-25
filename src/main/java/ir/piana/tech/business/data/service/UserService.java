@@ -1,5 +1,6 @@
 package ir.piana.tech.business.data.service;
 
+import com.hazelcast.core.HazelcastInstance;
 import ir.piana.tech.api.dto.MeDto;
 import ir.piana.tech.api.dto.RoleEnum;
 import ir.piana.tech.api.dto.RuleEnum;
@@ -9,15 +10,18 @@ import ir.piana.tech.business.helper.EmailHelper;
 import ir.piana.tech.business.helper.JwtHelper;
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
-import ir.piana.tech.core.exception.PianaHttpException;
+import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.exception.PianaHttpExceptionRT;
 import ir.piana.tech.core.exception.ServerRelatedException;
 import ir.piana.tech.core.exception.UserRelatedException;
+import ir.piana.tech.core.model.MeModel;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +50,12 @@ public class UserService {
     @Autowired
     private JwtHelper jwtHelper;
 
+//    @Autowired
+//    private HazelcastInstance instance;
+
+    @Autowired
+    private CacheManager cacheManager;
+
     @Value("${piana.email.link.prefix}")
     private String linkPrefix;
 
@@ -60,23 +70,45 @@ public class UserService {
     private StringEncryptor stringEncryptor;
 
     @Transactional
-    public MeDto signup(String email, String password) throws PianaHttpExceptionRT {
-        signupRequest(email);
-        String randomNumberString = getRandomNumberString();
-        session.setAttribute("verify-code", randomNumberString);
-        session.setAttribute("email", email);
-        session.setAttribute("password", password);
+    public MeModel signup(String email, String password) throws PianaHttpExceptionRT {
+//        if(valueWrapper != null) {
+//            signupCache.evict(email);
+//            userEntity = (UserEntity) valueWrapper.get();
+//        } else {
+//            userEntity = new UserEntity();
+//            userEntity.setEmail(email);
+//            userEntity.setPassword(stringEncryptor.encrypt(password));
+//            userEntity.setRoleType(RoleType.USER);
+//            userEntity.setRuleType(RuleType.VERIFY_EMAIL);
+//            signupCache.put(email, userEntity);
+//        }
+        UserEntity userEntity = null;
+        userEntity = checkSignupRequest(email, password);
 
+        Cache cache = cacheManager.getCache("signup");
+        Cache.ValueWrapper valueWrapper = cache.get(email);
+        String code = null;
+        if(valueWrapper != null) {
+            code = (String) valueWrapper.get();
+        } else {
+            code = getRandomNumberString();
+        }
+        cache.evict(email);
+        cache.put(email, code);
+
+//        session.setAttribute("email", email);
+//        session.setAttribute("password", password);
 //        UUID uuid = UUID.randomUUID();
 //        String linkVar = Base64.getEncoder().encodeToString(
 //                uuid.toString().concat(":").concat(email).getBytes());
 //        String link = linkPrefix + "api/guest/signup/verify" + "?link=" + linkVar;
 //        uuidMap.put(email, uuid.toString());
+//        loginMap.put(email, code);
 
-        loginMap.put(email, randomNumberString);
-        emailHelper.sendEmail(email, "ارسال لینک فعالسازی", randomNumberString);
+        emailHelper.sendEmail(email, "کد فعالسازی", code);
 
-        return createMeDto(email, RoleEnum.GUEST, RuleEnum.LOGIN_VERIFY_EMAIL);
+//        return MeModel.builder().email(email).role(RoleType.GUEST).rule(RuleType.VERIFY_EMAIL).build();
+        return authenticationService.authenticateMe(userEntity);
     }
 
 //    @Transactional
@@ -104,40 +136,45 @@ public class UserService {
 //    }
 
     @Transactional
-    public MeDto verify(String code) throws PianaHttpExceptionRT {
-        Object emailObj = session.getAttribute("email");
-        Object passwordObj = session.getAttribute("password");
-        if(emailObj == null || passwordObj == null)
-            throw new UserRelatedException("email or password not exist");
-        String email = (String) emailObj;
-        String password = (String) passwordObj;
-        String orgCode = loginMap.containsKey(email) ? loginMap.remove(email) : null;
-        if(orgCode == null)
-            throw new ServerRelatedException("signup request not exist");
-        else if (!orgCode.equalsIgnoreCase(code))
-            throw new UserRelatedException("code not exist");
-        else {
-            Example<UserEntity> userEntityExample = Example.of(new UserEntity(email));
-            Optional<UserEntity> one = userRepository.findOne(userEntityExample);
-            if(one.isPresent()) {
-                throw new ServerRelatedException("UNKNOWN EXCEPTION");
-            }
-            UserEntity userEntity = new UserEntity();
-            userEntity.setEmail(email);
-            userEntity.setPassword(stringEncryptor.encrypt(password));
-            userEntity.setVerified(true);
-            userEntity.setRoleType(RoleType.USER);
-            userRepository.save(userEntity);
-            return authenticationService.authenticate(userEntity);
-        }
+    public MeModel verify(String code) throws PianaHttpExceptionRT {
+//        Object emailObj = session.getAttribute("email");
+//        Object passwordObj = session.getAttribute("password");
+//        if(emailObj == null || passwordObj == null)
+//            throw new UserRelatedException("email or password not exist");
+        UserEntity userEntity = authenticationService.getUserEntity();
+        Cache cache = cacheManager.getCache("signup");
+        Cache.ValueWrapper valueWrapper = cache.get(userEntity.getEmail());
+        if(valueWrapper != null) {
+            String orgCode = (String) valueWrapper.get();
+            if(!code.equalsIgnoreCase(orgCode))
+                throw new UserRelatedException("code invalid!");
+        } else
+            throw new UserRelatedException("code expired!");
+
+        cache.evict(userEntity.getEmail());
+        userEntity.setVerified(true);
+        userEntity.setRuleType(RuleType.FREE);
+        userRepository.save(userEntity);
+        return authenticationService.authenticateMe(userEntity);
     }
 
     @Transactional
-    public void signupRequest(String email) throws PianaHttpExceptionRT {
+    public UserEntity checkSignupRequest(String email, String password) throws PianaHttpExceptionRT {
         Example<UserEntity> userEntityExample = Example.of(new UserEntity(email));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
-        if (one.isPresent())
+        if (one.isPresent() && one.get().isVerified())
             throw new UserRelatedException("duplicated email");
+        else if(one.isPresent() && !one.get().isVerified()) {
+            one.get().setPassword(stringEncryptor.encrypt(password));
+            return userRepository.save(one.get());
+        }
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(email);
+        userEntity.setPassword(stringEncryptor.encrypt(password));
+        userEntity.setVerified(false);
+        userEntity.setRuleType(RuleType.VERIFY_EMAIL);
+        userEntity.setRoleType(RoleType.USER);
+        return userRepository.save(userEntity);
     }
 
     @Transactional
@@ -157,10 +194,11 @@ public class UserService {
         }
     }
 
-    public UserEntity login(String email, String password) throws UserRelatedException {
-        Example<UserEntity> userEntityExample = Example.of(new UserEntity(email, password));
+    public MeModel login(String email, String password) throws UserRelatedException {
+        Example<UserEntity> userEntityExample = Example.of(new UserEntity(email, stringEncryptor.encrypt(password)));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
-        return one.orElseThrow(() -> new UserRelatedException("credential not correct"));
+        return authenticationService.authenticateMe(
+                one.orElseThrow(() -> new UserRelatedException("credential not correct")));
     }
 
     private MeDto createMeDto(String email, RoleEnum roleEnum, RuleEnum ruleEnum) {
@@ -172,7 +210,6 @@ public class UserService {
         meDto.setRule(ruleEnum == null ? RuleEnum.FREE : ruleEnum);
         return meDto;
     }
-
 
     public String getRandomNumberString() {
         // It will generate 6 digit random Number.

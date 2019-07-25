@@ -2,6 +2,9 @@ package ir.piana.tech.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.EvictionPolicy;
+import com.hazelcast.config.MapConfig;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -42,4 +45,23 @@ public class PianaConfiguration {
     public UnauthorizedAuthenticationEntryPoint unauthorizedAuthenticationEntryPoint(ObjectMapper objectMapper) {
         return new UnauthorizedAuthenticationEntryPoint(objectMapper);
     }
+
+//    @Bean
+//    public Config hazelCastConfig() {
+//
+//        Config config = new Config();
+//        config.setInstanceName("hazelcast-cache");
+//
+//        MapConfig allUsersCache = new MapConfig();
+//        allUsersCache.setTimeToLiveSeconds(20);
+//        allUsersCache.setEvictionPolicy(EvictionPolicy.LFU);
+//        config.getMapConfigs().put("alluserscache", allUsersCache);
+//
+//        MapConfig usercache = new MapConfig();
+//        usercache.setTimeToLiveSeconds(20);
+//        usercache.setEvictionPolicy(EvictionPolicy.LFU);
+//        config.getMapConfigs().put("usercache",usercache);
+//
+//        return config;
+//    }
 }

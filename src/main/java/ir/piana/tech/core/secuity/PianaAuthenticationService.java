@@ -1,10 +1,10 @@
 package ir.piana.tech.core.secuity;
 
-import ir.piana.tech.api.dto.MeDto;
-import ir.piana.tech.api.dto.RoleEnum;
 import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.business.data.service.UserService;
+import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.exception.UserRelatedException;
+import ir.piana.tech.core.model.MeModel;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,29 +38,33 @@ public class PianaAuthenticationService {
     @Qualifier("getStandardPBEStringEncryptor")
     private StringEncryptor stringEncryptor;
 
-    public MeDto login(String email, String password) throws UserRelatedException {
-        UserEntity userEntity = userService.login(email, password);
-        return authenticate(userEntity);
+    private void refreshSession(UserEntity userEntity) throws UserRelatedException {
+        session.invalidate();
+        session.setAttribute("user", userEntity);
     }
 
-    public MeDto authenticate(UserEntity userEntity) {
-        List<PianaGrantedAuthority> authorities = Arrays.asList(new PianaGrantedAuthority(userEntity.getRoleType()));
+    public MeModel authenticateMe(UserEntity userEntity) {
+        refreshSession(userEntity);
+        List<PianaGrantedAuthority> authorities = null;
+        if(userEntity.getRuleType() != RuleType.FREE) {
+            authorities = Arrays.asList(new PianaGrantedAuthority(userEntity.getRuleType().getRole()));
+        } else {
+            authorities = Arrays.asList(new PianaGrantedAuthority(userEntity.getRoleType().getRole()));
+        }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 userEntity, null, authorities);
         SecurityContext securityContext = SecurityContextHolder.getContext();
 //        Authentication authentication = securityContext.getAuthentication();
-        session.invalidate();
         securityContext.setAuthentication(authenticationToken);
-        MeDto meDto = new MeDto();
-        meDto.setEmail(userEntity.getEmail());
-        meDto.setRole(RoleEnum.fromValue(authorities.get(0).getAuthority()));
-        return meDto;
+        return MeModel.builder().email(userEntity.getEmail())
+                .role(userEntity.getRoleType())
+                .rule(userEntity.getRuleType())
+                .build();
     }
 
-    public Authentication getAuthentication(String uuid) {
-        UsernamePasswordAuthenticationToken authentication = userMap.get(uuid);
-        if(authentication == null)
-            return new UsernamePasswordAuthenticationToken(uuid, "123456");
-        return authentication;
+    public UserEntity getUserEntity() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return (UserEntity) authentication.getPrincipal();
     }
 }

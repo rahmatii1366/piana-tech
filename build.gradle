@@ -1,3 +1,21 @@
+buildscript {
+	ext {
+		set('springBootVersion', '2.1.3.RELEASE')
+		set('springCloudVersion', "Greenwich.SR2")
+		set('springCloudVersion', "Greenwich.RELEASE")
+		set('swaggerPluginVersion', '2.12.0')
+		set('swaggerAnnotationsVersio', '1.5.20')
+		set('swaggerCodeGeneratorVersion', "2.4.1")
+		set('javaJwtVersion', "3.4.+")
+		set('jacksonVersion', "2.9.+")
+		set('mapstructVersion', "1.3.0.Final")
+		set('lombokVersion', "1.18.4")
+		set('querydslVersion', '4.2.1')
+		set('rsqlQueryDslVersion', '2.0.0.RELEASE')
+		set('sonarqubeVersion', '2.6.2')
+		set('hazelcastVersion', '3.12.1')
+	}
+}
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.1.6.RELEASE'
@@ -22,36 +40,43 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
-ext {
-	set('springCloudVersion', "Greenwich.SR2")
-	set('springCloudVersion', "Greenwich.RELEASE")
-	set('swaggerCodeGeneratorVersion', "2.4.1")
-	set('javaJwtVersion', "3.4.+")
-	set('jacksonVersion', "2.9.+")
-}
-
 sourceSets.main.java.srcDir "${buildDir}/generated/source/annotationProcessor/java/main"
 sourceSets.test.java.srcDir "${buildDir}/generated/source/annotationProcessor/java/test"
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs = [
+			'-Amapstruct.suppressGeneratorTimestamp=true'
+	]
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1'
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile 'org.springframework.boot:spring-boot-starter-mail'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+	compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1'
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'
+	compile "com.hazelcast:hazelcast:${hazelcastVersion}"
+	compile "com.hazelcast:hazelcast-spring:${hazelcastVersion}"
 
-	implementation group: 'com.auth0', name: 'java-jwt', version: '3.8.1'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.projectlombok:lombok'
+	compile 'com.auth0:java-jwt:3.8.1'
+	compile 'org.projectlombok:lombok'
+	compile 'mysql:mysql-connector-java'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	implementation('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
+	compile  "org.mapstruct:mapstruct:${mapstructVersion}"
+	compile  "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+	compile "com.querydsl:querydsl-jpa:${querydslVersion}"
+	compile "com.querydsl:querydsl-apt:${querydslVersion}"
+	compile "com.github.vineey:rsql-querydsl-all:${rsqlQueryDslVersion}"
 
-	implementation('io.swagger:swagger-codegen:2.4.1') {
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.springframework.security:spring-security-test'
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
+
+	compile('io.swagger:swagger-codegen:2.4.1') {
 		exclude group: 'org.slf4j'
 		exclude group: 'com.google.code.gson'
 	}
@@ -60,6 +85,9 @@ dependencies {
 		exclude group: 'ch.qos.logback'
 		exclude group: 'org.slf4j'
 	}
+
+	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+	annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
 
 dependencyManagement {
@@ -70,7 +98,7 @@ dependencyManagement {
 
 swaggerSources {
 	server {
-		inputFile = file("${rootDir}/src/main/resources/static/swagger/api.yaml")
+		inputFile = file("${rootDir}/src/main/resources/swagger/api.yaml")
 		code {
 			language = "spring"
 			components = ["models", "apis"]
@@ -92,4 +120,30 @@ swaggerSources {
 		sourceSets.main.java.srcDir "${swaggerSources.server.code.outputDir}/src/main/java"
 		sourceSets.main.resources.srcDir "${swaggerSources.server.code.outputDir}/src/main/resources"
 	}
+}
+
+configurations {
+	mapstruct
+	querydslapt
+}
+
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+	source = sourceSets.main.java
+	classpath = configurations.compile + configurations.querydslapt
+	options.compilerArgs = [
+			'-proc:only',
+			'-processor', 'com.querydsl.apt.jpa.JPAAnnotationProcessor' +
+					',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
+	]
+	destinationDir = file("${buildDir}/generated/querydsl/")
+}
+
+sourceSets.main.java.srcDir "${buildDir}/generated/querydsl/"
+
+compileJava {
+	dependsOn generateQueryDSL
+}
+
+generateQueryDSL.dependsOn {
+	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
 }

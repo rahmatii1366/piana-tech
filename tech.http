@@ -1,22 +1,20 @@
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/x-www-form-urlencoded
+
+email=ali@gmail.com&password=1234
+###
+GET http://localhost:8080/api/static/index
+
+###
 GET http://localhost:8080/api/sample
+cookie: JSESSIONID=055397BFAC952FF3522D570481C2D81D
 
 ###
 GET http://localhost:8080/api/sample/one
-
-###
-GET http://localhost:8080/api/user
-cookie: JSESSIONID=D407F36EA62290156B95F2E8916F334D
+cookie: JSESSIONID=FE9BDC374D5A33DD97783DFE88FFA0CA
 
 ###
 POST http://localhost:8080/api/guest/login
-Content-Type: application/json
-
-{
-  "email": "rahmatii1366@gmail.com",
-  "password": "123456"
-}
-###
-POST http://localhost:8080/api/guest/signup
 Content-Type: application/json
 
 {
@@ -24,7 +22,20 @@ Content-Type: application/json
   "password": "123456"
 }
 ###
-GET http://localhost:8080/api/guest/signup/verify?link=941254
-cookie: JSESSIONID=62AEAD10928CF4B1579DC340099F3AAD
+POST http://localhost:8080/api/guest/signup
+cookie: JSESSIONID=85A6FB0E891CECA1B53C498BB883FDC8
+Content-Type: application/json
 
+{
+  "email": "rahmatii1367@gmail.com",
+  "password": "123456"
+}
+###
+POST http://localhost:8080/api/verify-email/signup/verify
+Content-Type: application/json
+cookie: JSESSIONID=11D570C0A7A9979CFD3CAD6A38F2B028
+
+{
+  "code": "827415"
+}
 ###

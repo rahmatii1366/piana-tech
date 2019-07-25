@@ -4,35 +4,34 @@ package ir.piana.tech.core.enums;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:55 AM
  **/
-public enum RoleType {
-    UNKNOWN(0, "UNKNOWN"),
-    GUEST(1, "GUEST"),
-    USER(2, "USER"),
-    ADMIN(3, "SUSPENDED"),
-    SUSPENDED(4, "SUSPENDED");
+public enum RuleType {
+    FREE(0, "UNKNOWN"),
+    VERIFY_EMAIL(1, "VERIFY_EMAIL"),
+    REGISTER_MOBILE(1, "REGISTER_MOBILE"),
+    VERIFY_MOBILE(1, "VERIFY_MOBILE");
 
     private int code;
     private String name;
 
-    RoleType(int code, String name) {
+    RuleType(int code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    public static RoleType fromCode(int code) {
-        for (RoleType g : RoleType.values()) {
+    public static RuleType fromCode(int code) {
+        for (RuleType g : RuleType.values()) {
             if(g.code == code)
                 return g;
         }
-        return RoleType.UNKNOWN;
+        return RuleType.FREE;
     }
 
-    public static RoleType fromName(String name) {
-        for (RoleType g : RoleType.values()) {
+    public static RuleType fromName(String name) {
+        for (RuleType g : RuleType.values()) {
             if(g.name.equals(name))
                 return g;
         }
-        return RoleType.UNKNOWN;
+        return RuleType.FREE;
     }
 
     public int getCode() {

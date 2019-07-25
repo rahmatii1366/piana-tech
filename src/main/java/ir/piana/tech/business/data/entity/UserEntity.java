@@ -2,6 +2,7 @@ package ir.piana.tech.business.data.entity;
 
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
+import ir.piana.tech.core.enums.RuleType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,12 +14,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Data
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
     private String email;
+    @Column
+    private String mobile;
     @Column
     private String password;
     @Column
@@ -29,6 +32,10 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private RoleType roleType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rule_name")
+    private RuleType ruleType;
 
     public UserEntity() {
     }

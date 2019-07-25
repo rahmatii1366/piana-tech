@@ -21,6 +21,21 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: './dto.yaml#/definitions/ErrorDto'
+  '/sample/one':
+    get:
+      tags:
+        - sample
+      summary: return a sample related to given id
+      operationId: getSampleOne
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: './dto.yaml#/definitions/SampleDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: './dto.yaml#/definitions/ErrorDto'
   '/guest/signup':
     post:
       tags:
@@ -46,19 +61,20 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: './dto.yaml#/definitions/ErrorDto'
-  '/guest/signup/verify':
-    get:
+  '/verify-email/signup/verify':
+    post:
       tags:
-        - guest
+        - verify-email
       summary: return a user
       operationId: signUpVerify
       produces:
         - application/json
       parameters:
-        - in: query
-          name: link
-          type: string
+        - in: body
+          name: verifyCodeDto
           required: true
+          schema:
+            $ref: './dto.yaml#/definitions/VerifyCodeDto'
       responses:
         '200':
           description: Successful operation.

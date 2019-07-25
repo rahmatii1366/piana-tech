@@ -1,4 +1,12 @@
 spring:
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+  session:
+    store-type: none
+    timeout:
+  hazelcast:
+    config: classpath:config/hazelcast.xml
   management:
     health:
       mail:
@@ -42,9 +50,11 @@ server:
   port: 8080
   servlet:
     context-path: /api
-    session.cookie:
-      path: /
-      http-only: true
+    session:
+      timeout: 15
+      cookie:
+        path: /
+        http-only: true
 piana:
   email:
     send: false

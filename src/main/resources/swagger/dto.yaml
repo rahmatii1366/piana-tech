@@ -16,6 +16,11 @@ definitions:
         type: string
       password:
         type: string
+  VerifyCodeDto:
+    type: object
+    properties:
+      code:
+        type: string
   LoginDto:
     type: object
     properties:
@@ -35,6 +40,7 @@ definitions:
   RoleEnum:
     type: string
     enum:
+      - UNKNOWN
       - GUEST
       - USER
       - SUSPENDED
@@ -43,8 +49,9 @@ definitions:
     type: string
     enum:
       - FREE
-      - LOGIN_VERIFY_EMAIL
-      - LOGIN_SET_PASSWORD
+      - VERIFY_EMAIL
+      - REGISTER_MOBILE
+      - VERIFY_MOBILE
   MessageDto:
     type: object
     properties:

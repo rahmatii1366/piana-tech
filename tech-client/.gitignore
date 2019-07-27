@@ -1,44 +1,7 @@
-HELP.md
-.gradle
-build/
-build/**
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-
-### angular
-
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
 /dist
-**/dist
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -46,7 +9,6 @@ out/
 
 # dependencies
 /node_modules
-**/node_modules
 
 # profiling files
 chrome-profiler-events.json

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Store} from "@ngrx/store";
+import {IAppState} from "../../store/states/app.state";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tech-client';
+  // config$ = this._store.pipe(select())
+
+  constructor(private _store: Store<IAppState>) {}
 }

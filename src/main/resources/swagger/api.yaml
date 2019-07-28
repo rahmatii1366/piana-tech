@@ -3,6 +3,8 @@ info:
   description: This is a swagger config for Piana Tech Web Console
   version: 0.1.0
   title: Piana Tech Web Console
+host: 'localhost:8080'
+basePath: '/api'
 schemes:
   - http
 paths:
@@ -16,11 +18,11 @@ paths:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/SampleDto'
+            $ref: '#/definitions/SampleDto'
         '500':
           description: Error occurred during execution of request.
           schema:
-            $ref: './dto.yaml#/definitions/ErrorDto'
+            $ref: '#/definitions/ErrorDto'
   '/sample/one':
     get:
       tags:
@@ -31,11 +33,11 @@ paths:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/SampleDto'
+            $ref: '#/definitions/SampleDto'
         '500':
           description: Error occurred during execution of request.
           schema:
-            $ref: './dto.yaml#/definitions/ErrorDto'
+            $ref: '#/definitions/ErrorDto'
   '/guest/signup':
     post:
       tags:
@@ -51,16 +53,16 @@ paths:
           name: argument
           required: true
           schema:
-            $ref: './dto.yaml#/definitions/SignupDto'
+            $ref: '#/definitions/SignupDto'
       responses:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/MeDto'
+            $ref: '#/definitions/MeDto'
         '500':
           description: Error occurred during execution of request.
           schema:
-            $ref: './dto.yaml#/definitions/ErrorDto'
+            $ref: '#/definitions/ErrorDto'
   '/verify-email/signup/verify':
     post:
       tags:
@@ -74,16 +76,16 @@ paths:
           name: verifyCodeDto
           required: true
           schema:
-            $ref: './dto.yaml#/definitions/VerifyCodeDto'
+            $ref: '#/definitions/VerifyCodeDto'
       responses:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/MeDto'
+            $ref: '#/definitions/MeDto'
         '500':
           description: Error occurred during execution of request.
           schema:
-            $ref: './dto.yaml#/definitions/ErrorDto'
+            $ref: '#/definitions/ErrorDto'
   '/guest/login':
     post:
       tags:
@@ -99,14 +101,94 @@ paths:
           name: loginDto
           required: true
           schema:
-            $ref: './dto.yaml#/definitions/LoginDto'
+            $ref: '#/definitions/LoginDto'
       responses:
         '200':
           description: Successful operation.
           schema:
-            $ref: './dto.yaml#/definitions/MeDto'
+            $ref: '#/definitions/MeDto'
         '500':
           description: Error occurred during execution of request.
           schema:
-            $ref: './dto.yaml#/definitions/ErrorDto'
-
+            $ref: '#/definitions/ErrorDto'
+definitions:
+  SampleDto:
+    type: object
+    properties:
+      name:
+        type: string
+        example: Ali
+      message:
+        type: string
+        example: Hi
+    title: SampleDto
+  SignupDto:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  VerifyCodeDto:
+    type: object
+    properties:
+      code:
+        type: string
+  LoginDto:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  MeDto:
+    type: object
+    properties:
+      email:
+        type: string
+      role:
+        $ref: '#/definitions/RoleEnum'
+      rule:
+        $ref: '#/definitions/RuleEnum'
+  RoleEnum:
+    type: string
+    enum:
+      - UNKNOWN
+      - GUEST
+      - USER
+      - SUSPENDED
+      - ADMIN
+  RuleEnum:
+    type: string
+    enum:
+      - FREE
+      - VERIFY_EMAIL
+      - REGISTER_MOBILE
+      - VERIFY_MOBILE
+  MessageDto:
+    type: object
+    properties:
+      timestamp:
+        type: integer
+        format: int64
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
+      path:
+        type: string
+  ErrorDto:
+    type: object
+    properties:
+      timestamp:
+        type: integer
+        format: int64
+      status:
+        type: string
+      error:
+        type: string
+      message:
+        type: string
+      path:
+        type: string

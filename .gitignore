@@ -6,6 +6,8 @@ build/**
 !**/src/main/**
 !**/src/test/**
 
+tech-client/src/app/api/**
+
 ### STS ###
 .apt_generated
 .classpath

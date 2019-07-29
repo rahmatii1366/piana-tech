@@ -18,11 +18,18 @@
       <div class="login-box-form-section">
         <h1 class="login-box-title">فرم</h1>
         <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
-          <input class="login-box-input" formControlName="email" type="email" name="email" placeholder="ایمیل" /><span *ngIf="userForm.get('email').value != '' && userForm.get('email').invalid">invalid</span>
-          <input class="login-box-input" formControlName="password" type="password" name="password" placeholder="گذرواژه" />
-          <span *ngIf="userForm.get('password').invalid">invalid</span>
-          <input class="login-box-input" formControlName="confirmPassword" type="password" name="password2" placeholder="تکرار گذرواژه" />
-          <span *ngIf="userForm.get('confirmPassword').invalid">invalid</span>
+          <label for="lbl-email" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> ایمیل</label>
+          <input id="lbl-email" class="login-box-input" formControlName="email"
+                 [style.background-color]="userForm.get('email').invalid ? '#FF6377' : '#CFFFA9'"
+                 type="email" name="email" placeholder="ایمیل" /><span *ngIf="userForm.get('email').value != '' && userForm.get('email').invalid">invalid</span>
+          <label for="lbl-password" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذزواژه</label>
+          <input id="lbl-password" class="login-box-input" formControlName="password"
+                 [style.background-color]="userForm.get('password').invalid ? '#FF6377' : '#CFFFA9'"
+                 type="password" name="password" placeholder="گذرواژه" />
+          <label for="lbl-confirm" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> تکرار گذزواژه</label>
+          <input id="lbl-confirm" class="login-box-input"
+                 [style.background-color]="userForm.get('confirmPassword').invalid ? '#FF6377' : '#CFFFA9'"
+                 formControlName="confirmPassword" type="password" name="password2" />
           <button class="login-box-submit-button" type="submit" >ثبت نام</button>
         </form>
       </div>

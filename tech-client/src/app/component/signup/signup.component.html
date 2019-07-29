@@ -3,10 +3,28 @@
     <div class="small-12 medium-6 cell small-order-2 medium-order-1">
       <div class="login-box-form-section">
         <h1 class="login-box-title">ثبت نام</h1>
-        <input class="login-box-input" type="email" name="email" placeholder="ایمیل" />
-        <input class="login-box-input" type="password" name="password" placeholder="گذرواژه" />
+        <p>{{(me$ | async)?.email}}</p>
+        <p>{{(me$ | async)?.role}}</p>
+        <p>{{(me$ | async)?.rule}}</p>
+        <input class="login-box-input" [(ngModel)]="s.email" type="email" name="email" placeholder="ایمیل" />
+        <input class="login-box-input" [(ngModel)]="s.password"  type="password" name="password" placeholder="گذرواژه" />
         <input class="login-box-input" type="password" name="password2" placeholder="تکرار گذرواژه" />
         <button class="login-box-submit-button" (click)="registerClick()" >ثبت نام</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid-x collapse expanded">
+    <div class="small-12 medium-6 cell small-order-2 medium-order-1">
+      <div class="login-box-form-section">
+        <h1 class="login-box-title">فرم</h1>
+        <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
+          <input class="login-box-input" formControlName="email" type="email" name="email" placeholder="ایمیل" /><span *ngIf="userForm.get('email').value != '' && userForm.get('email').invalid">invalid</span>
+          <input class="login-box-input" formControlName="password" type="password" name="password" placeholder="گذرواژه" />
+          <span *ngIf="userForm.get('password').invalid">invalid</span>
+          <input class="login-box-input" formControlName="confirmPassword" type="password" name="password2" placeholder="تکرار گذرواژه" />
+          <span *ngIf="userForm.get('confirmPassword').invalid">invalid</span>
+          <button class="login-box-submit-button" type="submit" >ثبت نام</button>
+        </form>
       </div>
     </div>
   </div>

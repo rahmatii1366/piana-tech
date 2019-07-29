@@ -1,6 +1,5 @@
 package ir.piana.tech.business.data.service;
 
-import com.hazelcast.core.HazelcastInstance;
 import ir.piana.tech.api.dto.MeDto;
 import ir.piana.tech.api.dto.RoleEnum;
 import ir.piana.tech.api.dto.RuleEnum;
@@ -11,8 +10,7 @@ import ir.piana.tech.business.helper.JwtHelper;
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
-import ir.piana.tech.core.exception.PianaHttpExceptionRT;
-import ir.piana.tech.core.exception.ServerRelatedException;
+import ir.piana.tech.core.exception.PianaHttpException;
 import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.model.MeModel;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
@@ -70,7 +68,7 @@ public class UserService {
     private StringEncryptor stringEncryptor;
 
     @Transactional
-    public MeModel signup(String email, String password) throws PianaHttpExceptionRT {
+    public MeModel signup(String email, String password) throws PianaHttpException {
 //        if(valueWrapper != null) {
 //            signupCache.evict(email);
 //            userEntity = (UserEntity) valueWrapper.get();
@@ -112,7 +110,7 @@ public class UserService {
     }
 
 //    @Transactional
-//    public MeDto verify(String link) throws PianaHttpExceptionRT {
+//    public MeDto verify(String link) throws PianaHttpException {
 //        String[] split = new String(Base64.getDecoder().decode(link)).split(":");
 //        String uuid = split[0];
 //        String email = split[1];
@@ -136,7 +134,7 @@ public class UserService {
 //    }
 
     @Transactional
-    public MeModel verify(String code) throws PianaHttpExceptionRT {
+    public MeModel verify(String code) throws PianaHttpException {
 //        Object emailObj = session.getAttribute("email");
 //        Object passwordObj = session.getAttribute("password");
 //        if(emailObj == null || passwordObj == null)
@@ -159,7 +157,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity checkSignupRequest(String email, String password) throws PianaHttpExceptionRT {
+    public UserEntity checkSignupRequest(String email, String password) throws PianaHttpException {
         Example<UserEntity> userEntityExample = Example.of(new UserEntity(email));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
         if (one.isPresent() && one.get().isVerified())
@@ -178,7 +176,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity createForSignup(String email) throws PianaHttpExceptionRT {
+    public UserEntity createForSignup(String email) throws PianaHttpException {
         Example<UserEntity> userEntityExample = Example.of(new UserEntity(email));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
         if (!one.isPresent()) {

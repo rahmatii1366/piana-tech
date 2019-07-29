@@ -17,18 +17,18 @@ import java.util.List;
 @RestControllerAdvice
 @SuppressWarnings("unchecked")
 public class PianaExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(PianaHttpException.class)
-    public final ResponseEntity<ErrorDto> handleAllExceptions(PianaHttpException ex, WebRequest request) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        ErrorDto error = new ErrorDto();
-        error.setStatus(ex.getHttpStatus().toString());
-        error.setMessage(ex.getMessage());
-        return new ResponseEntity(error, ex.getHttpStatus());
-    }
+//    @ExceptionHandler(PianaHttpException.class)
+//    public final ResponseEntity<ErrorDto> handleAllExceptions(PianaHttpException ex, WebRequest request) {
+//        List<String> details = new ArrayList<>();
+//        details.add(ex.getLocalizedMessage());
+//        ErrorDto error = new ErrorDto();
+//        error.setStatus(ex.getHttpStatus().toString());
+//        error.setMessage(ex.getMessage());
+//        return new ResponseEntity(error, ex.getHttpStatus());
+//    }
 
-    @ExceptionHandler(PianaHttpExceptionRT.class)
-    public final ResponseEntity<ErrorDto> handleAllRTExceptions(PianaHttpExceptionRT ex, WebRequest request) {
+    @ExceptionHandler(PianaHttpException.class)
+    public final ResponseEntity<ErrorDto> handleAllRTExceptions(PianaHttpException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorDto error = new ErrorDto();

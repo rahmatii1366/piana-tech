@@ -1,18 +1,22 @@
-import * as user from '../actions/user.action';
-import {EUserAction, UserActions} from '../actions/user.action';
-import {RoleEnum} from '../../api/web-console/models/role-enum';
-import {initialUserState, IUserState} from "../states/user.state";
+import {EUserAction, Actions} from '../actions/user.action';
+import {initialUserState, UserState} from "../states/userState";
 
 export const UserReducers = (
   state = initialUserState,
-  action: UserActions
-): IUserState => {
+  action: Actions
+): UserState => {
   switch (action.type) {
-    case EUserAction.SIGNUP_REQUEST: {
+    case EUserAction.SIGNUP_REQUEST_SUCCESS: {
       return {
         ...state,
         meDto: action.payload
-      }
+      };
+    }
+    case EUserAction.SIGNUP_REQUEST_ERROR: {
+      return {
+        ...state,
+        meDto: null
+      };
     }
     default:
       return state

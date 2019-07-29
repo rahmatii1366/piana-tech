@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/22/2019 8:41 AM
  **/
-public class PianaHttpException extends Exception{
+public class PianaHttpException extends RuntimeException {
     private HttpStatus httpStatus;
 
     public PianaHttpException(HttpStatus httpStatus) {

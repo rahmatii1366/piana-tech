@@ -13,6 +13,9 @@ import {appReducers} from "./store/reducers/app.reducer";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {environment} from "../environments/environment.prod";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {EffectsModule} from "@ngrx/effects";
+import {UserEffects} from "./store/effects/user.effects";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([UserEffects]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     HttpClientModule,

@@ -1,7 +1,10 @@
 spring:
-  thymeleaf:
-    prefix: file:src/main/resources/templates/
-    cache: false
+  resources:
+    static-locations: classpath:/public
+    add-mappings: true
+#  thymeleaf:
+#    prefix: file:src/main/resources/templates/
+#    cache: false
   session:
     store-type: none
     timeout:
@@ -38,6 +41,8 @@ spring:
         smtp:
           auth: true
           starttls.enable: true
+  mvc:
+    static-path-pattern: /**
 # Logging settings
 logging:
   pattern:

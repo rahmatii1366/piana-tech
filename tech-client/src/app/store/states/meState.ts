@@ -1,9 +1,9 @@
 import {MeDto} from "../../api/web-console/models/me-dto";
 
-export interface UserState {
+export interface MeState {
   meDto: MeDto
 }
 
-export const initialUserState: UserState = {
+export const initialMeState: MeState = {
   meDto: null
 }

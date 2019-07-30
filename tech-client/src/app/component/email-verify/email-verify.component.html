@@ -1,15 +1,28 @@
-<section class="newsletter-subscribe">
-  <div class="newsletter-subscribe-inner">
-    <p class="subheader">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, officiis! Laudantium tenetur modi, voluptatum placeat illo, nisi aliquam nam dolore  reiciendis vel.</p>
-
-    <form action="">
-      <div class="input-group">
-        <input class="input-group-field" type="email" placeholder="Enter your email for Yeti live streaming">
-        <div class="input-group-button">
-          <input type="submit" class="button" value="Submit">
+<div class="grid-container fluid">
+  <div class="grid-x grid-margin-x align-center-middle" id="verify">
+    <div class="grid-container">
+      <div class="grid-x collapse expanded">
+        <div class="small-12 medium-12 cell small-order-2 medium-order-1">
+          <div class="cell medium-12 text-center login-box-title grid-padding-y">لطفا کد شش رقمی را وارد کنید</div>
+          <form [formGroup]="verifyForm" (ngSubmit)="onFormSubmit()">
+            <div class="grid-y" style="height: 80px;">
+              <div class="cell small-4 medium-4">
+                <input id="lbl-code" formControlName="code"
+                       type="text">
+              </div>
+            </div>
+            <div class="grid-x">
+              <div class="cell">
+                <button type="submit" class="button expanded success login-control-title"
+                        type="submit" [disabled]="verifyForm.invalid">تایید</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
+    </div>
   </div>
-</section>
-
+</div>
+<!--      <p>{{(me$ | async)?.email}}</p>-->
+<!--      <p>{{(me$ | async)?.role}}</p>-->
+<!--      <p>{{(me$ | async)?.rule}}</p>-->

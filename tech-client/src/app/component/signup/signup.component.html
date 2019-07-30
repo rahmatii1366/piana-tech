@@ -1,38 +1,38 @@
-<div class="login-box">
-  <div class="grid-x collapse expanded">
-    <div class="small-12 medium-6 cell small-order-2 medium-order-1">
-      <div class="login-box-form-section">
-        <h1 class="login-box-title">ثبت نام</h1>
-        <p>{{(me$ | async)?.email}}</p>
-        <p>{{(me$ | async)?.role}}</p>
-        <p>{{(me$ | async)?.rule}}</p>
-        <input class="login-box-input" [(ngModel)]="s.email" type="email" name="email" placeholder="ایمیل" />
-        <input class="login-box-input" [(ngModel)]="s.password"  type="password" name="password" placeholder="گذرواژه" />
-        <input class="login-box-input" type="password" name="password2" placeholder="تکرار گذرواژه" />
-        <button class="login-box-submit-button" (click)="registerClick()" >ثبت نام</button>
-      </div>
-    </div>
-  </div>
-  <div class="grid-x collapse expanded">
-    <div class="small-12 medium-6 cell small-order-2 medium-order-1">
-      <div class="login-box-form-section">
-        <h1 class="login-box-title">فرم</h1>
-        <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
-          <label for="lbl-email" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> ایمیل</label>
-          <input id="lbl-email" class="login-box-input" formControlName="email"
-                 [style.background-color]="userForm.get('email').invalid ? '#FF6377' : '#CFFFA9'"
-                 type="email" name="email" placeholder="ایمیل" /><span *ngIf="userForm.get('email').value != '' && userForm.get('email').invalid">invalid</span>
-          <label for="lbl-password" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذزواژه</label>
-          <input id="lbl-password" class="login-box-input" formControlName="password"
-                 [style.background-color]="userForm.get('password').invalid ? '#FF6377' : '#CFFFA9'"
-                 type="password" name="password" placeholder="گذرواژه" />
-          <label for="lbl-confirm" class="text-right"><i class="fa fa-asterisk" style="color: #ff0000;"></i> تکرار گذزواژه</label>
-          <input id="lbl-confirm" class="login-box-input"
-                 [style.background-color]="userForm.get('confirmPassword').invalid ? '#FF6377' : '#CFFFA9'"
-                 formControlName="confirmPassword" type="password" name="password2" />
-          <button class="login-box-submit-button" type="submit" >ثبت نام</button>
-        </form>
-      </div>
+<div class="grid-container">
+  <!-- <p>{{(me$ | async)?.email}}</p>-->
+  <!-- <p>{{(me$ | async)?.role}}</p>-->
+  <!-- <p>{{(me$ | async)?.rule}}</p>-->
+  <div class="grid-x">
+    <div class="small-12 medium-12 cell small-order-2 medium-order-1">
+      <div class="cell medium-12 text-center login-box-title">ثبت نام</div>
+      <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
+        <div class="grid-y" style="height: 280px;">
+          <div class="cell small-4 medium-4">
+            <label for="lbl-email" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> ایمیل</label>
+            <input id="lbl-email" formControlName="email"
+                   [style.background-color]="userForm.get('email').invalid ? '#FF6377' : '#CFFFA9'"
+                   type="email" name="email"/>
+          </div>
+          <div class="cell small-4 medium-4">
+            <label for="lbl-password" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذرواژه</label>
+            <input id="lbl-password" formControlName="password"
+                   [style.background-color]="userForm.get('password').invalid ? '#FF6377' : '#CFFFA9'"
+                   type="password" name="password" />
+          </div>
+          <div class="cell small-4 medium-4">
+            <label for="lbl-confirm" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> تکرار گذرواژه</label>
+            <input id="lbl-confirm"
+                   [style.background-color]="userForm.get('confirmPassword').invalid ? '#FF6377' : '#CFFFA9'"
+                   formControlName="confirmPassword" type="password" name="password2" />
+          </div>
+        </div>
+        <div class="grid-x">
+          <div class="cell">
+            <button class="button expanded success login-control-title" type="submit"
+                    [disabled]="userForm.invalid">ثبت نام</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

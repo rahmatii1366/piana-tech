@@ -1,29 +1,24 @@
 package ir.piana.tech.core.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import ir.piana.tech.core.enums.RoleType;
+
 import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:40 AM
  **/
 @EnableWebSecurity
-public class PianaWebSecurityConfig {
+public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
+
     @Configuration
     @Order(2)
     public static class CustomWebSecurityConfigurerAdapterA extends WebSecurityConfigurerAdapter {
@@ -162,14 +157,24 @@ public class PianaWebSecurityConfig {
     }
 
     @Configuration
-    @EnableWebMvc
     public class WebConfig implements WebMvcConfigurer {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("http://localhost")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
+                    .maxAge(3600)
+                    .allowedHeaders("authorization, content-type, xsrf-token, cookie, set-cookie")
+                    .allowCredentials(true)
+            ;
+        }
+
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler(
-                    "/static/**")
+                    "/**")
                     .addResourceLocations(
-                            "classpath:/static/");
+                            "classpath:/public/");
         }
     }
 }

@@ -1,50 +1,27 @@
+#verify {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  left: 50%;
+  top: 50%;
 
-.newsletter-subscribe {
-  background: #fefefe;
-  height: 200px;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 1rem;
+  /*
+  *  Where the magic happens
+  *  Centering method from CSS Tricks
+  *  http://css-tricks.com/centering-percentage-widthheight-elements/
+  */
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
 
-.newsletter-subscribe .input-group-field {
-  border-radius: 5000px 0 0 5000px;
-  position: relative;
-  -webkit-transform: translateX(0.5rem);
-  -ms-transform: translateX(0.5rem);
-  transform: translateX(0.5rem);
+.login-box-title {
+  font-weight: 300;
+  font-size: 1.875rem;
 }
 
-.newsletter-subscribe .input-group {
-  margin-bottom: 0;
+.login-control-title {
+  font-weight: 100;
+  font-size: 1.275rem;
 }
-
-.newsletter-subscribe .newsletter-subscribe-inner {
-  text-align: center;
-}
-
-.newsletter-subscribe .input-group-button .button {
-  border-radius: 5000px;
-  position: relative;
-  -webkit-transform: translateX(-0.5rem);
-  -ms-transform: translateX(-0.5rem);
-  transform: translateX(-0.5rem);
-  min-width: 25vw;
-}
-
-@media print, screen and (min-width: 40em) {
-  .newsletter-subscribe {
-    padding: 0 3rem;
-  }
-}
-
-@media print, screen and (min-width: 64em) {
-  .newsletter-subscribe {
-    padding: 0 6rem;
-  }
-}
-

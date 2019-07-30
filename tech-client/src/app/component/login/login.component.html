@@ -1,0 +1,32 @@
+<div class="grid-container">
+  <div class="grid-x collapse expanded">
+    <div class="small-12 medium-12 cell small-order-2 medium-order-1">
+      <div class="cell medium-12 text-center login-box-title">ورود</div>
+      <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+        <div class="grid-y" style="height: 280px;">
+          <div class="cell small-4 medium-4">
+            <label for="lbl-email" class="text-right login-control-title">
+              <i class="fa fa-asterisk" style="color: #ff0000;"></i> ایمیل
+            </label>
+            <input id="lbl-email" formControlName="email"
+                   [style.background-color]="loginForm.get('email').invalid ? '#FF6377' : '#CFFFA9'"
+                   type="email" name="email"/>
+          </div>
+          <div class="cell small-4 medium-4">
+            <label for="lbl-password" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذرواژه</label>
+            <input id="lbl-password" formControlName="password"
+                   [style.background-color]="loginForm.get('password').invalid ? '#FF6377' : '#CFFFA9'"
+                   type="password" name="password" />
+          </div>
+        </div>
+        <div class="grid-x">
+          <div class="cell">
+            <button class="button expanded success login-control-title" type="submit"
+                    [disabled]="loginForm.invalid">ورود</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

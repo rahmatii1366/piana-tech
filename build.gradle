@@ -30,6 +30,7 @@ sourceCompatibility = '1.8'
 apply plugin: 'io.spring.dependency-management'
 
 configurations {
+	compile.exclude module: "spring-boot-starter-tomcat"
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -55,6 +56,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-mail'
 	compile 'org.springframework.boot:spring-boot-starter-security'
 	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-undertow'
 	compile 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
 	compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1'
 //	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'

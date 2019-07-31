@@ -158,16 +158,16 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
 
     @Configuration
     public class WebConfig implements WebMvcConfigurer {
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**")
-                    .allowedOrigins("http://localhost")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                    .maxAge(3600)
-                    .allowedHeaders("authorization, content-type, xsrf-token, cookie, set-cookie")
-                    .allowCredentials(true)
-            ;
-        }
+//        @Override
+//        public void addCorsMappings(CorsRegistry registry) {
+//            registry.addMapping("/**")
+//                    .allowedOrigins("http://localhost")
+//                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
+//                    .maxAge(3600)
+//                    .allowedHeaders("authorization, content-type, xsrf-token, cookie, set-cookie")
+//                    .allowCredentials(true)
+//            ;
+//        }
 
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {

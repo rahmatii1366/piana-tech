@@ -160,9 +160,9 @@ public class UserService {
     public UserEntity checkSignupRequest(String email, String password) throws PianaHttpException {
         Example<UserEntity> userEntityExample = Example.of(new UserEntity(email));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
-        if (one.isPresent() && one.get().isVerified())
+        if (one.isPresent() && one.get().getVerified() != null && one.get().getVerified())
             throw new UserRelatedException("duplicated email");
-        else if(one.isPresent() && !one.get().isVerified()) {
+        else if(one.isPresent() && (one.get().getVerified() == null || !one.get().getVerified())) {
             one.get().setPassword(stringEncryptor.encrypt(password));
             return userRepository.save(one.get());
         }

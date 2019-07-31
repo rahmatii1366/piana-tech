@@ -25,7 +25,7 @@ public class UserEntity extends BaseEntity {
     @Column
     private String password;
     @Column
-    private boolean verified;
+    private Boolean verified;
     @Column
     @Enumerated(EnumType.STRING)
     private GenderType gender;

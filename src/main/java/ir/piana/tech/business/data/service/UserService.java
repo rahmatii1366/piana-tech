@@ -14,6 +14,8 @@ import ir.piana.tech.core.exception.PianaHttpException;
 import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.model.MeModel;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
+import ir.piana.tech.core.util.PianaDigester;
+import org.jasypt.digest.StringDigester;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,9 +65,13 @@ public class UserService {
     private Map<String, String> loginMap = new LinkedHashMap<>();
 //    private Map<String, String> uuidMap = new LinkedHashMap<>();
 
+//    @Autowired
+//    @Qualifier("getStandardPBEStringEncryptor")
+//    private StringEncryptor stringEncryptor;
+
     @Autowired
-    @Qualifier("getStandardPBEStringEncryptor")
-    private StringEncryptor stringEncryptor;
+    @Qualifier("getPianaDigester")
+    private PianaDigester pianaDigester;
 
     @Transactional
     public MeModel signup(String email, String password) throws PianaHttpException {
@@ -163,12 +169,12 @@ public class UserService {
         if (one.isPresent() && one.get().getVerified() != null && one.get().getVerified())
             throw new UserRelatedException("duplicated email");
         else if(one.isPresent() && (one.get().getVerified() == null || !one.get().getVerified())) {
-            one.get().setPassword(stringEncryptor.encrypt(password));
+            one.get().setPassword(pianaDigester.digest(password));
             return userRepository.save(one.get());
         }
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(email);
-        userEntity.setPassword(stringEncryptor.encrypt(password));
+        userEntity.setPassword(pianaDigester.digest(password));
         userEntity.setVerified(false);
         userEntity.setRuleType(RuleType.VERIFY_EMAIL);
         userEntity.setRoleType(RoleType.USER);
@@ -193,7 +199,7 @@ public class UserService {
     }
 
     public MeModel login(String email, String password) throws UserRelatedException {
-        Example<UserEntity> userEntityExample = Example.of(new UserEntity(email, stringEncryptor.encrypt(password)));
+        Example<UserEntity> userEntityExample = Example.of(new UserEntity(email, pianaDigester.digest(password)));
         Optional<UserEntity> one = userRepository.findOne(userEntityExample);
         return authenticationService.authenticateMe(
                 one.orElseThrow(() -> new UserRelatedException("credential not correct")));

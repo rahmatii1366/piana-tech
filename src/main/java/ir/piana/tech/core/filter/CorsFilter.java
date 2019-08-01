@@ -1,11 +1,6 @@
 package ir.piana.tech.core.filter;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.*;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,7 +9,7 @@ import java.io.IOException;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/28/2019 2:48 PM
  **/
-@Component
+//@Component
 public class CorsFilter implements Filter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -28,9 +23,9 @@ public class CorsFilter implements Filter {
 //        response.addCookie(new Cookie("hi", "ali"));
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
-        }// else {
-//            filterChain.doFilter(request, response);
-//        }
+        } else {
+            filterChain.doFilter(request, response);
+        }
     }
 
     @Override

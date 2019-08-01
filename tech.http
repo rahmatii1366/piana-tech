@@ -1,7 +1,7 @@
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 
-email=ali@gmail.com&password=1234
+email=z1@gmail.com&password=1234
 ###
 GET http://localhost:8080/api/static/index
 
@@ -22,9 +22,18 @@ Content-Type: application/json
   "password": "123456"
 }
 ###
+OPTIONS http://localhost:8080/api/guest/signup
+Origin: http://localhost
+Referer: http://localhost/
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: content-type
+
+###
 POST http://localhost:8080/api/guest/signup
 cookie: JSESSIONID=85A6FB0E891CECA1B53C498BB883FDC8
 Content-Type: application/json
+Origin: http://localhost
+Referer: http://localhost/
 
 {
   "email": "rahmatii1367@gmail.com",

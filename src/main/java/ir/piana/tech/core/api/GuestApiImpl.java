@@ -8,7 +8,9 @@ import ir.piana.tech.business.data.service.UserService;
 import ir.piana.tech.core.mapper.MeMapper;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,6 +29,10 @@ public class GuestApiImpl implements GuestApiDelegate {
 
     @Autowired
     private MeMapper meMapper;
+
+    @Autowired
+    @Qualifier("sessionRegistry")
+    private SessionRegistry sessionRegistry;
 
     public ResponseEntity<MeDto> login(LoginDto loginDto) {
         MeDto meDto = meMapper.toMeDto(userService.login(

@@ -1,0 +1,27 @@
+POST http://localhost:8080/api/guest/login
+Content-Type: application/json
+
+{
+  "email": "b1@gmail.com",
+  "password": "123456"
+}
+### JSESSIONID=7iEVbTnuknGgWZuPiqOvnzeVZJVyWKEPGgy_QDov;
+###
+POST http://localhost:8080/api/guest/login
+Content-Type: application/json
+
+{
+  "email": "b2@gmail.com",
+  "password": "123456"
+}
+### JSESSIONID=cb5gJyUXhh1rtOOeqhgiq9K5JcGy_h7qpXB-BdvR;
+###
+POST http://localhost:8080/api/guest/login
+Content-Type: application/json
+
+{
+  "email": "b3@gmail.com",
+  "password": "123456"
+}
+
+###

@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -38,8 +39,13 @@ public class PianaAuthenticationService {
     @Qualifier("getStandardPBEStringEncryptor")
     private StringEncryptor stringEncryptor;
 
+    @Autowired
+    @Qualifier("sessionRegistry")
+    private SessionRegistry sessionRegistry;
+
     private void refreshSession(UserEntity userEntity) throws UserRelatedException {
-        session.invalidate();
+        if(!session.isNew())
+            session.invalidate();
         session.setAttribute("user", userEntity);
     }
 
@@ -56,6 +62,7 @@ public class PianaAuthenticationService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 //        Authentication authentication = securityContext.getAuthentication();
         securityContext.setAuthentication(authenticationToken);
+        sessionRegistry.registerNewSession(session.getId(), authenticationToken);
         return MeModel.builder().email(userEntity.getEmail())
                 .role(userEntity.getRoleType())
                 .rule(userEntity.getRuleType())

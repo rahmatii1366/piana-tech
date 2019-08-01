@@ -4,23 +4,30 @@ package ir.piana.tech.core.config;
 import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.Arrays;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:40 AM
  **/
-@EnableWebSecurity
+//@EnableWebSecurity
 public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
-
-    @Configuration
-    @Order(2)
+//    @Configuration
+//    @Order(2)
     public static class CustomWebSecurityConfigurerAdapterA extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -33,6 +40,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -40,19 +48,26 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(3)
+//    @Configuration
+//    @Order(3)
     public static class CustomWebSecurityConfigurerAdapterB extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
+
+        @Autowired
+        @Qualifier("sessionRegistry")
+        private SessionRegistry sessionRegistry;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/guest/**").authorizeRequests()
                     .anyRequest().permitAll()
                     .and().sessionManagement()
+                    .maximumSessions(100_000).sessionRegistry(sessionRegistry)
+                    .and()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -60,8 +75,8 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(4)
+//    @Configuration
+//    @Order(4)
     public static class CustomWebSecurityConfigurerAdapterC extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -73,6 +88,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -80,8 +96,8 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(5)
+//    @Configuration
+//    @Order(5)
     public static class CustomWebSecurityConfigurerAdapterD extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -92,6 +108,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -99,8 +116,8 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(6)
+//    @Configuration
+//    @Order(6)
     public static class CustomWebSecurityConfigurerAdapterE extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -111,6 +128,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -118,8 +136,8 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(7)
+//    @Configuration
+//    @Order(7)
     public static class CustomWebSecurityConfigurerAdapterF extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -130,6 +148,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -137,8 +156,8 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
-    @Order(8)
+//    @Configuration
+//    @Order(8)
     public static class CustomWebSecurityConfigurerAdapterG extends WebSecurityConfigurerAdapter {
         @Autowired
         private UnauthorizedAuthenticationEntryPoint entryPoint;
@@ -149,6 +168,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
                     .and().sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .formLogin().disable()
                     .httpBasic().disable()
@@ -156,7 +176,7 @@ public class PianaWebSecurityConfig /*implements WebMvcConfigurer */{
         }
     }
 
-    @Configuration
+//    @Configuration
     public class WebConfig implements WebMvcConfigurer {
 //        @Override
 //        public void addCorsMappings(CorsRegistry registry) {

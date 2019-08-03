@@ -4,12 +4,14 @@ package ir.piana.tech.core.config;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,17 +32,23 @@ public class PianaNewWebSecurityConfig
     @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/guest/**").authorizeRequests()
                 .anyRequest().permitAll();
         http.sessionManagement()
-                .maximumSessions(100_000)
+                .maximumSessions(10)
                 .maxSessionsPreventsLogin(false)
-                .expiredUrl("/auth/login")
                 .sessionRegistry(sessionRegistry)
                 .and()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .cors().and()
                 .csrf().disable()

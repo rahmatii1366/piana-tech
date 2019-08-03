@@ -111,8 +111,8 @@ public class PianaConfiguration {
         return new SessionRegistryImpl();
     }
 
-    @Bean
-    public static ServletListenerRegistrationBean httpSessionEventPublisher() {	//(5)
-        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
-    }
+//    @Bean
+//    public static ServletListenerRegistrationBean httpSessionEventPublisher() {	//(5)
+//        return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
+//    }
 }

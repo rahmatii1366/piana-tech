@@ -5,7 +5,8 @@ Content-Type: application/json
   "email": "b1@gmail.com",
   "password": "123456"
 }
-### JSESSIONID=7iEVbTnuknGgWZuPiqOvnzeVZJVyWKEPGgy_QDov;
+### JSESSIONID=h4j6K4P-3iR58W40aVaTOJOIBUDVvRQMM59gY9pk;
+### JSESSIONID=AXlHoJlOG9a7N6W5AMBVf2ScHi-lSrAVaDs1Ccu1;
 ###
 POST http://localhost:8080/api/guest/login
 Content-Type: application/json

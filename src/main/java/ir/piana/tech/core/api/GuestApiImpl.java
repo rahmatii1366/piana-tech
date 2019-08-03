@@ -4,12 +4,15 @@ import ir.piana.tech.api.dto.LoginDto;
 import ir.piana.tech.api.dto.MeDto;
 import ir.piana.tech.api.dto.SignupDto;
 import ir.piana.tech.api.service.GuestApiDelegate;
+import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.business.data.service.UserService;
+import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.mapper.MeMapper;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +38,10 @@ public class GuestApiImpl implements GuestApiDelegate {
     private SessionRegistry sessionRegistry;
 
     public ResponseEntity<MeDto> login(LoginDto loginDto) {
+        sessionRegistry.getAllPrincipals().forEach(p -> {
+            if(((UserEntity)((UsernamePasswordAuthenticationToken)p).getPrincipal()).getEmail().equalsIgnoreCase(loginDto.getEmail()))
+                throw new UserRelatedException("duplicate email");
+        });
         MeDto meDto = meMapper.toMeDto(userService.login(
                 loginDto.getEmail(), loginDto.getPassword()));
         return ResponseEntity.ok().body(meDto);

@@ -56,10 +56,11 @@ server:
   servlet:
     context-path: /api
     session:
-      timeout: 15
+      timeout: 15m
       cookie:
         path: /
         http-only: true
+        secure: false
 piana:
   email:
     send: false

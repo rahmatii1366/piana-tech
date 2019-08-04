@@ -118,15 +118,20 @@ swaggerSources {
 			]
 		}
 
-		compileJava.dependsOn swaggerSources.server.code
-		sourceSets.main.java.srcDir "${swaggerSources.server.code.outputDir}/src/main/java"
-		sourceSets.main.resources.srcDir "${swaggerSources.server.code.outputDir}/src/main/resources"
+//		compileJava.dependsOn swaggerSources.server.code
+//		sourceSets.main.java.srcDir "${swaggerSources.server.code.outputDir}/src/main/java"
+//		sourceSets.main.resources.srcDir "${swaggerSources.server.code.outputDir}/src/main/resources"
 	}
 }
 
 configurations {
 	mapstruct
 	querydslapt
+}
+
+task copySwaggerGenerated(type: Copy) {
+	from file("${buildDir}/generated/swagger/server/src/main/java/ir/piana/tech/api")
+	into file("$rootDir/src/main/java/ir/piana/tech/api")
 }
 
 //task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
@@ -150,6 +155,10 @@ configurations {
 //	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
 //}
 
-compileJava.dependsOn {
+copySwaggerGenerated.dependsOn {
 	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
+}
+
+compileJava.dependsOn {
+	copySwaggerGenerated
 }

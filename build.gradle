@@ -129,27 +129,27 @@ configurations {
 	querydslapt
 }
 
-//task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
-//	source = sourceSets.main.java
-//	classpath = configurations.compile + configurations.querydslapt
-//	options.compilerArgs = [
-//			'-proc:only',
-//			'-processor', 'com.querydsl.apt.jpa.JPAAnnotationProcessor' +
-//					',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
-//	]
-//	destinationDir = file("${buildDir}/generated/querydsl/")
-//}
-//
-//sourceSets.main.java.srcDir "${buildDir}/generated/querydsl/"
-//
-//compileJava {
-//	dependsOn generateQueryDSL
-//}
+task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+	source = sourceSets.main.java
+	classpath = configurations.compile + configurations.querydslapt
+	options.compilerArgs = [
+			'-proc:only',
+			'-processor', 'com.querydsl.apt.jpa.JPAAnnotationProcessor' +
+					',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
+	]
+	destinationDir = file("${buildDir}/generated/querydsl/")
+}
 
-//generateQueryDSL.dependsOn {
-//	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
-//}
+sourceSets.main.java.srcDir "${buildDir}/generated/querydsl/"
+
+compileJava {
+	dependsOn generateQueryDSL
+}
+
+generateQueryDSL.dependsOn {
+	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
+}
 
 compileJava.dependsOn {
-	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
+	generateQueryDSL
 }

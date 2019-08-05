@@ -142,14 +142,10 @@ task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates
 
 sourceSets.main.java.srcDir "${buildDir}/generated/querydsl/"
 
-compileJava {
-	dependsOn generateQueryDSL
-}
-
 generateQueryDSL.dependsOn {
 	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
 }
 
-compileJava.dependsOn {
-	generateQueryDSL
+compileJava {
+	dependsOn generateQueryDSL
 }

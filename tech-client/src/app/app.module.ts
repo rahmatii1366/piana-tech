@@ -22,6 +22,7 @@ import { InfoComponent } from './component/info/info.component';
 import {CustomBrowserXhrService} from "./services/custom-browser-xhr/custom-browser-xhr.service";
 import {ApiModule} from "./api/api.module";
 import {RouterModule} from "@angular/router";
+import { DashboardComponent } from './component/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {RouterModule} from "@angular/router";
     EmailVerifyComponent,
     LoginComponent,
     IdentificationComponent,
-    InfoComponent
+    InfoComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

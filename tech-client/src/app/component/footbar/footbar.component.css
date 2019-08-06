@@ -1,7 +1,11 @@
 .piana-responsive-footer {
-  background: #4a4a4a !important;
+  background: #39853c !important;
   padding: 3rem 3rem;
   color: white;
+}
+
+button {
+  color: #c3ba27 !important;
 }
 
 @media screen and (max-width: 39.9375em) {

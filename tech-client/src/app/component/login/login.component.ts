@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/states/app.state";
 import {SignupActions} from "../../store/actions/signup.action";
+import {LoginAction} from "../../store/actions/login.action";
 
 @Component({
   selector: 'app-login',
@@ -23,9 +24,9 @@ export class LoginComponent implements OnInit {
   onFormSubmit() {
     console.log('email:' + this.loginForm.get('email').value);
     console.log('password:' + this.loginForm.get('password').value);
-    // this._store.dispatch(new SignupActions(({
-    //   'email': this.userForm.get('email').value,
-    //   'password': this.userForm.get('password').value
-    // })));
+    this._store.dispatch(new LoginAction({
+      'email': this.loginForm.get('email').value,
+      'password': this.loginForm.get('password').value
+    }));
   }
 }

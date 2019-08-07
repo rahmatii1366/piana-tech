@@ -6,6 +6,7 @@ package ir.piana.tech.core.enums;
  **/
 public enum RuleType {
     FREE(0, "UNKNOWN"),
+    REGISTER_EMAIL(1, "REGISTER_MOBILE"),
     VERIFY_EMAIL(1, "VERIFY_EMAIL"),
     REGISTER_MOBILE(1, "REGISTER_MOBILE"),
     VERIFY_MOBILE(1, "VERIFY_MOBILE");

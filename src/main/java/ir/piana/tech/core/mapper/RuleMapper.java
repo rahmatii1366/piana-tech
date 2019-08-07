@@ -1,8 +1,6 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.RoleEnum;
 import ir.piana.tech.api.dto.RuleEnum;
-import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
 import org.mapstruct.Mapper;
 

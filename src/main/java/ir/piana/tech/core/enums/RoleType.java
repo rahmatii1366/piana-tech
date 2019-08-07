@@ -8,8 +8,10 @@ public enum RoleType {
     UNKNOWN(0, "UNKNOWN"),
     GUEST(1, "GUEST"),
     USER(2, "USER"),
-    ADMIN(3, "SUSPENDED"),
-    SUSPENDED(4, "SUSPENDED");
+    VERIFIED_MOBILE(3, "VERIFIED_MOBILE"),
+    VERIFIED(4, "VERIFIED"),
+    ADMIN(5, "ADMIN"),
+    SUSPENDED(6, "SUSPENDED");
 
     private int code;
     private String name;

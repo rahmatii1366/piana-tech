@@ -111,6 +111,96 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
+  '/guest/mobile/signup':
+    post:
+      tags:
+        - guest
+      summary: signup by mobile
+      operationId: mobileSignup
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: loginDto
+          required: true
+          schema:
+            $ref: '#/definitions/MobileSignupDto'
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/MeDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/guest/mobile/login':
+    post:
+      tags:
+        - guest
+      summary: login by mobile
+      operationId: mobileLogin
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: loginDto
+          required: true
+          schema:
+            $ref: '#/definitions/MobileLoginDto'
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/MeDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/guest/mobile/forget-password':
+    post:
+      tags:
+        - guest
+      summary: remember password by mobile
+      operationId: mobileForgetPassword
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: loginDto
+          required: true
+          schema:
+            $ref: '#/definitions/ForgetPasswordDto'
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/VerifyCodeDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/guest/mobile/verify':
+    get:
+      tags:
+        - guest
+      summary: verify mobile number
+      operationId: mobileVerify
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/MeDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
 definitions:
   SampleDto:
     type: object
@@ -191,4 +281,27 @@ definitions:
       message:
         type: string
       path:
+        type: string
+  MobileSignupDto:
+    type: object
+    properties:
+      mobile:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+  MobileLoginDto:
+    type: object
+    properties:
+      mobile:
+        type: string
+      password:
+        type: string
+  ForgetPasswordDto:
+    type: object
+    properties:
+      mobile:
+        type: string
+      newPassword:
         type: string

@@ -1,8 +1,6 @@
 package ir.piana.tech.core.api;
 
-import ir.piana.tech.api.dto.LoginDto;
-import ir.piana.tech.api.dto.MeDto;
-import ir.piana.tech.api.dto.SignupDto;
+import ir.piana.tech.api.dto.*;
 import ir.piana.tech.api.service.GuestApiDelegate;
 import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.business.data.service.UserService;
@@ -52,5 +50,25 @@ public class GuestApiImpl implements GuestApiDelegate {
         MeDto meDto = meMapper.toMeDto(
                 userService.signup(argument.getEmail(), argument.getPassword()));
         return ResponseEntity.ok().body(meDto);
+    }
+
+    @Override
+    public ResponseEntity<Void> mobileForgetPassword(ForgetPasswordDto loginDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<MeDto> mobileLogin(MobileLoginDto loginDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<MeDto> mobileSignup(MobileSignupDto loginDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<MeDto> mobileVerify() {
+        return null;
     }
 }

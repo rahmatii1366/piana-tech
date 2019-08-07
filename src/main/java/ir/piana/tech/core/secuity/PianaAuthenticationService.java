@@ -1,5 +1,6 @@
 package ir.piana.tech.core.secuity;
 
+import ir.piana.tech.business.data.entity.MobileEntity;
 import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.business.data.service.UserService;
 import ir.piana.tech.core.enums.RuleType;
@@ -49,6 +50,12 @@ public class PianaAuthenticationService {
         session.setAttribute("user", userEntity);
     }
 
+    private void refreshSession(MobileEntity mobileEntity) throws UserRelatedException {
+        if(!session.isNew())
+            session.invalidate();
+        session.setAttribute("mobile", mobileEntity);
+    }
+
     public MeModel authenticateMe(UserEntity userEntity) {
         refreshSession(userEntity);
         List<PianaGrantedAuthority> authorities = null;
@@ -69,9 +76,35 @@ public class PianaAuthenticationService {
                 .build();
     }
 
+    public MeModel authenticateMe(MobileEntity mobileEntity) {
+        refreshSession(mobileEntity);
+        List<PianaGrantedAuthority> authorities = null;
+        if(mobileEntity.getRuleType() != RuleType.FREE) {
+            authorities = Arrays.asList(new PianaGrantedAuthority(mobileEntity.getRuleType().getRole()));
+        } else {
+            authorities = Arrays.asList(new PianaGrantedAuthority(mobileEntity.getRoleType().getRole()));
+        }
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                mobileEntity, null, authorities);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+//        Authentication authentication = securityContext.getAuthentication();
+        securityContext.setAuthentication(authenticationToken);
+        sessionRegistry.registerNewSession(session.getId(), authenticationToken);
+        return MeModel.builder().mobile(mobileEntity.getMobile())
+                .role(mobileEntity.getRoleType())
+                .rule(mobileEntity.getRuleType())
+                .build();
+    }
+
     public UserEntity getUserEntity() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         return (UserEntity) authentication.getPrincipal();
+    }
+
+    public MobileEntity getMobileEntity() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return (MobileEntity) authentication.getPrincipal();
     }
 }

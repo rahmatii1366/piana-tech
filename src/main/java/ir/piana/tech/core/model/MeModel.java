@@ -18,6 +18,9 @@ public class MeModel {
     @JsonProperty("email")
     private String email = null;
 
+    @JsonProperty("mobile")
+    private String mobile = null;
+
     @JsonProperty("role")
     private RoleType role = null;
 

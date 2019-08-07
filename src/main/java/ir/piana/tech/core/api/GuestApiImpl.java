@@ -3,6 +3,7 @@ package ir.piana.tech.core.api;
 import ir.piana.tech.api.dto.*;
 import ir.piana.tech.api.service.GuestApiDelegate;
 import ir.piana.tech.business.data.entity.UserEntity;
+import ir.piana.tech.business.data.service.MobileService;
 import ir.piana.tech.business.data.service.UserService;
 import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.mapper.MeMapper;
@@ -29,6 +30,9 @@ public class GuestApiImpl implements GuestApiDelegate {
     private UserService userService;
 
     @Autowired
+    private MobileService mobileService;
+
+    @Autowired
     private MeMapper meMapper;
 
     @Autowired
@@ -53,7 +57,7 @@ public class GuestApiImpl implements GuestApiDelegate {
     }
 
     @Override
-    public ResponseEntity<Void> mobileForgetPassword(ForgetPasswordDto loginDto) {
+    public ResponseEntity<VerifyCodeDto> mobileForgetPassword(ForgetPasswordDto loginDto) {
         return null;
     }
 
@@ -64,7 +68,8 @@ public class GuestApiImpl implements GuestApiDelegate {
 
     @Override
     public ResponseEntity<MeDto> mobileSignup(MobileSignupDto loginDto) {
-        return null;
+        MeDto meDto = meMapper.toMeDto(mobileService.signup(loginDto.getMobile(), loginDto.getPassword()));
+        return ResponseEntity.ok().body(meDto);
     }
 
     @Override

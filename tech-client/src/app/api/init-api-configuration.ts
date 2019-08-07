@@ -3,7 +3,7 @@ import {APP_INITIALIZER, Provider} from '@angular/core';
 
 export function initWebConsoleApiConfiguration(config: WebConsoleApiConfiguration): Function {
   return () => {
-    config.rootUrl = 'http://localhost:8080/api';
+    config.rootUrl = 'http://localhost:8080';
   };
 }
 

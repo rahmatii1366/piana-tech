@@ -1,6 +1,7 @@
 import {Action} from '@ngrx/store';
 import {MeDto} from "../../api/web-console/models/me-dto";
 import {LoginDto} from "../../api/web-console/models/login-dto";
+import {MobileSignupDto} from "../../api/web-console/models/mobile-signup-dto";
 
 export enum MobileActionEnum {
   MOBILE_REQUEST = '[MOBILE] mobile user',
@@ -11,12 +12,12 @@ export enum MobileActionEnum {
 }
 
 /**
- * SIGN-UP Actions
+ * MOBILE Actions
  */
 export class MobileAction implements Action {
   readonly type = MobileActionEnum.MOBILE_REQUEST;
 
-  constructor(public payload: LoginDto) {
+  constructor(public payload: MobileSignupDto) {
   }
 }
 
@@ -41,7 +42,15 @@ export class MobileErrorAction implements Action {
   }
 }
 
+export class MobileWaitAction implements Action {
+  readonly type = MobileActionEnum.MOBILE_REQUEST_WAIT;
+
+  constructor(public payload: MobileSignupDto) {
+  }
+}
+
 export type Actions = MobileAction |
   MobileSuccessAction |
   MobileErrorAction |
-  MobileErrorAction;
+  MobileNavigateAction |
+  MobileWaitAction;

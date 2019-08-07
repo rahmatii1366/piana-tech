@@ -5,11 +5,11 @@ package ir.piana.tech.core.enums;
  * Date: 7/20/2019 11:55 AM
  **/
 public enum RuleType {
-    FREE(0, "UNKNOWN"),
-    REGISTER_EMAIL(1, "REGISTER_MOBILE"),
+    FREE(0, "FREE"),
     VERIFY_EMAIL(1, "VERIFY_EMAIL"),
-    REGISTER_MOBILE(1, "REGISTER_MOBILE"),
-    VERIFY_MOBILE(1, "VERIFY_MOBILE");
+    REGISTER_EMAIL(2, "REGISTER_EMAIL"),
+    REGISTER_MOBILE(3, "REGISTER_MOBILE"),
+    VERIFY_MOBILE(4, "VERIFY_MOBILE");
 
     private int code;
     private String name;

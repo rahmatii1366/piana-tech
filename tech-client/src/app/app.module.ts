@@ -23,6 +23,8 @@ import {CustomBrowserXhrService} from "./services/custom-browser-xhr/custom-brow
 import {ApiModule} from "./api/api.module";
 import {RouterModule} from "@angular/router";
 import { DashboardComponent } from './component/dashboard/dashboard.component';
+import { MobileSignupComponent } from './component/mobile-signup/mobile-signup.component';
+import {MobileEffects} from "./store/effects/mobile-effects.service";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
     LoginComponent,
     IdentificationComponent,
     InfoComponent,
-    DashboardComponent
+    DashboardComponent,
+    MobileSignupComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([SignupEffects]),
+    EffectsModule.forRoot([SignupEffects, MobileEffects]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     HttpClientModule,

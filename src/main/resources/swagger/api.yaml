@@ -246,12 +246,15 @@ definitions:
       - UNKNOWN
       - GUEST
       - USER
+      - VERIFIED_MOBILE
+      - VERIFIED
       - SUSPENDED
       - ADMIN
   RuleEnum:
     type: string
     enum:
       - FREE
+      - REGISTER_EMAIL
       - VERIFY_EMAIL
       - REGISTER_MOBILE
       - VERIFY_MOBILE

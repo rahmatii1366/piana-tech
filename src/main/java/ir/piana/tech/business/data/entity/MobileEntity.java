@@ -3,6 +3,7 @@ package ir.piana.tech.business.data.entity;
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,19 +15,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "mobile")
 @Data
+@Builder
 public class MobileEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
+    private String username;
     @Column
     private String email;
     @Column
     private String mobile;
     @Column
     private String password;
-    @Column
+    @Column(name = "mobile_verified")
     private Boolean mobileVerified;
-    @Column
+    @Column(name = "email_verified")
     private Boolean emailVerified;
     @Column
     @Enumerated(EnumType.STRING)

@@ -70,12 +70,11 @@ public class MobileService {
     private PianaDigester pianaDigester;
 
     @Transactional
-    public MeModel signup(String mobile, String password) throws PianaHttpException {
+    public MeModel signup(String username, String mobile, String email, String password) throws PianaHttpException {
         MobileEntity mobileEntity = null;
-        mobileEntity = createEntityIfNotRegistered(mobile, password);
+        mobileEntity = createEntityIfNotRegistered(username, mobile, email, password);
 
 //        emailHelper.sendEmail(mobile, "کد فعالسازی", code);
-
 //        return MeModel.builder().email(email).role(RoleType.GUEST).rule(RuleType.VERIFY_EMAIL).build();
         return authenticationService.authenticateMe(mobileEntity);
     }
@@ -123,7 +122,9 @@ public class MobileService {
     }
 
     @Transactional
-    public MobileEntity createEntityIfNotRegistered(String mobile, String password) throws PianaHttpException {
+    public MobileEntity createEntityIfNotRegistered(
+            String username, String mobile, String email, String password)
+            throws PianaHttpException {
         Example<MobileEntity> mobileEntityExample = Example.of(new MobileEntity(mobile));
         Optional<MobileEntity> one = mobileRepository.findOne(mobileEntityExample);
         if (one.isPresent())
@@ -132,6 +133,8 @@ public class MobileService {
         mobileEntity.setMobile(mobile);
         mobileEntity.setPassword(pianaDigester.digest(password));
         mobileEntity.setMobileVerified(false);
+        mobileEntity.setUsername(username);
+        mobileEntity.setEmail(email);
         mobileEntity.setEmailVerified(false);
         mobileEntity.setRuleType(RuleType.FREE);
         mobileEntity.setRoleType(RoleType.USER);

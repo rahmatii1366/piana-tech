@@ -90,7 +90,10 @@ public class PianaAuthenticationService {
 //        Authentication authentication = securityContext.getAuthentication();
         securityContext.setAuthentication(authenticationToken);
         sessionRegistry.registerNewSession(session.getId(), authenticationToken);
-        return MeModel.builder().mobile(mobileEntity.getMobile())
+        return MeModel.builder()
+                .username(mobileEntity.getUsername())
+                .mobile(mobileEntity.getMobile())
+                .email(mobileEntity.getEmail())
                 .role(mobileEntity.getRoleType())
                 .rule(mobileEntity.getRuleType())
                 .build();

@@ -15,8 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:37 AM
@@ -63,12 +61,17 @@ public class GuestApiImpl implements GuestApiDelegate {
 
     @Override
     public ResponseEntity<MeDto> mobileLogin(MobileLoginDto loginDto) {
-        return null;
+        MeDto meDto = meMapper.toMeDto(mobileService.login(loginDto.getMobile(), loginDto.getPassword()));
+        return ResponseEntity.ok().body(meDto);
     }
 
     @Override
-    public ResponseEntity<MeDto> mobileSignup(MobileSignupDto loginDto) {
-        MeDto meDto = meMapper.toMeDto(mobileService.signup(loginDto.getMobile(), loginDto.getPassword()));
+    public ResponseEntity<MeDto> mobileSignup(MobileSignupDto signupDto) {
+        MeDto meDto = meMapper.toMeDto(mobileService.signup(
+                signupDto.getUsername(),
+                signupDto.getMobile(),
+                signupDto.getEmail(),
+                signupDto.getPassword()));
         return ResponseEntity.ok().body(meDto);
     }
 

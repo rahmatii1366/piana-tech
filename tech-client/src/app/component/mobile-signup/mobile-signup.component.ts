@@ -4,7 +4,7 @@ import {selectMeDto} from "../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AppState} from "../../store/states/app.state";
 import {SignupActions} from "../../store/actions/signup.action";
-import {MobileAction} from "../../store/actions/mobile.action";
+import {MobileSignupAction} from "../../store/actions/mobile.action";
 
 @Component({
   selector: 'app-mobile-signup',
@@ -31,8 +31,10 @@ export class MobileSignupComponent implements OnInit {
     console.log('email:' + this.mobileForm.get('email').value);
     console.log('password:' + this.mobileForm.get('password').value);
     console.log('confirm:' + this.mobileForm.get('confirmPassword').value);
-    this._store.dispatch(new MobileAction(({
+    this._store.dispatch(new MobileSignupAction(({
+      'username': this.mobileForm.get('username').value,
       'mobile': this.mobileForm.get('mobile').value,
+      'email': this.mobileForm.get('email').value,
       'password': this.mobileForm.get('password').value
     })));
   }

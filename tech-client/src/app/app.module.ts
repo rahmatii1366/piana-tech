@@ -25,6 +25,7 @@ import {RouterModule} from "@angular/router";
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { MobileSignupComponent } from './component/mobile-signup/mobile-signup.component';
 import {MobileEffects} from "./store/effects/mobile-effects.service";
+import { MobileLoginComponent } from './component/mobile-login/mobile-login.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {MobileEffects} from "./store/effects/mobile-effects.service";
     IdentificationComponent,
     InfoComponent,
     DashboardComponent,
-    MobileSignupComponent
+    MobileSignupComponent,
+    MobileLoginComponent
   ],
   imports: [
     BrowserModule,

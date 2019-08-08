@@ -5,6 +5,7 @@ import {IdentificationComponent} from "./component/identification/identification
 import {InfoComponent} from "./component/info/info.component";
 import {DashboardComponent} from "./component/dashboard/dashboard.component";
 import {MobileSignupComponent} from "./component/mobile-signup/mobile-signup.component";
+import {MobileLoginComponent} from "./component/mobile-login/mobile-login.component";
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'signup/email-verify', component: EmailVerifyComponent },
   { path: 'signup/info', component: InfoComponent },
   { path: 'signup/by-mobile', component: MobileSignupComponent },
+  { path: 'login/by-mobile', component: MobileLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
 ];
 

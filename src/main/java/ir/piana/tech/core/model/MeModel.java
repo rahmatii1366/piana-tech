@@ -15,6 +15,9 @@ import lombok.Data;
 @Data
 @Builder
 public class MeModel {
+    @JsonProperty("username")
+    private String username = null;
+
     @JsonProperty("email")
     private String email = null;
 

@@ -123,7 +123,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: loginDto
+          name: signupDto
           required: true
           schema:
             $ref: '#/definitions/MobileSignupDto'
@@ -234,7 +234,11 @@ definitions:
   MeDto:
     type: object
     properties:
+      username:
+        type: string
       email:
+        type: string
+      mobile:
         type: string
       role:
         $ref: '#/definitions/RoleEnum'
@@ -288,6 +292,8 @@ definitions:
   MobileSignupDto:
     type: object
     properties:
+      username:
+        type: string
       mobile:
         type: string
       email:

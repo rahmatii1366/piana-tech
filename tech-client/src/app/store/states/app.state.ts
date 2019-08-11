@@ -3,13 +3,11 @@ import {MeState} from "./meState";
 
 export interface AppState {
   router?: RouterReducerState,
-  me: MeState,
-  we: MeState
+  me: MeState
 }
 
 export const initialAppState: AppState = {
-  me: null,
-  we: null
+  me: null
 }
 
 export function getInitialState(): AppState {

@@ -1,21 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {AppState} from "../../store/states/app.state";
-import {selectMeDto} from "../../store/selectors/me.selectors";
+import {selectMeDto, selectTokenRequiredDto} from "../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {
-  SignupActions,
-  SignupEmailVerifyActions,
-  SignupEmailVerifySuccessActions
-} from "../../store/actions/signup.action";
+import {VerifyTokenRequestAction} from "../../store/actions/authentication.action";
 
 @Component({
-  selector: 'app-email-verify',
-  templateUrl: './email-verify.component.html',
-  styleUrls: ['./email-verify.component.css']
+  selector: 'app-verify-token',
+  templateUrl: './verify-token.component.html',
+  styleUrls: ['./verify-token.component.css']
 })
-export class EmailVerifyComponent implements OnInit {
+export class VerifyTokenComponent implements OnInit {
   me$ = this._store.pipe(select(selectMeDto))
+  tokenRequiredDto$ = this._store.pipe(select(selectTokenRequiredDto))
   verifyForm = new FormGroup({
     code: new FormControl('', [
       Validators.required, Validators.minLength(6),
@@ -30,7 +27,7 @@ export class EmailVerifyComponent implements OnInit {
 
   onFormSubmit() {
     console.log('email:' + this.verifyForm.get('code').value);
-    this._store.dispatch(new SignupEmailVerifyActions(({
+    this._store.dispatch(new VerifyTokenRequestAction(({
       'code': this.verifyForm.get('code').value
     })));
   }

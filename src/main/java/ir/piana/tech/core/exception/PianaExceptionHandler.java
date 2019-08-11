@@ -1,6 +1,10 @@
 package ir.piana.tech.core.exception;
 
 import ir.piana.tech.api.dto.ErrorDto;
+import ir.piana.tech.api.dto.TokenRequiredDto;
+import ir.piana.tech.core.mapper.TokenActionMapper;
+import ir.piana.tech.core.mapper.TokenTypeMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,18 +21,25 @@ import java.util.List;
 @RestControllerAdvice
 @SuppressWarnings("unchecked")
 public class PianaExceptionHandler extends ResponseEntityExceptionHandler {
-//    @ExceptionHandler(PianaHttpException.class)
-//    public final ResponseEntity<ErrorDto> handleAllExceptions(PianaHttpException ex, WebRequest request) {
-//        List<String> details = new ArrayList<>();
-//        details.add(ex.getLocalizedMessage());
-//        ErrorDto error = new ErrorDto();
-//        error.setStatus(ex.getHttpStatus().toString());
-//        error.setMessage(ex.getMessage());
-//        return new ResponseEntity(error, ex.getHttpStatus());
-//    }
+    @Autowired
+    TokenActionMapper actionMapper;
+
+    @Autowired
+    TokenTypeMapper typeMapper;
+
+    @ExceptionHandler(TokenRelatedException.class)
+    public final ResponseEntity<TokenRequiredDto> handleTokenRelatedException(TokenRelatedException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        TokenRequiredDto tokenRequiredDto = new TokenRequiredDto();
+        tokenRequiredDto.setTokenAction(actionMapper.toTokenActionEnum(ex.getTokenModel().getTokenAction()));
+        tokenRequiredDto.setTokenType(typeMapper.toTokenTypeEnum(ex.getTokenModel().getTokenType()));
+        tokenRequiredDto.setMessage(ex.getMessage());
+        return new ResponseEntity(tokenRequiredDto, ex.getHttpStatus());
+    }
 
     @ExceptionHandler(PianaHttpException.class)
-    public final ResponseEntity<ErrorDto> handleAllRTExceptions(PianaHttpException ex, WebRequest request) {
+    public final ResponseEntity<ErrorDto> handlePianaHttpExceptions(PianaHttpException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorDto error = new ErrorDto();

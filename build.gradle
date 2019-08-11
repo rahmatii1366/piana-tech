@@ -15,6 +15,15 @@ buildscript {
 		set('sonarqubeVersion', '2.6.2')
 		set('hazelcastVersion', '3.12.1')
 	}
+	repositories {
+		mavenLocal()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies{
+		classpath "gradle.plugin.com.mageddo:gradle-embed-maven-repo:1.0.7" // from gradle repository
+	}
 }
 plugins {
 	id 'java'
@@ -28,6 +37,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.mageddo.gradle-embed-maven-repo'
 
 configurations {
 	compile.exclude module: "spring-boot-starter-tomcat"
@@ -37,8 +47,10 @@ configurations {
 }
 
 repositories {
+	maven { url "file://${rootDir}/maven" }
 	mavenCentral()
 	maven { url "https://repo.spring.io/milestone" }
+	maven { url 'https://jitpack.io' }
 }
 
 sourceSets.main.java.srcDir "${buildDir}/generated/source/annotationProcessor/java/main"
@@ -67,6 +79,8 @@ dependencies {
 	compile 'com.auth0:java-jwt:3.8.1'
 	compile 'org.projectlombok:lombok'
 	compile 'mysql:mysql-connector-java'
+
+	compile 'com.github.kavenegar:kavenegar-java:v2.0.1'
 
 	compile  "org.mapstruct:mapstruct:${mapstructVersion}"
 	compile  "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
@@ -148,4 +162,8 @@ generateQueryDSL.dependsOn {
 
 compileJava {
 	dependsOn generateQueryDSL
+}
+
+task createMirror(type: RepoBuilder){
+	mavenRepoFolder = file("${rootDir}/maven")
 }

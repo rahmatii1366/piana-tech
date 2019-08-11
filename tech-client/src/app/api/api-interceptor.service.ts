@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import * as userAction from '../store/actions/signup.action';
+import * as authenticationAction from '../store/actions/authentication.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/states/app.state';
 import { environment } from '../../environments/environment';
@@ -15,7 +15,6 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("++++++++++++++++");
     const authReq = req.clone({
       withCredentials: true,
       headers: req.headers.set('Content-Type', 'application/json')

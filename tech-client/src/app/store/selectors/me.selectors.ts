@@ -8,3 +8,8 @@ export const selectMeDto = createSelector(
   selectMe,
   (state: MeState) => state.meDto
 );
+
+export const selectTokenRequiredDto = createSelector(
+  selectMe,
+  (state: MeState) => state.tokenRequiredDto
+);

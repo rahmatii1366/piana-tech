@@ -1,8 +1,6 @@
 package ir.piana.tech.core.secuity;
 
-import ir.piana.tech.business.data.entity.MobileEntity;
 import ir.piana.tech.business.data.entity.UserEntity;
-import ir.piana.tech.business.data.service.UserService;
 import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.model.MeModel;
@@ -13,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static ir.piana.tech.business.data.entity.QUserEntity.userEntity;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
@@ -34,9 +35,6 @@ public class PianaAuthenticationService {
     private HttpSession session;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     @Qualifier("getStandardPBEStringEncryptor")
     private StringEncryptor stringEncryptor;
 
@@ -47,13 +45,7 @@ public class PianaAuthenticationService {
     private void refreshSession(UserEntity userEntity) throws UserRelatedException {
         if(!session.isNew())
             session.invalidate();
-        session.setAttribute("user", userEntity);
-    }
-
-    private void refreshSession(MobileEntity mobileEntity) throws UserRelatedException {
-        if(!session.isNew())
-            session.invalidate();
-        session.setAttribute("mobile", mobileEntity);
+        session.setAttribute("mobile", userEntity);
     }
 
     public MeModel authenticateMe(UserEntity userEntity) {
@@ -70,44 +62,27 @@ public class PianaAuthenticationService {
 //        Authentication authentication = securityContext.getAuthentication();
         securityContext.setAuthentication(authenticationToken);
         sessionRegistry.registerNewSession(session.getId(), authenticationToken);
-        return MeModel.builder().email(userEntity.getEmail())
+        return MeModel.builder()
+                .username(userEntity.getUsername())
+                .mobile(userEntity.getMobile())
                 .role(userEntity.getRoleType())
                 .rule(userEntity.getRuleType())
                 .build();
     }
 
-    public MeModel authenticateMe(MobileEntity mobileEntity) {
-        refreshSession(mobileEntity);
-        List<PianaGrantedAuthority> authorities = null;
-        if(mobileEntity.getRuleType() != RuleType.FREE) {
-            authorities = Arrays.asList(new PianaGrantedAuthority(mobileEntity.getRuleType().getRole()));
-        } else {
-            authorities = Arrays.asList(new PianaGrantedAuthority(mobileEntity.getRoleType().getRole()));
-        }
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                mobileEntity, null, authorities);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-//        Authentication authentication = securityContext.getAuthentication();
-        securityContext.setAuthentication(authenticationToken);
-        sessionRegistry.registerNewSession(session.getId(), authenticationToken);
-        return MeModel.builder()
-                .username(mobileEntity.getUsername())
-                .mobile(mobileEntity.getMobile())
-                .email(mobileEntity.getEmail())
-                .role(mobileEntity.getRoleType())
-                .rule(mobileEntity.getRuleType())
-                .build();
+    public void logout() {
+        String sessionId = session.getId();
+        SessionInformation sessionInformation = sessionRegistry.getSessionInformation(sessionId);
+        if(sessionInformation == null ||
+                sessionInformation.isExpired() || sessionInformation.getPrincipal() == null)
+            throw new UserRelatedException("session is expired or not logged in");
+        session.invalidate();
+        sessionRegistry.removeSessionInformation(sessionId);
     }
 
     public UserEntity getUserEntity() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         return (UserEntity) authentication.getPrincipal();
-    }
-
-    public MobileEntity getMobileEntity() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        return (MobileEntity) authentication.getPrincipal();
     }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginRequestAction, LogoutRequestAction} from "../../store/actions/authentication.action";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store/states/app.state";
 
 @Component({
   selector: 'app-topbar',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _store: Store<AppState>) { }
 
   ngOnInit() {
   }
 
+  onExitClick() {
+    this._store.dispatch(new LogoutRequestAction());
+  }
 }

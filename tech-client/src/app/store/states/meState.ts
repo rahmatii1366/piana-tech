@@ -1,9 +1,12 @@
 import {MeDto} from "../../api/web-console/models/me-dto";
+import {TokenRequiredDto} from "../../api/web-console/models/token-required-dto";
 
 export interface MeState {
-  meDto: MeDto
+  meDto: MeDto,
+  tokenRequiredDto: TokenRequiredDto
 }
 
 export const initialMeState: MeState = {
-  meDto: null
+  meDto: null,
+  tokenRequiredDto: null
 }

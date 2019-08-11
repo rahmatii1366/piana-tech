@@ -30,8 +30,7 @@ public class JwtHelper {
 
     public String createJwtToken(UserEntity userEntity) {
         return JWT.create()
-                .withSubject(userEntity.getEmail())
-                .withClaim("userId", userEntity.getId())
+                .withSubject(userEntity.getMobile())
                 .withClaim("type", "USER")
                 .withClaim("email", userEntity.getEmail())
                 .withIssuer(issuer)

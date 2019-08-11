@@ -3,6 +3,7 @@ package ir.piana.tech.business.data.entity;
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,20 +13,25 @@ import javax.persistence.*;
  * Date: 7/14/2019 2:28 PM
  **/
 @Entity
-@Table(name = "users")
+@Table(name = "mobile")
 @Data
+@Builder
 public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String email;
+    private String username;
     @Column
     private String mobile;
     @Column
-    private String password;
+    private String email;
     @Column
-    private Boolean verified;
+    private String password;
+    @Column(name = "mobile_verified")
+    private Boolean mobileVerified;
+    @Column(name = "email_verified")
+    private Boolean emailVerified;
     @Column
     @Enumerated(EnumType.STRING)
     private GenderType gender;
@@ -40,12 +46,23 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String email) {
-        this.email = email;
+    public UserEntity(String mobile) {
+        this.mobile = mobile;
     }
 
-    public UserEntity(String email, String password) {
-        this.email = email;
+    public UserEntity(String mobile, String password) {
+        this.mobile = mobile;
         this.password = password;
+    }
+
+    public UserEntity(Long id, String username, String email, String mobile, String password, Boolean mobileVerified, Boolean emailVerified, GenderType gender, RoleType roleType, RuleType ruleType) {
+        this.username = username;
+        this.mobile = mobile;
+        this.password = password;
+        this.mobileVerified = mobileVerified;
+        this.emailVerified = emailVerified;
+        this.gender = gender;
+        this.roleType = roleType;
+        this.ruleType = ruleType;
     }
 }

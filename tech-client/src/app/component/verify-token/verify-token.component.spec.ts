@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmailVerifyComponent } from './email-verify.component';
+import { VerifyTokenComponent } from './verify-token.component';
 
-describe('EmailVerifyComponent', () => {
-  let component: EmailVerifyComponent;
-  let fixture: ComponentFixture<EmailVerifyComponent>;
+describe('VerifyTokenComponent', () => {
+  let component: VerifyTokenComponent;
+  let fixture: ComponentFixture<VerifyTokenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmailVerifyComponent ]
+      declarations: [ VerifyTokenComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmailVerifyComponent);
+    fixture = TestBed.createComponent(VerifyTokenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

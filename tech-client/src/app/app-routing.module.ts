@@ -1,20 +1,17 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {EmailVerifyComponent} from "./component/email-verify/email-verify.component";
-import {IdentificationComponent} from "./component/identification/identification.component";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthenticationComponent} from "./component/authentication/authentication.component";
 import {InfoComponent} from "./component/info/info.component";
 import {DashboardComponent} from "./component/dashboard/dashboard.component";
-import {MobileSignupComponent} from "./component/mobile-signup/mobile-signup.component";
-import {MobileLoginComponent} from "./component/mobile-login/mobile-login.component";
+import {VerifyTokenComponent} from "./component/verify-token/verify-token.component";
+import {AuthenticationGuard} from "./guard/authentication/authentication-guard.service";
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/identification', pathMatch: 'full' },
-  { path: 'identification', component: IdentificationComponent },
-  { path: 'signup/email-verify', component: EmailVerifyComponent },
+  { path: '', redirectTo: '/authentication', pathMatch: 'full' },
+  { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
+  { path: 'authentication/verify-token', component: VerifyTokenComponent },
   { path: 'signup/info', component: InfoComponent },
-  { path: 'signup/by-mobile', component: MobileSignupComponent },
-  { path: 'login/by-mobile', component: MobileLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
 ];
 

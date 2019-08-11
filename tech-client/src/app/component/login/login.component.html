@@ -3,16 +3,16 @@
     <div class="small-12 medium-12 cell small-order-2 medium-order-1">
       <div class="cell medium-12 text-center login-box-title">ورود</div>
       <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
-        <div class="grid-y" style="height: 280px;">
-          <div class="cell small-4 medium-4">
-            <label for="lbl-email" class="text-right login-control-title">
-              <i class="fa fa-asterisk" style="color: #ff0000;"></i> ایمیل
+        <div class="grid-y" style="height: 350px;">
+          <div class="cell small-3 medium-3">
+            <label for="lbl-mobile" class="text-right login-control-title">
+              <i class="fa fa-asterisk" style="color: #ff0000;"></i> موبایل
             </label>
-            <input id="lbl-email" formControlName="email"
-                   [style.background-color]="loginForm.get('email').invalid ? '#FF6377' : '#CFFFA9'"
-                   type="email" name="email"/>
+            <input id="lbl-mobile" formControlName="mobile"
+                   [style.background-color]="loginForm.get('mobile').invalid ? '#FF6377' : '#CFFFA9'"
+                   type="text" name="mobile"/>
           </div>
-          <div class="cell small-4 medium-4">
+          <div class="cell small-3 medium-3">
             <label for="lbl-password" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذرواژه</label>
             <input id="lbl-password" formControlName="password"
                    [style.background-color]="loginForm.get('password').invalid ? '#FF6377' : '#CFFFA9'"

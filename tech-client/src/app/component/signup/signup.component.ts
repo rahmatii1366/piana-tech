@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppState} from "../../store/states/app.state";
 import {select, Store} from "@ngrx/store";
-import {SignupActions} from "../../store/actions/signup.action";
+import {Actions, SignupRequestAction} from "../../store/actions/authentication.action";
 import {selectMeDto} from "../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
@@ -14,7 +14,14 @@ export class SignupComponent implements OnInit {
   me$ = this._store.pipe(select(selectMeDto))
 
   userForm = new FormGroup({
-    email: new FormControl('b1@gmail.com', [Validators.required, Validators.maxLength(100), Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$')]),
+    username: new FormControl('joe', [Validators.required, Validators.maxLength(25), Validators.pattern('^\\w+([\\.-]?\\w+)*')]),
+    mobile: new FormControl('09391366128', [
+      Validators.required,
+      Validators.minLength(11),
+      Validators.maxLength(11),
+      Validators.pattern("(09)[0123][0-9]{8}")
+    ]),
+    // email: new FormControl('b1@gmail.com', [Validators.required, Validators.maxLength(100), Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$')]),
     password: new FormControl('123456', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
     confirmPassword: new FormControl('123456',[Validators.required, Validators.minLength(6), Validators.maxLength(8)])
   });
@@ -49,11 +56,13 @@ export class SignupComponent implements OnInit {
   // }
 
   onFormSubmit() {
-    console.log('email:' + this.userForm.get('email').value);
+    console.log('username:' + this.userForm.get('username').value);
+    console.log('mobile:' + this.userForm.get('mobile').value);
     console.log('password:' + this.userForm.get('password').value);
     console.log('confirm:' + this.userForm.get('confirmPassword').value);
-    this._store.dispatch(new SignupActions(({
-      'email': this.userForm.get('email').value,
+    this._store.dispatch(new SignupRequestAction(({
+      'username': this.userForm.get('username').value,
+      'mobile': this.userForm.get('mobile').value,
       'password': this.userForm.get('password').value
     })));
   }

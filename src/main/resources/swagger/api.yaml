@@ -42,15 +42,15 @@ paths:
     post:
       tags:
         - guest
-      summary: return a user
-      operationId: signUp
+      summary: signup by mobile
+      operationId: signup
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
         - in: body
-          name: argument
+          name: signupDto
           required: true
           schema:
             $ref: '#/definitions/SignupDto'
@@ -58,30 +58,7 @@ paths:
         '200':
           description: Successful operation.
           schema:
-            $ref: '#/definitions/MeDto'
-        '500':
-          description: Error occurred during execution of request.
-          schema:
-            $ref: '#/definitions/ErrorDto'
-  '/verify-email/signup/verify':
-    post:
-      tags:
-        - verify-email
-      summary: return a user
-      operationId: signUpVerify
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: verifyCodeDto
-          required: true
-          schema:
-            $ref: '#/definitions/VerifyCodeDto'
-      responses:
-        '200':
-          description: Successful operation.
-          schema:
-            $ref: '#/definitions/MeDto'
+            $ref: '#/definitions/TokenRequiredDto'
         '500':
           description: Error occurred during execution of request.
           schema:
@@ -90,7 +67,7 @@ paths:
     post:
       tags:
         - guest
-      summary: return a user
+      summary: login by mobile
       operationId: login
       consumes:
         - application/json
@@ -111,62 +88,14 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/mobile/signup':
-    post:
-      tags:
-        - guest
-      summary: signup by mobile
-      operationId: mobileSignup
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: signupDto
-          required: true
-          schema:
-            $ref: '#/definitions/MobileSignupDto'
-      responses:
-        '200':
-          description: Successful operation.
-          schema:
-            $ref: '#/definitions/MeDto'
-        '500':
-          description: Error occurred during execution of request.
-          schema:
-            $ref: '#/definitions/ErrorDto'
-  '/guest/mobile/login':
-    post:
-      tags:
-        - guest
-      summary: login by mobile
-      operationId: mobileLogin
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: loginDto
-          required: true
-          schema:
-            $ref: '#/definitions/MobileLoginDto'
-      responses:
-        '200':
-          description: Successful operation.
-          schema:
-            $ref: '#/definitions/MeDto'
-        '500':
-          description: Error occurred during execution of request.
-          schema:
-            $ref: '#/definitions/ErrorDto'
-  '/guest/mobile/forget-password':
+  '/guest/forget-password':
     post:
       tags:
         - guest
       summary: remember password by mobile
-      operationId: mobileForgetPassword
+      operationId: forgetPassword
+      produces:
+        - application/json
       consumes:
         - application/json
       parameters:
@@ -179,24 +108,47 @@ paths:
         '200':
           description: Successful operation.
           schema:
-            $ref: '#/definitions/VerifyCodeDto'
+            $ref: '#/definitions/TokenRequiredDto'
         '500':
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/mobile/verify':
-    get:
+  '/user/verify-token':
+    post:
       tags:
-        - guest
+        - user
       summary: verify mobile number
-      operationId: mobileVerify
+      operationId: verifyToken
       produces:
         - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: verifyTokenDto
+          required: true
+          schema:
+            $ref: '#/definitions/VerifyTokenDto'
       responses:
         '200':
           description: Successful operation.
           schema:
             $ref: '#/definitions/MeDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/user/logout':
+    post:
+      tags:
+        - user
+      summary: logout by mobile
+      operationId: logout
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation.
         '500':
           description: Error occurred during execution of request.
           schema:
@@ -212,25 +164,6 @@ definitions:
         type: string
         example: Hi
     title: SampleDto
-  SignupDto:
-    type: object
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-  VerifyCodeDto:
-    type: object
-    properties:
-      code:
-        type: string
-  LoginDto:
-    type: object
-    properties:
-      email:
-        type: string
-      password:
-        type: string
   MeDto:
     type: object
     properties:
@@ -262,6 +195,17 @@ definitions:
       - VERIFY_EMAIL
       - REGISTER_MOBILE
       - VERIFY_MOBILE
+  TokenTypeEnum:
+    type: string
+    enum:
+      - MOBILE
+      - PASSWORD
+      - EMAIL
+  TokenActionEnum:
+    type: string
+    enum:
+      - SIGNUP
+      - FORGET_PASSWORD
   MessageDto:
     type: object
     properties:
@@ -289,18 +233,25 @@ definitions:
         type: string
       path:
         type: string
-  MobileSignupDto:
+  TokenRequiredDto:
+    type: object
+    properties:
+      message:
+        type: string
+      tokenType:
+        $ref: '#/definitions/TokenTypeEnum'
+      tokenAction:
+        $ref: '#/definitions/TokenActionEnum'
+  SignupDto:
     type: object
     properties:
       username:
         type: string
       mobile:
         type: string
-      email:
-        type: string
       password:
         type: string
-  MobileLoginDto:
+  LoginDto:
     type: object
     properties:
       mobile:
@@ -314,3 +265,12 @@ definitions:
         type: string
       newPassword:
         type: string
+  VerifyTokenDto:
+    type: object
+    properties:
+      code:
+        type: string
+      tokenType:
+        $ref: '#/definitions/TokenTypeEnum'
+      tokenAction:
+        $ref: '#/definitions/TokenActionEnum'

@@ -1,6 +1,7 @@
 package ir.piana.tech.core.config;
 
 
+import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,8 +41,9 @@ public class PianaNewWebSecurityConfig
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/guest/**").authorizeRequests()
-                .anyRequest().permitAll();
+        http.authorizeRequests()
+                .antMatchers("/guest/**").permitAll()
+                .antMatchers("/user/**").hasRole("USER");
         http.sessionManagement()
                 .maximumSessions(10)
                 .maxSessionsPreventsLogin(false)

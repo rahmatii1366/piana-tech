@@ -1,0 +1,48 @@
+<div class="grid-container">
+  <div class="grid-x">
+    <div class="cell large-4 large-offset-4">
+      <div style="height: 300px;"
+           leaflet
+           [leafletOptions]="options"
+           (leafletClick)="onMapClick($event)"
+           (leafletMapReady)="onMapReady($event)">
+        <!--      <div [leafletLayer]="layer"></div>-->
+        <div *ngIf="myMarker" [leafletLayer]="myMarker"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid-container">
+  <div class="grid-x">
+    <div class="cell large-4 large-offset-4">
+      <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
+        <div class="grid-x">
+          <div class="cell small-12 medium-12 small-12">
+            <label for="lbl-name" class="text-right login-control-title">
+              <i class="fa fa-asterisk" style="color: #ff0000;"></i> نام گروه
+            </label>
+            <input id="lbl-name" formControlName="name"
+                   [style.background-color]="groupForm.get('name').invalid ? '#ffd4eb' : '#CFFFA9'"
+                   type="text" name="name"/>
+          </div>
+          <div class="cell small-12 medium-12 small-12">
+            <label for="lbl-age" class="text-right login-control-title">
+              <i class="fa fa-asterisk" style="color: #ff0000;"></i> رده سنی
+            </label>
+            <select formControlName="ageLevel"
+                    id="lbl-age"
+                    [style.background-color]="groupForm.get('ageLevel').invalid ? '#ffd4eb' : '#CFFFA9'">
+              <option *ngFor="let l of ageLevels$ | async" [ngValue]="l.value">{{l.title}}</option>
+            </select>
+          </div>
+          <div class="cell small-12 medium-12 small-12">
+            <div class="expanded button-group">
+              <button class="button success">ثبت</button>
+              <button class="button warning">بازنشانی</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

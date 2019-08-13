@@ -120,7 +120,7 @@ public class UserService {
             String username, String mobile, String password)
             throws PianaHttpException {
         Example<UserEntity> mobileEntityExample = Example.of(
-                UserEntity.builder().mobile(mobile).build());
+                new UserEntity(mobile));
         Optional<UserEntity> one = userRepository.findOne(mobileEntityExample);
         if (!one.isPresent()) {
             UserEntity userEntity = new UserEntity();

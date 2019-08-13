@@ -174,7 +174,7 @@ export class LogoutErrorAction implements Action {
   }
 }
 
-export type Actions = SignupRequestAction |
+export type AuthenticationActions = SignupRequestAction |
   SignupSuccessAction |
   SignupErrorAction |
   SignupNavigateAction |

@@ -10,10 +10,10 @@ spring:
     timeout:
   hazelcast:
     config: classpath:config/hazelcast.xml
-  management:
-    health:
-      mail:
-        enabled: false
+#  management:
+#    health:
+#      mail:
+#        enabled: false
   jpa:
     hibernate:
       ddl-auto: update

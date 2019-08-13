@@ -40,11 +40,8 @@ public class UserApiImpl implements UserApiDelegate {
     private SessionRegistry sessionRegistry;
 
     @Override
-    public ResponseEntity<MeDto> verifyToken(VerifyTokenDto verifyTokenDto) {
-        return ResponseEntity.ok().body(meMapper.toMeDto(userService.verify(
-                verifyTokenDto.getCode(),
-                typeMapper.toTokenType(verifyTokenDto.getTokenType()),
-                actionMapper.toTokenAction(verifyTokenDto.getTokenAction()))));
+    public ResponseEntity<Void> createGroup(CreateGroupDto createGroupDto) {
+        return null;
     }
 
     @Override

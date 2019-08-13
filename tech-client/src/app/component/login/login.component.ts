@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/states/app.state";
 import {LoginRequestAction} from "../../store/actions/authentication.action";
+import {WaitRequestAction} from "../../store/actions/wait.action";
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,13 @@ import {LoginRequestAction} from "../../store/actions/authentication.action";
 })
 export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
-    mobile: new FormControl('09391366128', [
+    mobile: new FormControl('', [
       Validators.required,
       Validators.minLength(11),
       Validators.maxLength(11),
       Validators.pattern("(09)[0123][0-9]{8}")
     ]),
-    password: new FormControl('123456', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
   });
 
   constructor(private _store: Store<AppState>) { }

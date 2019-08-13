@@ -1,3 +1,6 @@
+GET http://localhost:8080/guest/group/age-level
+
+###
 POST http://localhost:8080/api/auth/signup
 Content-Type: application/x-www-form-urlencoded
 

@@ -21,7 +21,11 @@ import {InfoComponent} from './component/info/info.component';
 import {ApiModule} from "./api/api.module";
 import {DashboardComponent} from './component/dashboard/dashboard.component';
 import {AuthenticationComponent} from "./component/authentication/authentication.component";
-import {AuthenticationGuard} from "./guard/authentication/authentication-guard.service";
+import {Ng2LoadingSpinnerModule} from "ng2-loading-spinner";
+import { CreateGroupComponent } from './component/create-group/create-group.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import { AdminGroupComponent } from './component/admin-group/admin-group.component';
+import {AgeLevelEffects} from "./store/effects/age-level-effects.service";
 
 @NgModule({
   declarations: [
@@ -34,14 +38,20 @@ import {AuthenticationGuard} from "./guard/authentication/authentication-guard.s
     AuthenticationComponent,
     InfoComponent,
     DashboardComponent,
+    CreateGroupComponent,
+    AdminGroupComponent
   ],
   imports: [
+    LeafletModule.forRoot(),
+    Ng2LoadingSpinnerModule.forRoot({
+      spinnerColor: 'blue'
+    }),
     BrowserModule,
     ApiModule,
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([AuthenticationEffects]),
+    EffectsModule.forRoot([AuthenticationEffects, AgeLevelEffects]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     HttpClientModule,

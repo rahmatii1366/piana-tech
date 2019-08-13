@@ -1,28 +1,29 @@
 import {Injectable} from "@angular/core";
 import {Actions, Effect, ofType} from "@ngrx/effects";
-import {AppState, getInitialState} from "../states/app.state";
-import {select, Store} from "@ngrx/store";
+import {AppState} from "../states/app.state";
+import {Store} from "@ngrx/store";
+import * as authenticationActions from "../actions/authentication.action";
+import * as waitActions from "../actions/wait.action";
 import {
   AuthenticationActionEnum,
-  SignupRequestAction,
-  SignupNavigateAction,
-  LoginRequestAction,
-  LoginNavigateAction,
-  VerifyTokenRequestAction,
-  ForgetPasswordRequestAction,
   ForgetPasswordNavigateAction,
+  ForgetPasswordRequestAction,
+  LoginNavigateAction,
+  LoginRequestAction,
+  LogoutNavigateAction,
+  LogoutRequestAction,
+  SignupNavigateAction,
+  SignupRequestAction,
   VerifyTokenNavigateAction,
-  LogoutRequestAction, LogoutNavigateAction
+  VerifyTokenRequestAction
 } from "../actions/authentication.action";
 
 import {GuestService} from "../../api/web-console/services/guest.service";
-import {catchError, filter, map, switchMap, withLatestFrom} from "rxjs/operators";
-import * as authenticationActions from '../actions/authentication.action';
+import {catchError, map, switchMap, withLatestFrom} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {Router} from "@angular/router";
 import {UserService} from "../../api/web-console/services/user.service";
-import {initialMeState} from "../states/meState";
-import {selectTokenRequiredDto} from "../selectors/me.selectors";
+import {WaitExitAction, WaitRequestAction} from "../actions/wait.action";
 
 @Injectable()
 export class AuthenticationEffects {
@@ -39,9 +40,16 @@ export class AuthenticationEffects {
     ofType<SignupRequestAction>(AuthenticationActionEnum.SIGNUP_REQUEST),
     map(action => action.payload),
     switchMap(signupDto => {
+      this._store.dispatch(new WaitRequestAction());
       return this.guestService.signup(signupDto).pipe(
-        map(tokenRequiredDto  => new authenticationActions.SignupNavigateAction(tokenRequiredDto )),
-        catchError(error => of(new authenticationActions.SignupErrorAction(error)))
+        map(tokenRequiredDto  => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.SignupNavigateAction(tokenRequiredDto);
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.SignupErrorAction(error));
+        })
       )
     })
   );
@@ -63,9 +71,16 @@ export class AuthenticationEffects {
     ofType<LoginRequestAction>(AuthenticationActionEnum.LOGIN_REQUEST),
     map(action => action.payload),
     switchMap(loginDto => {
+      this._store.dispatch(new WaitRequestAction());
       return this.guestService.login(loginDto).pipe(
-        map(meDto => new authenticationActions.LoginNavigateAction(meDto)),
-        catchError(error => of(new authenticationActions.LoginErrorAction(error)))
+        map(meDto => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.LoginNavigateAction(meDto);
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.LoginErrorAction(error));
+        })
       )
     })
   );
@@ -87,9 +102,16 @@ export class AuthenticationEffects {
     ofType<ForgetPasswordRequestAction>(AuthenticationActionEnum.FORGET_PASSWORD_REQUEST),
     map(action => action.payload),
     switchMap(forgetPasswordDto => {
+      this._store.dispatch(new WaitRequestAction());
       return this.guestService.forgetPassword(forgetPasswordDto).pipe(
-        map(tokenRequiredDto => new authenticationActions.ForgetPasswordNavigateAction(tokenRequiredDto)),
-        catchError(error => of(new authenticationActions.ForgetPasswordErrorAction(error)))
+        map(tokenRequiredDto => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.ForgetPasswordNavigateAction(tokenRequiredDto);
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.ForgetPasswordErrorAction(error));
+        })
       )
     })
   );
@@ -117,9 +139,16 @@ export class AuthenticationEffects {
     }),
     switchMap(verifyTokenDto => {
       console.log(verifyTokenDto);
-      return this.userService.verifyToken(verifyTokenDto).pipe(
-        map(meDto => new authenticationActions.VerifyTokenNavigateAction(meDto)),
-        catchError(error => of(new authenticationActions.VerifyTokenErrorAction(error)))
+      this._store.dispatch(new WaitRequestAction());
+      return this.guestService.verifyToken(verifyTokenDto).pipe(
+        map(meDto => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.VerifyTokenNavigateAction(meDto);
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.VerifyTokenErrorAction(error));
+        })
       )
     })
   );
@@ -140,9 +169,16 @@ export class AuthenticationEffects {
   logout$ = this._actions$.pipe(
     ofType<LogoutRequestAction>(AuthenticationActionEnum.LOGOUT_REQUEST),
     switchMap(() => {
+      this._store.dispatch(new WaitRequestAction());
       return this.userService.logout().pipe(
-        map(() => new authenticationActions.LogoutNavigateAction()),
-        catchError(error => of(new authenticationActions.LogoutErrorAction(error)))
+        map(() => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.LogoutNavigateAction();
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.LogoutErrorAction(error));
+        })
       )
     })
   );

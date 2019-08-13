@@ -7,13 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/14/2019 2:28 PM
  **/
 @Entity
-@Table(name = "mobile")
+@Table(name = "users")
 @Data
 @Builder
 public class UserEntity extends BaseEntity {
@@ -38,10 +39,11 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private RoleType roleType;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "rule_name")
     private RuleType ruleType;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupEntity> groupEntities;
 
     public UserEntity() {
     }
@@ -55,8 +57,10 @@ public class UserEntity extends BaseEntity {
         this.password = password;
     }
 
-    public UserEntity(Long id, String username, String email, String mobile, String password, Boolean mobileVerified, Boolean emailVerified, GenderType gender, RoleType roleType, RuleType ruleType) {
+    public UserEntity(Long id, String username, String email, String mobile, String password, Boolean mobileVerified, Boolean emailVerified, GenderType gender, RoleType roleType, RuleType ruleType, List<GroupEntity> groupEntities) {
+        this.id = id;
         this.username = username;
+        this.email = email;
         this.mobile = mobile;
         this.password = password;
         this.mobileVerified = mobileVerified;
@@ -64,5 +68,6 @@ public class UserEntity extends BaseEntity {
         this.gender = gender;
         this.roleType = roleType;
         this.ruleType = ruleType;
+        this.groupEntities = groupEntities;
     }
 }

@@ -1,8 +1,8 @@
-import {AuthenticationActionEnum, Actions} from '../actions/authentication.action';
-import {initialMeState, MeState} from "../states/meState";
+import {AuthenticationActionEnum, AuthenticationActions} from '../actions/authentication.action';
+import {initialMeState, MeState} from "../states/me.state";
 
 export function AuthenticationReducers(state = initialMeState,
-  action: Actions
+  action: AuthenticationActions
 ): MeState {
   switch (action.type) {
     case AuthenticationActionEnum.SIGNUP_SUCCESS: {
@@ -18,6 +18,7 @@ export function AuthenticationReducers(state = initialMeState,
       };
     }
     case AuthenticationActionEnum.LOGIN_SUCCESS: {
+
       return {
         ...state,
         meDto: action.payload,

@@ -1,6 +1,6 @@
 import {AppState} from "../states/app.state";
 import {createSelector} from "@ngrx/store";
-import {MeState} from "../states/meState";
+import {MeState} from "../states/me.state";
 
 const selectMe =  (state: AppState) => state.me;
 

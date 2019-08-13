@@ -113,10 +113,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/verify-token':
+  '/guest/verify-token':
     post:
       tags:
-        - user
+        - guest
       summary: verify mobile number
       operationId: verifyToken
       produces:
@@ -149,6 +149,46 @@ paths:
       responses:
         '200':
           description: Successful operation.
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/user/group/create':
+    post:
+      tags:
+        - user
+      summary: create a group
+      operationId: createGroup
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: createGroupDto
+          required: true
+          schema:
+            $ref: '#/definitions/CreateGroupDto'
+      responses:
+        '200':
+          description: Successful operation.
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/guest/group/age-level':
+    get:
+      tags:
+        - guest
+      summary: get group age levels
+      operationId: getAgeLevels
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/AllAgeLevelsDto'
         '500':
           description: Error occurred during execution of request.
           schema:
@@ -274,3 +314,40 @@ definitions:
         $ref: '#/definitions/TokenTypeEnum'
       tokenAction:
         $ref: '#/definitions/TokenActionEnum'
+  AgeLevelEnum:
+    type: string
+    enum:
+      - FREE
+      - LESS_THAN_5
+      - LESS_THAN_10
+      - LESS_THAN_15
+      - LESS_THAN_20
+      - LESS_THAN_30
+      - LESS_THAN_40
+      - LESS_THAN_50
+      - LESS_THAN_60
+      - GREATER_THAN_60
+  AgeLevelDto:
+    type: object
+    properties:
+      title:
+        type: string
+      value:
+        type: string
+  AllAgeLevelsDto:
+    type: array
+    items:
+      $ref: '#/definitions/AgeLevelDto'
+  CreateGroupDto:
+    type: object
+    properties:
+      name:
+        type: string
+      latitude:
+        type: number
+        format: double
+      longitude:
+        type: number
+        format: double
+      ageLevel:
+        $ref: '#/definitions/AgeLevelEnum'

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppState} from "../../store/states/app.state";
 import {select, Store} from "@ngrx/store";
-import {Actions, SignupRequestAction} from "../../store/actions/authentication.action";
+import {AuthenticationActions, SignupRequestAction} from "../../store/actions/authentication.action";
 import {selectMeDto} from "../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
@@ -14,16 +14,16 @@ export class SignupComponent implements OnInit {
   me$ = this._store.pipe(select(selectMeDto))
 
   userForm = new FormGroup({
-    username: new FormControl('joe', [Validators.required, Validators.maxLength(25), Validators.pattern('^\\w+([\\.-]?\\w+)*')]),
-    mobile: new FormControl('09391366128', [
+    username: new FormControl('', [Validators.required, Validators.maxLength(25), Validators.pattern('^\\w+([\\.-]?\\w+)*')]),
+    mobile: new FormControl('', [
       Validators.required,
       Validators.minLength(11),
       Validators.maxLength(11),
       Validators.pattern("(09)[0123][0-9]{8}")
     ]),
     // email: new FormControl('b1@gmail.com', [Validators.required, Validators.maxLength(100), Validators.pattern('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$')]),
-    password: new FormControl('123456', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
-    confirmPassword: new FormControl('123456',[Validators.required, Validators.minLength(6), Validators.maxLength(8)])
+    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
+    confirmPassword: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(8)])
   });
 
   constructor(private _store: Store<AppState>) {

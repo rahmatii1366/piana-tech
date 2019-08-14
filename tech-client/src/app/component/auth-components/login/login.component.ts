@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../store/states/app.state";
-import {LoginRequestAction} from "../../store/actions/authentication.action";
-import {WaitRequestAction} from "../../store/actions/wait.action";
+import {AppState} from "../../../store/states/app.state";
+import {LoginRequestAction} from "../../../store/actions/authentication.action";
+import {WaitRequestAction} from "../../../store/actions/wait.action";
 
 @Component({
   selector: 'app-login',

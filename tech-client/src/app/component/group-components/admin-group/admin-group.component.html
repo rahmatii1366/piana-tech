@@ -7,7 +7,7 @@
             <div class="media-object">
               <div class="media-object-section align-self-middle">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -24,7 +24,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -41,7 +41,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -58,7 +58,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -75,7 +75,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -92,7 +92,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -109,7 +109,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -126,7 +126,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -143,7 +143,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -160,7 +160,7 @@
             <div class="media-object">
               <div class="media-object-section">
                 <div class="thumbnail">
-                  <img src="../../../assets/image/person/avatar-64.png">
+                  <img src="../../../../assets/image/person/avatar-64.png">
                 </div>
               </div>
               <div class="media-object-section main-section align-self-middle">
@@ -191,26 +191,27 @@
           </div>
           <div class="cell">
             <div class="grid-container fluid">
-              <form>
+              <form *ngIf="groupForm" [formGroup]="groupForm">
                 <div class="grid-x grid-padding-x">
                   <div class="small-3 cell">
                     <label for="lbl-group-name" class="text-right middle">نام گروه</label>
                   </div>
                   <div class="small-9 cell">
-                    <input type="text" id="lbl-group-name">
+                    <input type="text" id="lbl-group-name" formControlName="name">
                   </div>
                   <div class="small-3 cell">
                     <label for="lbl-admin-name" class="text-right middle">نام مدیر گروه</label>
                   </div>
                   <div class="small-9 cell">
-                    <input type="text" id="lbl-admin-name">
+                    <input type="text" id="lbl-admin-name" formControlName="adminName">
                   </div>
                   <div class="small-3 cell">
                     <label for="lbl-age-level" class="text-right middle">رده سنی</label>
                   </div>
                   <div class="small-9 cell">
-                    <select type="text" id="lbl-age-level">
-                      <option [value]="0" selected>آزاد</option>
+                    <select formControlName="ageLevel" id="lbl-age-level">
+                      <option *ngFor="let l of ageLevels$ | async"
+                              [ngValue]="l">{{l.title}}</option>
                     </select>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {selectMeDto} from "../../store/selectors/me.selectors";
-import {AppState} from "../../store/states/app.state";
+import {selectMeDto} from "../../../store/selectors/me.selectors";
+import {AppState} from "../../../store/states/app.state";
 
 @Component({
   selector: 'app-info',

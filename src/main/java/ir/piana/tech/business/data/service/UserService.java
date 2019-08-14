@@ -86,9 +86,9 @@ public class UserService {
     }
 
     public MeModel login(String mobile, String password) throws UserRelatedException {
-        Example<UserEntity> mobileEntityExample = Example.of(
+        Example<UserEntity> userEntityExample = Example.of(
                 new UserEntity(mobile, pianaDigester.digest(password)));
-        Optional<UserEntity> one = userRepository.findOne(mobileEntityExample);
+        Optional<UserEntity> one = userRepository.findOne(userEntityExample);
         return authenticationService.authenticateMe(
                 one.orElseThrow(() -> new UserRelatedException("Mobile number or Password are incorrect")));
     }

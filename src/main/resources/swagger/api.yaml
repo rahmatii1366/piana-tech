@@ -4,7 +4,6 @@ info:
   version: 0.1.0
   title: Piana Tech Web Console
 host: 'localhost:8080'
-basePath: '/api'
 schemes:
   - http
 paths:
@@ -153,7 +152,7 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/group/create':
+  '/user/group':
     post:
       tags:
         - user
@@ -165,13 +164,31 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: createGroupDto
+          name: GroupDto
           required: true
           schema:
-            $ref: '#/definitions/CreateGroupDto'
+            $ref: '#/definitions/GroupDto'
       responses:
         '200':
           description: Successful operation.
+          schema:
+            $ref: '#/definitions/GroupDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+    get:
+      tags:
+        - user
+      summary: get group
+      operationId: getGroup
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/GroupDto'
         '500':
           description: Error occurred during execution of request.
           schema:
@@ -338,10 +355,12 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/AgeLevelDto'
-  CreateGroupDto:
+  GroupDto:
     type: object
     properties:
       name:
+        type: string
+      adminName:
         type: string
       latitude:
         type: number
@@ -350,4 +369,4 @@ definitions:
         type: number
         format: double
       ageLevel:
-        $ref: '#/definitions/AgeLevelEnum'
+        $ref: '#/definitions/AgeLevelDto'

@@ -1,28 +1,21 @@
 package ir.piana.tech.business.data.service;
 
-import ir.piana.tech.api.dto.MeDto;
-import ir.piana.tech.api.dto.RoleEnum;
-import ir.piana.tech.api.dto.RuleEnum;
+import ir.piana.tech.api.dto.GroupDto;
 import ir.piana.tech.business.data.entity.GroupEntity;
 import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.business.data.repository.GroupRepository;
 import ir.piana.tech.business.helper.EmailHelper;
-import ir.piana.tech.business.helper.JwtHelper;
 import ir.piana.tech.core.enums.*;
+import ir.piana.tech.core.exception.NotFoundRelatedException;
 import ir.piana.tech.core.exception.PianaHttpException;
-import ir.piana.tech.core.exception.TokenRelatedException;
 import ir.piana.tech.core.exception.UserRelatedException;
-import ir.piana.tech.core.model.MeModel;
+import ir.piana.tech.core.mapper.GroupMapper;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
-import ir.piana.tech.core.service.TokenService;
 import ir.piana.tech.core.util.PianaDigester;
-import org.apache.commons.collections.map.SingletonMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +52,18 @@ public class GroupService {
     @Autowired
     @Qualifier("getPianaDigester")
     private PianaDigester pianaDigester;
+
+    @Autowired
+    private GroupMapper groupMapper;
+
+    @Transactional
+    public GroupEntity getGroup()
+            throws PianaHttpException {
+        UserEntity userEntity = authenticationService.getUserEntity();
+        Optional<GroupEntity> optionalGroupEntity = groupRepository.findByUserEntity(userEntity);
+        GroupDto groupDto = groupMapper.toGroupDto(optionalGroupEntity.get());
+        return optionalGroupEntity.orElseThrow(() -> new NotFoundRelatedException("group not exist!"));
+    }
 
     @Transactional
     public void createGroup(String name, double latitude, double longitude, AgeLevelType ageLevelType)

@@ -11,14 +11,14 @@ import javax.persistence.*;
  * Date: 7/14/2019 2:28 PM
  **/
 @Entity
-@Table(name = "groups")
+@Table(name = "user_group")
 @Data
 @Builder
 public class GroupEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     UserEntity userEntity;
     @Column
@@ -45,5 +45,15 @@ public class GroupEntity extends BaseEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.ageLevel = ageLevel;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

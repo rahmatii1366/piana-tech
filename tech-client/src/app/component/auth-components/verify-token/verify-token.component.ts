@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {AppState} from "../../store/states/app.state";
-import {selectMeDto, selectTokenRequiredDto} from "../../store/selectors/me.selectors";
+import {AppState} from "../../../store/states/app.state";
+import {selectMeDto, selectTokenRequiredDto} from "../../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {VerifyTokenRequestAction} from "../../store/actions/authentication.action";
+import {VerifyTokenRequestAction} from "../../../store/actions/authentication.action";
 
 @Component({
   selector: 'app-verify-token',

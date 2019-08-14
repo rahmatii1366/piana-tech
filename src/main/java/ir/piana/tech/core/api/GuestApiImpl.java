@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +69,7 @@ public class GuestApiImpl implements GuestApiDelegate {
     public ResponseEntity<AllAgeLevelsDto> getAgeLevels() {
         List arrayList = Arrays.stream(AgeLevelType.values()).map(ageLevelType -> {
             AgeLevelDto ageLevelDto = new AgeLevelDto();
-            ageLevelDto.setTitle(ageLevelType.getFaValue());
+            ageLevelDto.setTitle(ageLevelType.getFaTitle());
             ageLevelDto.setValue(ageLevelType.toString());
             return ageLevelDto;
         }).collect(Collectors.toList());

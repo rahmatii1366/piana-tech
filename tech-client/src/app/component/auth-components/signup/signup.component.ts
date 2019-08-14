@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AppState} from "../../store/states/app.state";
+import {AppState} from "../../../store/states/app.state";
 import {select, Store} from "@ngrx/store";
-import {AuthenticationActions, SignupRequestAction} from "../../store/actions/authentication.action";
-import {selectMeDto} from "../../store/selectors/me.selectors";
+import {AuthenticationActions, SignupRequestAction} from "../../../store/actions/authentication.action";
+import {selectMeDto} from "../../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({

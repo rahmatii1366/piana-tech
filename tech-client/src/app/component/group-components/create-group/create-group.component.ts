@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {circle, icon, latLng, Marker, marker, polygon, tileLayer} from "leaflet";
-import {HttpClient} from "@angular/common/http";
+import {Component, OnInit} from '@angular/core';
+import {icon, latLng, Marker, marker, tileLayer} from "leaflet";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
-import {selectMeDto} from "../../store/selectors/me.selectors";
-import {AppState} from "../../store/states/app.state";
-import {selectAgeLevels} from "../../store/selectors/age-level.selectors";
-import {SignupRequestAction} from "../../store/actions/authentication.action";
-import {AgeLevelRequestAction} from "../../store/actions/age-level.action";
+import {AppState} from "../../../store/states/app.state";
+import {selectAgeLevels} from "../../../store/selectors/age-level.selectors";
+import {AgeLevelRequestAction} from "../../../store/actions/age-level.action";
+import {GroupCreateRequestAction} from "../../../store/actions/group.action";
 
 @Component({
   selector: 'app-map-view',
@@ -58,18 +56,7 @@ export class CreateGroupComponent implements OnInit {
   // });
   groupForm: FormGroup;
 
-  ageLevels = [
-    { name: "آزاد", value: "0" },
-    { name: "نونهال", value: "1" },
-    { name: "نوجوان", value: "2" },
-    { name: "جوان", value: "3" },
-    { name: "امید", value: "4" },
-    { name: "بزرگسال", value: "5" },
-    { name: "پیشکسوت", value: "6" },
-    { name: "مسن", value: "7" },
-    ];
-
-  constructor(private _store: Store<AppState>, private fb: FormBuilder, private http: HttpClient) {
+  constructor(private _store: Store<AppState>, private fb: FormBuilder) {
     this.groupForm = this.fb.group({
       name: new FormControl('', [
         Validators.required,
@@ -117,6 +104,14 @@ export class CreateGroupComponent implements OnInit {
   }
 
   onFormSubmit() {
-
+    console.log('name:' + this.groupForm.get('name').value);
+    console.log('ageLevel:' + this.groupForm.get('ageLevel').value);
+    console.log(this.myLatLng);
+    this._store.dispatch(new GroupCreateRequestAction(({
+      'name': this.groupForm.get('name').value,
+      'ageLevel': this.groupForm.get('ageLevel').value,
+      'latitude': this.myLatLng.lat,
+      'longitude': this.myLatLng.lng
+    })));
   }
 }

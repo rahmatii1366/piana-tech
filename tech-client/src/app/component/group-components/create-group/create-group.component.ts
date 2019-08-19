@@ -106,7 +106,13 @@ export class CreateGroupComponent implements OnInit {
   onFormSubmit() {
     console.log('name:' + this.groupForm.get('name').value);
     console.log('ageLevel:' + this.groupForm.get('ageLevel').value);
-    console.log(this.myLatLng);
+    console.log({
+      'name': this.groupForm.get('name').value,
+      'ageLevel': this.groupForm.get('ageLevel').value,
+      'latitude': this.myLatLng.lat,
+      'longitude': this.myLatLng.lng
+    });
+
     this._store.dispatch(new GroupCreateRequestAction(({
       'name': this.groupForm.get('name').value,
       'ageLevel': this.groupForm.get('ageLevel').value,

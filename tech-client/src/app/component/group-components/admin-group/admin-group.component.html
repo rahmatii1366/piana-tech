@@ -1,8 +1,12 @@
 <div class="grid-container">
+  <div class="grid-x">&nbsp;</div>
   <div class="grid-x grid-margin-x">
     <div class="cell large-4 large-order-1 small-order-2">
       <div class="grid-container fluid">
         <div class="grid-x">
+          <div class="cell" style="border-bottom: 1px solid gray; margin-bottom: 6px;">
+            <button class="button expanded hollow success">افزودن<i class="fa fa-plus" style="margin: 0px 2px;"></i></button>
+          </div>
           <div class="cell" style="border-bottom: 1px solid gray; margin-bottom: 6px;">
             <div class="media-object">
               <div class="media-object-section align-self-middle">
@@ -177,49 +181,21 @@
       </div>
     </div>
     <div class="cell large-8 large-order-2 small-order-1">
-      <div class="grid-container fluid">
-        <div class="grid-x grid-margin-y">
+      <div class="grid-container">
+        <div class="grid-x">
           <div class="cell">
-            <div style="height: 300px;"
-                 leaflet
-                 [leafletOptions]="options"
-                 (leafletClick)="onMapClick($event)"
-                 (leafletMapReady)="onMapReady($event)">
-              <!--      <div [leafletLayer]="layer"></div>-->
-              <div *ngIf="myMarker" [leafletLayer]="myMarker"></div>
-            </div>
-          </div>
-          <div class="cell">
-            <div class="grid-container fluid">
-              <form *ngIf="groupForm" [formGroup]="groupForm">
-                <div class="grid-x grid-padding-x">
-                  <div class="small-3 cell">
-                    <label for="lbl-group-name" class="text-right middle">نام گروه</label>
-                  </div>
-                  <div class="small-9 cell">
-                    <input type="text" id="lbl-group-name" formControlName="name">
-                  </div>
-                  <div class="small-3 cell">
-                    <label for="lbl-admin-name" class="text-right middle">نام مدیر گروه</label>
-                  </div>
-                  <div class="small-9 cell">
-                    <input type="text" id="lbl-admin-name" formControlName="adminName">
-                  </div>
-                  <div class="small-3 cell">
-                    <label for="lbl-age-level" class="text-right middle">رده سنی</label>
-                  </div>
-                  <div class="small-9 cell">
-                    <select formControlName="ageLevel" id="lbl-age-level">
-                      <option *ngFor="let l of ageLevels$ | async"
-                              [ngValue]="l">{{l.title}}</option>
-                    </select>
-                  </div>
-                </div>
-              </form>
+            <button class="button expanded hollow primary" *ngIf="viewType"
+                    (click)="viewType = !viewType">ویرایش</button>
+            <div class="expanded button-group" *ngIf="!viewType">
+              <button class="button hollow success"
+                      (click)="viewType = !viewType">Ok</button>
+              <button class="button hollow alert" (click)="viewType = !viewType">Cancel</button>
             </div>
           </div>
         </div>
       </div>
+      <app-admin-view *ngIf="viewType"></app-admin-view>
+      <app-admin-edit *ngIf="!viewType"></app-admin-edit>
     </div>
   </div>
 </div>

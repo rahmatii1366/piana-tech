@@ -1,0 +1,43 @@
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell large-order-1 small-order-1">
+      <div class="grid-container fluid">
+        <div class="grid-x grid-margin-y">
+          <div class="cell">
+            <div style="height: 300px;"
+                 leaflet
+                 [leafletOptions]="options"
+                 (leafletClick)="onMapClick($event)"
+                 (leafletMapReady)="onMapReady($event)">
+              <!--      <div [leafletLayer]="layer"></div>-->
+              <div *ngIf="myMarker" [leafletLayer]="myMarker"></div>
+            </div>
+          </div>
+          <div class="cell">
+            <div class="grid-container fluid">
+              <form *ngIf="groupForm" [formGroup]="groupForm">
+                <div class="grid-x grid-padding-x">
+                  <div class="small-3 cell">
+                    <label for="lbl-group-name" class="text-right middle">نام گروه</label>
+                  </div>
+                  <div class="small-9 cell">
+                    <input type="text" id="lbl-group-name" formControlName="name">
+                  </div>
+                  <div class="small-3 cell">
+                    <label for="lbl-age-level" class="text-right middle">رده سنی</label>
+                  </div>
+                  <div class="small-9 cell">
+                    <select formControlName="ageLevel" id="lbl-age-level">
+                      <option *ngFor="let l of ageLevels$ | async"
+                              [ngValue]="l">{{l.title}}</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

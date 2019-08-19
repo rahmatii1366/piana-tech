@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../store/states/app.state";
 import {LoginRequestAction} from "../../../store/actions/authentication.action";
-import {WaitRequestAction} from "../../../store/actions/wait.action";
 
 @Component({
   selector: 'app-login',
@@ -24,10 +23,12 @@ export class LoginComponent implements OnInit {
   constructor(private _store: Store<AppState>) { }
 
   ngOnInit() {
+    this.loginForm.controls['mobile'].setValue('09391366128', {onlySelf: true});
+    this.loginForm.controls['password'].setValue('123456', {onlySelf: true});
   }
 
   onFormSubmit() {
-    console.log('email:' + this.loginForm.get('mobile').value);
+    console.log('mobile:' + this.loginForm.get('mobile').value);
     console.log('password:' + this.loginForm.get('password').value);
     this._store.dispatch(new LoginRequestAction({
       'mobile': this.loginForm.get('mobile').value,

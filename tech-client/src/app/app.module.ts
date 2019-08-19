@@ -27,6 +27,8 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {AdminGroupComponent} from './component/group-components/admin-group/admin-group.component';
 import {AgeLevelEffects} from "./store/effects/age-level-effects.service";
 import {GroupEffects} from "./store/effects/group-effects.service";
+import {AdminViewComponent} from "./component/group-components/admin-view/admin-view.component";
+import {AdminEditComponent} from "./component/group-components/admin-edit/admin-edit.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import {GroupEffects} from "./store/effects/group-effects.service";
     InfoComponent,
     DashboardComponent,
     CreateGroupComponent,
-    AdminGroupComponent
+    AdminGroupComponent,
+    AdminViewComponent,
+    AdminEditComponent,
   ],
   imports: [
     LeafletModule.forRoot(),

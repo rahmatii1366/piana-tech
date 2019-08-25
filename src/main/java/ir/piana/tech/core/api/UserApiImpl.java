@@ -1,6 +1,9 @@
 package ir.piana.tech.core.api;
 
 import ir.piana.tech.api.dto.GroupDto;
+import ir.piana.tech.api.dto.InviteDto;
+import ir.piana.tech.api.dto.InviterDto;
+import ir.piana.tech.api.dto.InviterListDto;
 import ir.piana.tech.api.service.UserApiDelegate;
 import ir.piana.tech.business.data.entity.GroupEntity;
 import ir.piana.tech.business.data.service.GroupService;
@@ -45,6 +48,9 @@ public class UserApiImpl implements UserApiDelegate {
     private GroupMapper groupMapper;
 
     @Autowired
+    private InvitedMapper invitedMapper;
+
+    @Autowired
     @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
@@ -66,8 +72,25 @@ public class UserApiImpl implements UserApiDelegate {
     }
 
     @Override
+    public ResponseEntity<InviterListDto> getInviterGroups() {
+        InviterListDto inviterListDto = groupMapper.toInviterListDto(groupService.getInviterGroups());
+        return ResponseEntity.ok(inviterListDto);
+    }
+
+    @Override
+    public ResponseEntity<Void> acceptInviteRequest(InviterDto inviterDto) {
+        groupService.acceptInviteRequest(groupMapper.toInviterGroupModel(inviterDto));
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
     public ResponseEntity<Void> logout() {
         userService.logout();
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<Void> inviteToGroup(InviteDto inviteDto) {
+        groupService.invite(invitedMapper.toInvitedModels(inviteDto));
         return ResponseEntity.ok().build();
     }
 }

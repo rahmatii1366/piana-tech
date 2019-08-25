@@ -29,6 +29,10 @@ import {AgeLevelEffects} from "./store/effects/age-level-effects.service";
 import {GroupEffects} from "./store/effects/group-effects.service";
 import {AdminViewComponent} from "./component/group-components/admin-view/admin-view.component";
 import {AdminEditComponent} from "./component/group-components/admin-edit/admin-edit.component";
+import { InviteComponent } from './component/group-components/invite/invite.component';
+import {InviteEffects} from "./store/effects/invite-effects.service";
+import { InviterComponent } from './component/common-components/inviter/inviter.component';
+import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -45,13 +49,16 @@ import {AdminEditComponent} from "./component/group-components/admin-edit/admin-
     AdminGroupComponent,
     AdminViewComponent,
     AdminEditComponent,
+    InviteComponent,
+    InviterComponent,
   ],
   imports: [
+    BrowserModule,
+    NgbModule,
     LeafletModule.forRoot(),
     Ng2LoadingSpinnerModule.forRoot({
       spinnerColor: 'blue'
     }),
-    BrowserModule,
     ApiModule,
     FormsModule,
     ReactiveFormsModule,
@@ -59,7 +66,8 @@ import {AdminEditComponent} from "./component/group-components/admin-edit/admin-
     EffectsModule.forRoot([
       AuthenticationEffects,
       AgeLevelEffects,
-      GroupEffects
+      GroupEffects,
+      InviteEffects
     ]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
@@ -67,6 +75,7 @@ import {AdminEditComponent} from "./component/group-components/admin-edit/admin-
     AppRoutingModule
   ],
   providers: [
+    NgbActiveModal
   ],
   bootstrap: [AppComponent]
 })

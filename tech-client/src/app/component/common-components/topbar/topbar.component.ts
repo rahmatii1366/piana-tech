@@ -9,6 +9,7 @@ import {AppState} from "../../../store/states/app.state";
   styleUrls: ['./topbar.component.css']
 })
 export class TopbarComponent implements OnInit {
+  showInventers= false;
 
   constructor(private _store: Store<AppState>) { }
 

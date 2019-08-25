@@ -7,6 +7,8 @@ import {VerifyTokenComponent} from "./component/auth-components/verify-token/ver
 import {AuthenticationGuard} from "./guard/authentication/authentication-guard.service";
 import {CreateGroupComponent} from "./component/group-components/create-group/create-group.component";
 import {AdminGroupComponent} from "./component/group-components/admin-group/admin-group.component";
+import {InviteComponent} from "./component/group-components/invite/invite.component";
+import {InviterComponent} from "./component/common-components/inviter/inviter.component";
 
 
 const routes: Routes = [
@@ -15,8 +17,10 @@ const routes: Routes = [
   { path: 'authentication/verify-token', component: VerifyTokenComponent },
   { path: 'signup/info', component: InfoComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'group/create', component: CreateGroupComponent},
-  { path: 'group/admin-view', component: AdminGroupComponent},
+  { path: 'group/create', component: CreateGroupComponent },
+  { path: 'group/admin-view', component: AdminGroupComponent },
+  { path: 'group/invite', component: InviteComponent },
+  { path: 'user/invite', component: InviterComponent },
 ];
 
 @NgModule({

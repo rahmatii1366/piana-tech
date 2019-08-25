@@ -44,7 +44,7 @@ public class TokenService {
         }
         cache.evict(mobile);
         cache.put(mobile, tokenModel);
-        kavenegarService.sendVerificationCode(mobile, tokenModel.getVerificationCode());
+//        kavenegarService.sendVerificationCode(mobile, tokenModel.getVerificationCode());
         throw new TokenRelatedException(tokenModel, "please verify token");
     }
 

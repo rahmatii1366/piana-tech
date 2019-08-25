@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <form *ngIf="inviteForm" [formGroup]="inviteForm" (ngSubmit)="onFormSubmit()">
+    <div class="form-group">
+      <label for="lbl-group-name" class="text-right middle">شماره موبایل</label>
+      <input type="text" class="form-control" id="lbl-group-name"
+             [style.background-color]="inviteForm.get('mobile').invalid ? '#ffc0cd' : '#CFFFA9'"
+             maxlength="11" formControlName="mobile">
+    </div>
+    <button class="btn btn-outline-success btn-block mb-1" type="button"
+            [disabled]="inviteForm.invalid"
+            (click)="onAddMobile()">افزودن شماره</button>
+    <div class="col-12" style="height: 110px; border: solid 1px #b2b2b2; padding: 4px; overflow-y: scroll;">
+      <button class="btn btn-outline-danger" style="margin: 1px;" *ngFor="let l of mobileList">
+        <span class="fa fa-times"></span>{{l}}
+      </button>
+    </div>
+    <button class="btn btn-block btn-outline-success mt-1"
+              [disabled]="mobileList.length==0"
+              type="submit" >ارسال دعوت نامه</button>
+  </form>
+</div>

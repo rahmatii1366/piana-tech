@@ -1,3 +1,11 @@
 .media-object {
   margin-bottom: 6px !important;
 }
+
+.btn-group.special {
+  display: flex;
+}
+
+.special .btn {
+  flex: 1
+}

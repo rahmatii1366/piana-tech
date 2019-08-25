@@ -1,0 +1,79 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">دعوت نامه ها</h4>
+<!--    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">-->
+<!--      <span aria-hidden="true">&times;</span>-->
+<!--    </button>-->
+  </div>
+  <div class="modal-body" *ngIf="inviterList">
+<!--    <div class="container-fluid" *ngFor="let ig of (inviterList$ | async)?.inviters">-->
+    <div class="container-fluid" *ngFor="let ig of inviterList.inviters">
+      <div class="row m-1 p-1" style="border-bottom: 1px solid #68d261">
+        <div class="col-6 align-self-center">
+          {{ig.groupName}}
+        </div>
+        <div class="col-6">
+          <div class="btn-group" id="btn-1">
+            <button class="btn btn-small btn-outline-success" (click)="onAccept(ig)">
+              <span class="fa fa-check"></span>
+            </button>
+            <button class="btn btn-small btn-outline-danger">
+              <span class="fa fa-times" style="color: red;"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">بستن</button>
+  </div>
+</ng-template>
+
+<a class="nav-link" (click)="open(content)"><span class="fa fa-book-open"></span></a>
+
+<!--<button type="button" ngbAutofocus class="btn btn-default"-->
+<!--        (click)="modal.close('Ok click')">نمایش</button>-->
+
+<!--<div class="modal" tabindex="-1" role="dialog" >-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title">Modal title</h5>-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--          <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <div *ngFor="let ig of (inviterList$ | async)?.inviters">-->
+<!--          <a href="#">-->
+<!--            <div class="grid-container fluid">-->
+<!--              <div class="grid-x">-->
+<!--                <div class="small-6 cell">{{ig.groupName}}</div>-->
+<!--                <div class="small-6 cell"><span class="fa fa-like"></span></div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-primary">Save changes</button>-->
+<!--        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<ul class="menu vertical" *ngIf="showInventers" style="width: 400px;">
+  <li *ngFor="let ig of (inviterList$ | async)?.inviters">
+    <a href="#">
+      <div class="grid-container fluid">
+        <div class="grid-x">
+          <div class="small-6 cell">{{ig.groupName}}</div>
+          <div class="small-6 cell"><span class="fa fa-like"></span></div>
+        </div>
+      </div>
+    </a>
+  </li>
+</ul>-->
+

@@ -193,6 +193,65 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
+  '/user/group/invite':
+    post:
+      tags:
+        - user
+      summary: invite to group
+      operationId: inviteToGroup
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: inviteDto
+          required: true
+          schema:
+            $ref: '#/definitions/InviteDto'
+      responses:
+        '200':
+          description: Successful operation.
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/user/group/inviters':
+    get:
+      tags:
+        - user
+      summary: get list of invited groups
+      operationId: getInviterGroups
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/InviterListDto'
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
+  '/user/group/inviter/accept':
+    post:
+      tags:
+        - user
+      summary: accept invite request from group
+      operationId: acceptInviteRequest
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: inviteDto
+          required: true
+          schema:
+            $ref: '#/definitions/InviterDto'
+      responses:
+        '200':
+          description: Successful operation.
+        '500':
+          description: Error occurred during execution of request.
+          schema:
+            $ref: '#/definitions/ErrorDto'
   '/guest/group/age-level':
     get:
       tags:
@@ -370,3 +429,27 @@ definitions:
         format: double
       ageLevel:
         $ref: '#/definitions/AgeLevelDto'
+  InviteDto:
+    type: object
+    properties:
+      mobiles:
+        type: array
+        items:
+          type: string
+  InviterDto:
+    type: object
+    properties:
+      groupId:
+        type: integer
+        format: int64
+      groupName:
+        type: string
+      isSeen:
+        type: boolean
+  InviterListDto:
+    type: object
+    properties:
+      inviters:
+        type: array
+        items:
+          $ref: '#/definitions/InviterDto'

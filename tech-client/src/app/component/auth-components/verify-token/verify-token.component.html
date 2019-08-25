@@ -1,28 +1,22 @@
-<p>{{(tokenRequiredDto$ | async)?.tokenType}}</p>
-<p>{{(tokenRequiredDto$ | async)?.tokenAction}}</p>
-<p>{{(tokenRequiredDto$ | async)?.message}}</p>
-<p>{{(me$ | async)?.email}}</p>
-<p>{{(me$ | async)?.role}}</p>
-<p>{{(me$ | async)?.rule}}</p>
-<div class="grid-container fluid">
-  <div class="grid-x grid-margin-x align-center-middle" id="verify">
-    <div class="grid-container">
-      <div class="grid-x collapse expanded">
-        <div class="small-12 medium-12 cell small-order-2 medium-order-1">
-          <div class="cell medium-12 text-center login-box-title grid-padding-y">لطفا کد شش رقمی را وارد کنید</div>
+<!--<p>{{(tokenRequiredDto$ | async)?.tokenType}}</p>-->
+<!--<p>{{(tokenRequiredDto$ | async)?.tokenAction}}</p>-->
+<!--<p>{{(tokenRequiredDto$ | async)?.message}}</p>-->
+<!--<p>{{(me$ | async)?.email}}</p>-->
+<!--<p>{{(me$ | async)?.role}}</p>-->
+<!--<p>{{(me$ | async)?.rule}}</p>-->
+<div class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center no-gutters" id="verify">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-12 order-2 order-sm-2 order-md-1">
           <form [formGroup]="verifyForm" (ngSubmit)="onFormSubmit()">
-            <div class="grid-y" style="height: 80px;">
-              <div class="cell small-4 medium-4">
-                <input id="lbl-code" formControlName="code"
-                       type="text">
-              </div>
+            <div class="form-group" style="height: 80px;">
+              <label for="lbl-code">کد 6 رقمی</label>
+              <input id="lbl-code" class="form-control" formControlName="code"
+                     type="text">
             </div>
-            <div class="grid-x">
-              <div class="cell">
-                <button type="submit" class="button expanded success login-control-title"
-                        type="submit" [disabled]="verifyForm.invalid">تایید</button>
-              </div>
-            </div>
+            <button type="submit" class="btn btn-block btn-outline-success"
+                    type="submit" [disabled]="verifyForm.invalid">تایید</button>
           </form>
         </div>
       </div>

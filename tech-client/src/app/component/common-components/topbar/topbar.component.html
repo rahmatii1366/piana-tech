@@ -1,17 +1,57 @@
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="menu">
-      <li class="menu-text">اتحادیه فوتبال آزاد</li>
-      <li><a (click)="onExitClick()">خروج</a></li>
-      <li><a routerLink="/authentication">احراز هویت</a></li>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <a class="navbar-brand" href="#">اتحادیه فوتبال آزاد</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" (click)="onExitClick()">خروج</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/authentication">احراز هویت</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/group/create">ثبت گروه</a></li>
+      <li class="nav-item"><app-inviter></app-inviter></li>
     </ul>
   </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-      <li><a routerLink="/group/create">ثبت گروه</a></li>
-      <li><a href="#">Four</a></li>
-      <li><a href="#">Five</a></li>
-      <li><a href="#">Six</a></li>
-    </ul>
-  </div>
-</div>
+</nav>
+
+    <!--<div class="top-bar" id="responsive-menu">-->
+<!--  <div class="top-bar-left">-->
+<!--    <ul class="dropdown menu">-->
+<!--      <li class="menu-text">اتحادیه فوتبال آزاد</li>-->
+<!--      <li><a (click)="onExitClick()">خروج</a></li>-->
+<!--      <li><a routerLink="/authentication">احراز هویت</a></li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--  <div class="top-bar-right">-->
+<!--    <ul class="dropdown menu" data-dropdown-menu>-->
+<!--      <li>-->
+<!--        <a routerLink="/group/create">ثبت گروه</a>-->
+<!--      </li>-->
+<!--      <li>-->
+<!--        <app-inviter></app-inviter>-->
+<!--      </li>-->
+<!--      <li><a href="#">Five</a></li>-->
+<!--      <li><a href="#">Six</a></li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--</div>-->

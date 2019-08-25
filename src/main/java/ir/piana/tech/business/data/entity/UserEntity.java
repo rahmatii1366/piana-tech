@@ -3,11 +3,16 @@ package ir.piana.tech.business.data.entity;
 import ir.piana.tech.business.enums.GenderType;
 import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
@@ -17,36 +22,52 @@ import java.util.List;
 @Table(name = "users")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String username;
+
     @Column
     private String mobile;
+
     @Column
     private String email;
+
     @Column
     private String password;
+
     @Column(name = "mobile_verified")
     private Boolean mobileVerified;
+
     @Column(name = "email_verified")
     private Boolean emailVerified;
+
     @Column
     @Enumerated(EnumType.STRING)
     private GenderType gender;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private RoleType roleType;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "rule_name")
     private RuleType ruleType;
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<GroupEntity> groupEntities;
 
-    public UserEntity() {
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "membership",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupEntity> groups;
 
     public UserEntity(String mobile) {
         this.mobile = mobile;
@@ -69,6 +90,13 @@ public class UserEntity extends BaseEntity {
         this.roleType = roleType;
         this.ruleType = ruleType;
         this.groupEntities = groupEntities;
+    }
+
+    public void addGroupEntity(GroupEntity groupEntity) {
+        if (this.groups == null)
+            this.groups = new HashSet<>();
+        groupEntity.addMember(this);
+        this.groups.add(groupEntity);
     }
 
     @Override

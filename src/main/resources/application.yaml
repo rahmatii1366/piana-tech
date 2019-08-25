@@ -43,6 +43,10 @@ spring:
           starttls.enable: true
   mvc:
     static-path-pattern: /**
+#  data:
+#    elasticsearch:
+#      cluster-nodes: https://site:d15a13df4893932ccdbf8f6693b8211b@gloin-eu-west-1.searchly.com
+#      cluster-name: digi-football
 # Logging settings
 logging:
   pattern:

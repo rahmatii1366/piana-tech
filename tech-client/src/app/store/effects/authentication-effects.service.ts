@@ -3,7 +3,6 @@ import {Actions, Effect, ofType} from "@ngrx/effects";
 import {AppState} from "../states/app.state";
 import {Store} from "@ngrx/store";
 import * as authenticationActions from "../actions/authentication.action";
-import * as waitActions from "../actions/wait.action";
 import {
   AuthenticationActionEnum,
   ForgetPasswordNavigateAction,
@@ -17,13 +16,14 @@ import {
   VerifyTokenNavigateAction,
   VerifyTokenRequestAction
 } from "../actions/authentication.action";
+import * as waitActions from "../actions/wait.action";
+import {WaitRequestAction} from "../actions/wait.action";
 
-import {GuestService} from "../../api/web-console/services/guest.service";
+import {GuestAuthenticationService} from "../../api/web-console/services/guest-authentication.service";
 import {catchError, map, switchMap, withLatestFrom} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {Router} from "@angular/router";
-import {UserService} from "../../api/web-console/services/user.service";
-import {WaitExitAction, WaitRequestAction} from "../actions/wait.action";
+import {UserAuthenticationService} from "../../api/web-console/services/user-authentication.service";
 
 @Injectable()
 export class AuthenticationEffects {
@@ -31,8 +31,8 @@ export class AuthenticationEffects {
     private router: Router,
     private _actions$: Actions,
     private _store: Store<AppState>,
-    private guestService: GuestService,
-    private userService: UserService
+    private guestService: GuestAuthenticationService,
+    private userService: UserAuthenticationService
   ) {}
 
   @Effect()

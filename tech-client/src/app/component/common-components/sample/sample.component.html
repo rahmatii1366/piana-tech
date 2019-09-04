@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row" >
+    <div class="col-12 col-sm-12 col-md-6">
+      <div class="container-fluid">
+        <div class="row no-gutters">
+          <div class="col-sm-12 col-md-12 col-large-12 order-sm-2 order-md-1">
+            <div class="container-fluid">
+              <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+                <div class="form-group">
+                  <label for="lbl-mobile" class="text-right login-control-title">
+                    <i class="fa fa-asterisk" style="color: #ff0000;"></i> موبایل
+                  </label>
+                  <input id="lbl-mobile" formControlName="mobile" class="form-control"
+                         [style.background-color]="loginForm.get('mobile').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         type="text" name="mobile"/>
+                </div>
+                <div class="form-group">
+                  <label for="lbl-password" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذرواژه</label>
+                  <input id="lbl-password" class="form-control" formControlName="password"
+                         [style.background-color]="loginForm.get('password').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         type="password" name="password" />
+                </div>
+                <button class="btn btn-block btn-outline-success" type="submit"
+                        [disabled]="loginForm.invalid">ورود</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6">
+      <div class="container-fluid">
+        <!-- <p>{{(me$ | async)?.email}}</p>-->
+        <!-- <p>{{(me$ | async)?.role}}</p>-->
+        <!-- <p>{{(me$ | async)?.rule}}</p>-->
+        <div class="row no-gutters">
+          <div class="col-sm-12 col-md-12 col-lg-12 order-sm-2 order-md-1">
+            <div class="container-fluid">
+              <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
+                <div class="form-group">
+                  <label for="lbl-username" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> نام کاربری</label>
+                  <input id="lbl-username" formControlName="username" class="form-control"
+                         [style.background-color]="userForm.get('username').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         type="text" name="username"/>
+                </div>
+                <div class="form-group">
+                  <label for="lbl-mobile" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> موبایل</label>
+                  <input id="lbl-mobile" formControlName="mobile" class="form-control"
+                         [style.background-color]="userForm.get('mobile').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         type="text" name="mobile"/>
+                </div>
+                <div class="form-group">
+                  <label for="lbl-password" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> گذرواژه</label>
+                  <input id="lbl-password" formControlName="password" class="form-control"
+                         [style.background-color]="userForm.get('password').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         type="password" name="password" />
+                </div>
+                <div class="form-group">
+                  <label for="lbl-confirm" class="text-right login-control-title"><i class="fa fa-asterisk" style="color: #ff0000;"></i> تکرار گذرواژه</label>
+                  <input id="lbl-confirm" class="form-control"
+                         [style.background-color]="userForm.get('confirmPassword').invalid ? '#ffc0cd' : '#CFFFA9'"
+                         formControlName="confirmPassword" type="password" name="password2" />
+                </div>
+                <button class="btn btn-block btn-outline-success" type="submit"
+                        [disabled]="userForm.invalid">ثبت نام</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

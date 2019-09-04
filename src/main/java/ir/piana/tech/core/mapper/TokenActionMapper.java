@@ -1,6 +1,6 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.TokenActionEnum;
+import ir.piana.pianatech.server.api.dto.TokenActionEnum;
 import ir.piana.tech.core.enums.TokenAction;
 import org.mapstruct.Mapper;
 

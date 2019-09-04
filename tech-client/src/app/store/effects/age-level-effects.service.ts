@@ -4,11 +4,11 @@ import {AppState} from "../states/app.state";
 import {Store} from "@ngrx/store";
 import * as ageLevelsActions from "../actions/age-level.action";
 import {AgeLevelActionEnum, AgeLevelRequestAction} from "../actions/age-level.action";
-import {GuestService} from "../../api/web-console/services/guest.service";
+import {GuestGroupService} from "../../api/web-console/services/guest-group.service";
 import {catchError, map, switchMap, withLatestFrom} from "rxjs/operators";
 import {of} from "rxjs";
 import {Router} from "@angular/router";
-import {UserService} from "../../api/web-console/services/user.service";
+import {UserGroupService} from "../../api/web-console/services/user-group.service";
 import {WaitExitAction, WaitRequestAction} from "../actions/wait.action";
 
 @Injectable()
@@ -17,8 +17,8 @@ export class AgeLevelEffects {
     private router: Router,
     private _actions$: Actions,
     private _store: Store<AppState>,
-    private guestService: GuestService,
-    private userService: UserService
+    private guestService: GuestGroupService,
+    private userService: UserGroupService
   ) {}
 
   @Effect()

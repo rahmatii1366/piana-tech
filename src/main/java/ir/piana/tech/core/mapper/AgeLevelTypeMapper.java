@@ -1,9 +1,7 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.AgeLevelEnum;
-import ir.piana.tech.api.dto.TokenTypeEnum;
+import ir.piana.pianatech.server.api.dto.AgeLevelEnum;
 import ir.piana.tech.core.enums.AgeLevelType;
-import ir.piana.tech.core.enums.TokenType;
 import org.mapstruct.Mapper;
 
 /**

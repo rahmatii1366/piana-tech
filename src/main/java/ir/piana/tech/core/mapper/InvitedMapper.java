@@ -1,6 +1,6 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.InviteDto;
+import ir.piana.pianatech.server.api.dto.InviteDto;
 import ir.piana.tech.core.model.InvitedUserModel;
 import org.mapstruct.Mapper;
 

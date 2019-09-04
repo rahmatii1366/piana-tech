@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../store/states/app.state";
 import {LoginRequestAction} from "../../../store/actions/authentication.action";
+import {RootContainerService} from "../../../services/root-container/root-container.service";
 
 @Component({
   selector: 'app-login',
@@ -20,11 +21,19 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]),
   });
 
-  constructor(private _store: Store<AppState>) { }
+  constructor(private _store: Store<AppState>,
+              private rootContainerService: RootContainerService) { }
 
   ngOnInit() {
     this.loginForm.controls['mobile'].setValue('09128855402', {onlySelf: true});
     this.loginForm.controls['password'].setValue('123456', {onlySelf: true});
+  }
+
+  ngAfterViewInit() {
+    // console.log("view init login")
+    // console.log("app component init")
+    // console.log(this.topbarView)
+    // this.rootContainerService.changeInComponents();
   }
 
   onFormSubmit() {

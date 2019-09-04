@@ -1,8 +1,6 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.MeDto;
-import ir.piana.tech.api.dto.RoleEnum;
-import ir.piana.tech.core.enums.RoleType;
+import ir.piana.pianatech.server.api.dto.MeDto;
 import ir.piana.tech.core.model.MeModel;
 import org.mapstruct.Mapper;
 

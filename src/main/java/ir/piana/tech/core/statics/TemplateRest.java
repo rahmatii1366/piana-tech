@@ -1,12 +1,9 @@
 package ir.piana.tech.core.statics;
 
-import ir.piana.tech.api.dto.SignupDto;
-import org.springframework.stereotype.Controller;
+import ir.piana.pianatech.server.api.dto.SignupDto;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)

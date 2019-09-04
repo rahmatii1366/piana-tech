@@ -1,18 +1,11 @@
 package ir.piana.tech.core.secuity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import ir.piana.tech.api.dto.ErrorDto;
-import ir.piana.tech.core.config.PianaConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
+import ir.piana.pianatech.server.api.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

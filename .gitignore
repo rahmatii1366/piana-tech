@@ -28,6 +28,7 @@ out/
 /nbproject/private/
 /nbbuild/
 /dist/
+/src/main/resources/public/**
 /nbdist/
 /.nb-gradle/
 

@@ -1,6 +1,9 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.*;
+import ir.piana.pianatech.server.api.dto.AgeLevelDto;
+import ir.piana.pianatech.server.api.dto.GroupDto;
+import ir.piana.pianatech.server.api.dto.InviterDto;
+import ir.piana.pianatech.server.api.dto.InviterListDto;
 import ir.piana.tech.business.data.entity.GroupEntity;
 import ir.piana.tech.core.enums.AgeLevelType;
 import ir.piana.tech.core.model.InviterGroupModel;

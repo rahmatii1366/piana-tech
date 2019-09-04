@@ -37,10 +37,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/signup':
+  '/guest-authentication/signup':
     post:
       tags:
-        - guest
+        - guest-authentication
       summary: signup by mobile
       operationId: signup
       consumes:
@@ -62,10 +62,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/login':
+  '/guest-authentication/login':
     post:
       tags:
-        - guest
+        - guest-authentication
       summary: login by mobile
       operationId: login
       consumes:
@@ -87,10 +87,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/forget-password':
+  '/guest-authentication/forget-password':
     post:
       tags:
-        - guest
+        - guest-authentication
       summary: remember password by mobile
       operationId: forgetPassword
       produces:
@@ -112,10 +112,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/verify-token':
+  '/guest-authentication/verify-token':
     post:
       tags:
-        - guest
+        - guest-authentication
       summary: verify mobile number
       operationId: verifyToken
       produces:
@@ -137,10 +137,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/logout':
+  '/user-authentication/logout':
     post:
       tags:
-        - user
+        - user-authentication
       summary: logout by mobile
       operationId: logout
       produces:
@@ -152,10 +152,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/group':
+  '/user-group/group':
     post:
       tags:
-        - user
+        - user-group
       summary: create a group
       operationId: createGroup
       consumes:
@@ -179,7 +179,7 @@ paths:
             $ref: '#/definitions/ErrorDto'
     get:
       tags:
-        - user
+        - user-group
       summary: get group
       operationId: getGroup
       produces:
@@ -193,10 +193,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/group/invite':
+  '/user-group/group/invite':
     post:
       tags:
-        - user
+        - user-group
       summary: invite to group
       operationId: inviteToGroup
       consumes:
@@ -214,10 +214,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/group/inviters':
+  '/user-group/group/inviters':
     get:
       tags:
-        - user
+        - user-group
       summary: get list of invited groups
       operationId: getInviterGroups
       produces:
@@ -231,10 +231,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/user/group/inviter/accept':
+  '/user-group/group/inviter/accept':
     post:
       tags:
-        - user
+        - user-group
       summary: accept invite request from group
       operationId: acceptInviteRequest
       consumes:
@@ -252,10 +252,10 @@ paths:
           description: Error occurred during execution of request.
           schema:
             $ref: '#/definitions/ErrorDto'
-  '/guest/group/age-level':
+  '/guest-group/group/age-level':
     get:
       tags:
-        - guest
+        - guest-group
       summary: get group age levels
       operationId: getAgeLevels
       produces:

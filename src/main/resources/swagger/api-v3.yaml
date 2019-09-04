@@ -1,0 +1,479 @@
+openapi: 3.0.1
+info:
+  title: Piana Tech Web Console
+  description: This is a swagger config for Piana Tech Web Console
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080/
+paths:
+  /sample:
+    get:
+      tags:
+        - sample
+      summary: return a sample related to given id
+      operationId: getSample
+      parameters:
+        - name: user-id
+          in: header
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SampleDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /sample/one:
+    get:
+      tags:
+        - sample
+      summary: return a sample related to given id
+      operationId: getSampleOne
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/SampleDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-authentication/signup:
+    post:
+      tags:
+        - guest-authentication
+      summary: signup by mobile
+      operationId: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRequiredDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-authentication/login:
+    post:
+      tags:
+        - guest-authentication
+      summary: login by mobile
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-authentication/forget-password:
+    post:
+      tags:
+        - guest-authentication
+      summary: remember password by mobile
+      operationId: forgetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgetPasswordDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRequiredDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-authentication/verify-token:
+    post:
+      tags:
+        - guest-authentication
+      summary: verify mobile number
+      operationId: verifyToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyTokenDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-authentication/logout:
+    post:
+      tags:
+        - user-authentication
+      summary: logout by mobile
+      operationId: logout
+      responses:
+        200:
+          description: Successful operation.
+          content: {}
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/group:
+    get:
+      tags:
+        - user-group
+      summary: get group
+      operationId: getGroup
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    post:
+      tags:
+        - user-group
+      summary: create a group
+      operationId: createGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/group/invite:
+    post:
+      tags:
+        - user-group
+      summary: invite to group
+      operationId: inviteToGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content: {}
+        500:
+          description: Error occurred during execution of request.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/group/inviters:
+    get:
+      tags:
+        - user-group
+      summary: get list of invited groups
+      operationId: getInviterGroups
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviterListDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/group/inviter/accept:
+    post:
+      tags:
+        - user-group
+      summary: accept invite request from group
+      operationId: acceptInviteRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviterDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content: {}
+        500:
+          description: Error occurred during execution of request.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-group/group/age-level:
+    get:
+      tags:
+        - guest-group
+      summary: get group age levels
+      operationId: getAgeLevels
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllAgeLevelsDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+components:
+  schemas:
+    TokenRequiredDto:
+      type: object
+      properties:
+        message:
+          type: string
+        tokenType:
+          $ref: '#/components/schemas/TokenTypeEnum'
+        tokenAction:
+          $ref: '#/components/schemas/TokenActionEnum'
+    SignupDto:
+      type: object
+      properties:
+        username:
+          type: string
+        mobile:
+          type: string
+        password:
+          type: string
+    InviterListDto:
+      type: object
+      properties:
+        inviters:
+          type: array
+          items:
+            $ref: '#/components/schemas/InviterDto'
+    TokenActionEnum:
+      type: string
+      enum:
+        - SIGNUP
+        - FORGET_PASSWORD
+    ErrorDto:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        status:
+          type: string
+        error:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+    RuleEnum:
+      type: string
+      enum:
+        - FREE
+        - REGISTER_EMAIL
+        - VERIFY_EMAIL
+        - REGISTER_MOBILE
+        - VERIFY_MOBILE
+    GroupDto:
+      type: object
+      properties:
+        name:
+          type: string
+        adminName:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ageLevel:
+          $ref: '#/components/schemas/AgeLevelDto'
+    MeDto:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        rule:
+          $ref: '#/components/schemas/RuleEnum'
+    AgeLevelEnum:
+      type: string
+      enum:
+        - FREE
+        - LESS_THAN_5
+        - LESS_THAN_10
+        - LESS_THAN_15
+        - LESS_THAN_20
+        - LESS_THAN_30
+        - LESS_THAN_40
+        - LESS_THAN_50
+        - LESS_THAN_60
+        - GREATER_THAN_60
+    MessageDto:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+        path:
+          type: string
+    AgeLevelDto:
+      type: object
+      properties:
+        title:
+          type: string
+        value:
+          type: string
+    TokenTypeEnum:
+      type: string
+      enum:
+        - MOBILE
+        - PASSWORD
+        - EMAIL
+    InviteDto:
+      type: object
+      properties:
+        mobiles:
+          type: array
+          items:
+            type: string
+    RoleEnum:
+      type: string
+      enum:
+        - UNKNOWN
+        - GUEST
+        - USER
+        - VERIFIED_MOBILE
+        - VERIFIED
+        - SUSPENDED
+        - ADMIN
+    VerifyTokenDto:
+      type: object
+      properties:
+        code:
+          type: string
+        tokenType:
+          $ref: '#/components/schemas/TokenTypeEnum'
+        tokenAction:
+          $ref: '#/components/schemas/TokenActionEnum'
+    LoginDto:
+      type: object
+      properties:
+        mobile:
+          type: string
+        password:
+          type: string
+    SampleDto:
+      title: SampleDto
+      type: object
+      properties:
+        name:
+          type: string
+          example: Ali
+        message:
+          type: string
+          example: Hi
+    ForgetPasswordDto:
+      type: object
+      properties:
+        mobile:
+          type: string
+        newPassword:
+          type: string
+    InviterDto:
+      type: object
+      properties:
+        groupId:
+          type: integer
+          format: int64
+        groupName:
+          type: string
+        isSeen:
+          type: boolean
+    AllAgeLevelsDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/AgeLevelDto'

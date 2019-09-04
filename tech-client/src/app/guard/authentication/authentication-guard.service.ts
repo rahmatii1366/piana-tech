@@ -17,14 +17,15 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new Observable((observer) => {
       this.me$.subscribe(me => {
-        console.log("me");
-        console.log(me);
+        // console.log("me");
+        // console.log(me);
         if(me == null) {
-          console.log("me is null");
+          // console.log("me is null");
           observer.next(true);
         } else {
-          console.log("role is user")
-          observer.next(me.role != RoleEnum.USER)
+          // console.log("role is user")
+          // observer.next(me.role != RoleEnum.USER)
+          observer.next(false);
         }
       });
     });

@@ -29,10 +29,13 @@ import {AgeLevelEffects} from "./store/effects/age-level-effects.service";
 import {GroupEffects} from "./store/effects/group-effects.service";
 import {AdminViewComponent} from "./component/group-components/admin-view/admin-view.component";
 import {AdminEditComponent} from "./component/group-components/admin-edit/admin-edit.component";
-import { InviteComponent } from './component/group-components/invite/invite.component';
+import {InviteComponent} from './component/group-components/invite/invite.component';
 import {InviteEffects} from "./store/effects/invite-effects.service";
-import { InviterComponent } from './component/common-components/inviter/inviter.component';
+import {InviterComponent} from './component/common-components/inviter/inviter.component';
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {SampleComponent} from './component/common-components/sample/sample.component';
+import {PianaWindowRefService} from "./services/window-ref/window-ref.service";
+import {RootContainerService} from "./services/root-container/root-container.service";
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
     AdminEditComponent,
     InviteComponent,
     InviterComponent,
+    SampleComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,9 @@ import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
     AppRoutingModule
   ],
   providers: [
-    NgbActiveModal
+    NgbActiveModal,
+    PianaWindowRefService,
+    RootContainerService,
   ],
   bootstrap: [AppComponent]
 })

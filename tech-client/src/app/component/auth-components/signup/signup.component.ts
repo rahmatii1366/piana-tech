@@ -4,6 +4,7 @@ import {select, Store} from "@ngrx/store";
 import {AuthenticationActions, SignupRequestAction} from "../../../store/actions/authentication.action";
 import {selectMeDto} from "../../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {RootContainerService} from "../../../services/root-container/root-container.service";
 
 @Component({
   selector: 'app-signup',
@@ -26,11 +27,18 @@ export class SignupComponent implements OnInit {
     confirmPassword: new FormControl('',[Validators.required, Validators.minLength(6), Validators.maxLength(8)])
   });
 
-  constructor(private _store: Store<AppState>) {
+  constructor(private _store: Store<AppState>,
+              private rootContainerService: RootContainerService) {
     // this.userForm.setValidators(this.checkPasswords());
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    // console.log("view init signup")
+    // console.log(this.topbarView)
+    // this.rootContainerService.changeInComponents();
   }
 
   // checkPasswords() : ValidatorFn{ // here we have the 'passwords' group

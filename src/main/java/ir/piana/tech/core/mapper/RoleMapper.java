@@ -1,10 +1,8 @@
 package ir.piana.tech.core.mapper;
 
-import ir.piana.tech.api.dto.RoleEnum;
+import ir.piana.pianatech.server.api.dto.RoleEnum;
 import ir.piana.tech.core.enums.RoleType;
 import org.mapstruct.Mapper;
-import org.mapstruct.ValueMapping;
-import org.mapstruct.ValueMappings;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)

@@ -14,6 +14,8 @@ buildscript {
 		set('rsqlQueryDslVersion', '2.0.0.RELEASE')
 		set('sonarqubeVersion', '2.6.2')
 		set('hazelcastVersion', '3.12.1')
+		set('openapiPluginVersion', "4.1.1")
+		set('openapiGeneratorVersion', "4.1.1")
 	}
 	repositories {
 		mavenLocal()
@@ -23,13 +25,16 @@ buildscript {
 	}
 	dependencies{
 		classpath "gradle.plugin.com.mageddo:gradle-embed-maven-repo:1.0.7" // from gradle repository
+		classpath "org.openapitools:openapi-generator-gradle-plugin:${openapiPluginVersion}"
 	}
 }
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.1.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id 'org.hidetake.swagger.generator' version '2.15.0'
+//	id 'org.hidetake.swagger.generator' version '2.15.0'
+	id "org.openapi.generator" version "4.1.1"
 }
 
 group = 'ir.piana.tech'
@@ -77,6 +82,10 @@ dependencies {
 	compile "com.hazelcast:hazelcast:${hazelcastVersion}"
 	compile "com.hazelcast:hazelcast-spring:${hazelcastVersion}"
 
+	compile "org.openapitools:openapi-generator:${openapiGeneratorVersion}"
+	compile group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.0'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
 	compile 'com.auth0:java-jwt:3.8.1'
 	compile 'org.projectlombok:lombok'
 	compile 'mysql:mysql-connector-java'
@@ -93,15 +102,15 @@ dependencies {
 	testCompile 'org.springframework.security:spring-security-test'
 	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
 
-	compile('io.swagger:swagger-codegen:2.4.1') {
-		exclude group: 'org.slf4j'
-		exclude group: 'com.google.code.gson'
-	}
+//	compile('io.swagger:swagger-codegen:2.4.1') {
+//		exclude group: 'org.slf4j'
+//		exclude group: 'com.google.code.gson'
+//	}
 
-	swaggerCodegen('io.swagger:swagger-codegen-cli:2.4.1') {
-		exclude group: 'ch.qos.logback'
-		exclude group: 'org.slf4j'
-	}
+//	swaggerCodegen('io.swagger:swagger-codegen-cli:2.4.1') {
+//		exclude group: 'ch.qos.logback'
+//		exclude group: 'org.slf4j'
+//	}
 
 	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
 	annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
@@ -110,32 +119,6 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
-
-swaggerSources {
-	server {
-		inputFile = file("${rootDir}/src/main/resources/swagger/api.yaml")
-		code {
-			language = "spring"
-			components = ["models", "apis"]
-			outputDir = file("${buildDir}/generated/swagger/server")
-			additionalProperties = [
-					"library"          : "spring-boot",
-					"useOptional"      : "true",
-					"useBeanValidation": "true",
-					"serializableModel": "true",
-					"delegatePattern"  : "true",
-					"java8"            : "false",
-					"dateLibrary"      : "java8",
-					"apiPackage"       : "ir.piana.tech.api.service",
-					"modelPackage"     : "ir.piana.tech.api.dto",
-			]
-		}
-
-		compileJava.dependsOn swaggerSources.server.code
-		sourceSets.main.java.srcDir "${swaggerSources.server.code.outputDir}/src/main/java"
-		sourceSets.main.resources.srcDir "${swaggerSources.server.code.outputDir}/src/main/resources"
 	}
 }
 
@@ -157,14 +140,45 @@ task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates
 
 sourceSets.main.java.srcDir "${buildDir}/generated/querydsl/"
 
-generateQueryDSL.dependsOn {
-	tasks.findAll { task -> task.name.startsWith('generateSwaggerCode') }
+//
+//    generate open api server
+//
+def packageName = toPackageName(project.name)
+task "${packageName}Server"(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+	generatorName = 'spring'
+	inputSpec = "$rootDir/src/main/resources/swagger/api-v3.yaml".toString()
+	outputDir = "$buildDir/generated/swagger/server".toString()
+	//	templateDir = "${rootProject.projectDir}/common/src/main/resources/swagger/common/template/JavaVertXServer".toString()
+	configOptions = [
+			java8: 'true',
+			dateLibrary: 'java8',
+			booleanGetterPrefix: 'is',
+			basePackage: "ir.piana.${packageName}".toString(),
+			configPackage: "ir.piana.${packageName}.server.api.config".toString(),
+			apiPackage: "ir.piana.${packageName}.server.api.service".toString(),
+			modelPackage: "ir.piana.${packageName}.server.api.dto".toString(),
+	]
 }
+sourceSets.main.java.srcDir "$buildDir/generated/swagger/server/src/main/java"
+sourceSets.main.resources.srcDir "$buildDir/generated/swagger/server/src/main/resources"
+
+task copyOpenapiIgnor(type: Copy) {
+	from 'openapi-ignore/.'
+	into 'build/generated/swagger/server'
+}
+
+tasks.findAll {
+	task -> task.name.endsWith('Server')
+}.each { task ->
+	task.dependsOn(copyOpenapiIgnor)
+}
+
+generateQueryDSL.dependsOn "${packageName}Server"
 
 compileJava {
 	dependsOn generateQueryDSL
 }
 
-task createMirror(type: RepoBuilder){
-	mavenRepoFolder = file("${rootDir}/maven")
+static def toPackageName(String value) {
+	return value.toLowerCase().replaceAll("_", "").replaceAll("-", "")
 }

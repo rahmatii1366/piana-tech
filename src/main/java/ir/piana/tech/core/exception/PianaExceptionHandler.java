@@ -1,7 +1,8 @@
 package ir.piana.tech.core.exception;
 
-import ir.piana.tech.api.dto.ErrorDto;
-import ir.piana.tech.api.dto.TokenRequiredDto;
+
+import ir.piana.pianatech.server.api.dto.ErrorDto;
+import ir.piana.pianatech.server.api.dto.TokenRequiredDto;
 import ir.piana.tech.core.mapper.TokenActionMapper;
 import ir.piana.tech.core.mapper.TokenTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;

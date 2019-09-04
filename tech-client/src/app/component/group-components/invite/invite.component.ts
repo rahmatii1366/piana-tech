@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {UserService} from "../../../api/web-console/services/user.service";
+import {UserGroupService} from "../../../api/web-console/services/user-group.service";
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../store/states/app.state";
@@ -19,7 +18,7 @@ export class InviteComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private _store: Store<AppState>,
-              private userService: UserService) { }
+              private userService: UserGroupService) { }
 
   ngOnInit() {
     this.inviteForm = this.fb.group({

@@ -9,8 +9,8 @@ email=z1@gmail.com&password=1234
 GET http://localhost:8080/api/static/index
 
 ###
-GET http://localhost:8080/api/sample
-cookie: JSESSIONID=055397BFAC952FF3522D570481C2D81D
+GET http://localhost:8080/sample
+user-id: 1
 
 ###
 GET http://localhost:8080/api/sample/one

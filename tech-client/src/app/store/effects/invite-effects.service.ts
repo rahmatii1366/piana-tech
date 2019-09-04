@@ -6,8 +6,8 @@ import * as inviteActions from "../actions/invite.action";
 import {InviteAcceptRequestAction, InviteActionEnum, InvitersRequestAction} from "../actions/invite.action";
 import * as waitActions from "../actions/wait.action";
 import {WaitRequestAction} from "../actions/wait.action";
-import {GuestService} from "../../api/web-console/services/guest.service";
-import {UserService} from "../../api/web-console/services/user.service";
+import {GuestAuthenticationService} from "../../api/web-console/services/guest-authentication.service";
+import {UserGroupService} from "../../api/web-console/services/user-group.service";
 import {catchError, map, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {Router} from "@angular/router";
@@ -18,8 +18,8 @@ export class InviteEffects {
     private router: Router,
     private _actions$: Actions,
     private _store: Store<AppState>,
-    private guestService: GuestService,
-    private userService: UserService
+    private guestService: GuestAuthenticationService,
+    private userService: UserGroupService
   ) {}
 
   @Effect()

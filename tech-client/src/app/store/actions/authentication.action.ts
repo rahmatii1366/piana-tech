@@ -9,6 +9,10 @@ import {TokenRequiredDto} from "../../api/web-console/models/token-required-dto"
 // import {MobileLoginDto} from "../../api/web-console/models/mobile-login-dto";
 
 export enum AuthenticationActionEnum {
+  HOWME_REQUEST = '[AUTHENTICATION] how me request',
+  HOWME_SUCCESS = '[AUTHENTICATION] how me success',
+  HOWME_ERROR = '[AUTHENTICATION] how me error',
+  HOWME_ERROR_NAVIGATE = '[AUTHENTICATION] how me error navigate',
   SIGNUP_REQUEST = '[AUTHENTICATION] signup request',
   SIGNUP_NAVIGATE = '[AUTHENTICATION] signup navigate',
   SIGNUP_SUCCESS = '[AUTHENTICATION] signup success',
@@ -31,6 +35,36 @@ export enum AuthenticationActionEnum {
   LOGOUT_ERROR = '[AUTHENTICATION] logout error'
 }
 
+/**
+ * MOBILE Actions
+ */
+export class HowMeRequestAction implements Action {
+  readonly type = AuthenticationActionEnum.HOWME_REQUEST;
+
+  constructor() {
+  }
+}
+
+export class HowMeSuccessAction implements Action {
+  readonly type = AuthenticationActionEnum.HOWME_SUCCESS;
+
+  constructor(public payload: MeDto) {
+  }
+}
+
+export class HowMeErrorNavigateAction implements Action {
+  readonly type = AuthenticationActionEnum.HOWME_ERROR_NAVIGATE;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class HowMeErrorAction implements Action {
+  readonly type = AuthenticationActionEnum.HOWME_ERROR;
+
+  constructor(public payload: any) {
+  }
+}
 /**
  * MOBILE Actions
  */
@@ -175,6 +209,11 @@ export class LogoutErrorAction implements Action {
 }
 
 export type AuthenticationActions = SignupRequestAction |
+  HowMeRequestAction |
+  HowMeSuccessAction |
+  HowMeErrorAction |
+  HowMeErrorNavigateAction |
+  SignupRequestAction |
   SignupSuccessAction |
   SignupErrorAction |
   SignupNavigateAction |

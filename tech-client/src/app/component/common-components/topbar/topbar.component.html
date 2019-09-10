@@ -1,28 +1,19 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light mb-5" style="background-color: #39853c !important;">
-<!--  <a class="navbar-brand" href="#">اتحادیه فوتبال آزاد</a>-->
-  <img src="../../../../assets/image/logo/logo-text-128x32.png" alt="">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngIf="me$ | async"><a class="nav-link" (click)="onExitClick()">خروج</a></li>
-<!--      <li class="nav-item dropdown">-->
-<!--        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--          Dropdown link-->
-<!--        </a>-->
-<!--        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
-<!--          <a class="dropdown-item" href="#">Action</a>-->
-<!--          <a class="dropdown-item" href="#">Another action</a>-->
-<!--          <a class="dropdown-item" href="#">Something else here</a>-->
-<!--        </div>-->
-<!--      </li>-->
-    </ul>
-    <ul class="navbar-nav" *ngIf="me$ | async">
-      <li class="nav-item"><a class="nav-link" routerLink="/authentication">احراز هویت</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="/group/create">ثبت گروه</a></li>
+<nav class="navbar navbar-expand justify-content-between navbar-inverse navbar-light bg-light mb-2"
+     style="background-color: #68d261 !important;">
+  <div class="container-fluid">
+    <img class="navbar-brand" src="../../../../assets/image/logo/logo-text-128x32.png" alt="">
+    <div class="navbar-collapse collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto"></ul>
+      <ul class="navbar-nav" *ngIf="me$ | async">
       <li class="nav-item"><app-inviter></app-inviter></li>
-    </ul>
+      <li class="nav-item" *ngIf="me$ | async">
+        <a href="#" class="nav-link" (click)="onExitClick()">
+          <span class="fa fa-lg fa-sign-out-alt"></span>
+        </a>
+      </li>
+      <!--      <li class="nav-item"><a class="nav-link" routerLink="/group/create">ثبت گروه</a></li>-->
+      </ul>
+    </div>
   </div>
 </nav>
 

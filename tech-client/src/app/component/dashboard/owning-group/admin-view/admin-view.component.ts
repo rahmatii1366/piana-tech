@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {icon, latLng, marker, Marker, tileLayer} from "leaflet";
 import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../store/states/app.state";
-import {selectGroupState} from "../../../store/selectors/group.selectors";
-import {GroupGetRequestAction} from "../../../store/actions/group.action";
-import {selectAgeLevels} from "../../../store/selectors/age-level.selectors";
+import {AppState} from "../../../../store/states/app.state";
+import {selectGroupState} from "../../../../store/selectors/group.selectors";
+import {GroupGetRequestAction} from "../../../../store/actions/group.action";
+import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AgeLevelRequestAction} from "../../../store/actions/age-level.action";
+import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
 
 @Component({
-  selector: 'app-admin-edit',
-  templateUrl: './admin-edit.component.html',
-  styleUrls: ['./admin-edit.component.css']
+  selector: 'app-admin-view',
+  templateUrl: './admin-view.component.html',
+  styleUrls: ['./admin-view.component.css']
 })
-export class AdminEditComponent implements OnInit {
+export class AdminViewComponent implements OnInit {
   group$ = this._store.pipe(select(selectGroupState))
   ageLevels$ = this._store.pipe(select(selectAgeLevels));
   ageLevels = null;
@@ -21,11 +21,11 @@ export class AdminEditComponent implements OnInit {
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        minZoom: 14, maxZoom: 16,
+        minZoom: 15, maxZoom: 15,
         attribution: '...',
       })
     ],
-    zoomControl: true,
+    zoomControl: false,
     zoom: 15,
     center: latLng(35.70099668759087, 51.39126741938528)
   };
@@ -68,6 +68,7 @@ export class AdminEditComponent implements OnInit {
           adminName: new FormControl('', [Validators.required]),
           ageLevel: [this.ageLevels[0]]
         });
+        this.groupForm.disable();
       }
     });
 
@@ -87,16 +88,16 @@ export class AdminEditComponent implements OnInit {
 
   onMapReady(map) {
     this.map = map;
-    // this.map.dragging.disable();
+    this.map.dragging.disable();
     this.myMarker = marker(latLng(35.70099668759087, 51.39126741938528));
   }
 
   onMapClick(e) {
-    console.log(e.latlng);
-    this.myLatLng = e.latlng;
-    this.myMarker = marker(this.myLatLng);
-    console.log(this.groupForm.controls['name'].value);
-    console.log(this.groupForm.controls['adminName'].value);
-    console.log(this.groupForm.controls['ageLevel'].value);
+    // console.log(e.latlng);
+    // this.myLatLng = e.latlng;
+    // this.myMarker = marker(this.myLatLng);
+    // console.log(this.groupForm.controls['name'].value);
+    // console.log(this.groupForm.controls['adminName'].value);
+    // console.log(this.groupForm.controls['ageLevel'].value);
   }
 }

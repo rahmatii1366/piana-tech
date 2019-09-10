@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {icon, latLng, Marker, marker, tileLayer} from "leaflet";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../store/states/app.state";
-import {selectAgeLevels} from "../../../store/selectors/age-level.selectors";
-import {AgeLevelRequestAction} from "../../../store/actions/age-level.action";
-import {GroupCreateRequestAction} from "../../../store/actions/group.action";
+import {AppState} from "../../../../store/states/app.state";
+import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
+import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
+import {GroupCreateRequestAction} from "../../../../store/actions/group.action";
 
 @Component({
   selector: 'app-map-view',

@@ -4,6 +4,7 @@ import ir.piana.pianatech.server.api.dto.AgeLevelDto;
 import ir.piana.pianatech.server.api.service.GuestGroupApi;
 import ir.piana.tech.core.enums.AgeLevelType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:37 AM
  **/
-//@RestController
+@RestController
 public class GuestGroupApiImpl implements GuestGroupApi {
 
     @Override

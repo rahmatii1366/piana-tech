@@ -8,6 +8,7 @@ import ir.piana.tech.core.mapper.TokenActionMapper;
 import ir.piana.tech.core.mapper.TokenTypeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -15,7 +16,7 @@ import javax.validation.Valid;
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/20/2019 11:37 AM
  **/
-//@RestController
+@RestController
 public class GuestAuthenticationApiImpl implements GuestAuthenticationApi {
     @Autowired
     private UserService userService;

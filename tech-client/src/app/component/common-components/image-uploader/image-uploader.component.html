@@ -1,0 +1,29 @@
+<div class="container-fluid pb-1 mb-2">
+  <div class="row custom-wrapper p-0">
+    <div class="col-md-12 p-0">
+
+      <!-- Form starts -->
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+        <div class="group-gap">
+
+          <!-- Upload image -->
+          <div class="avatar-upload">
+            <div class="avatar-edit">
+              <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+            </div>
+            <div class="avatar-preview">
+              <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-danger btn-block" (click)="fileInput.click()">بارگزاری تصویر</button>
+
+      </form><!-- Form ends -->
+
+    </div>
+  </div>
+</div>

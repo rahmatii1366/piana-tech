@@ -85,6 +85,18 @@ public class UserService {
         tokenService.addToken(mobile, TokenType.MOBILE, TokenAction.SIGNUP, userEntity);
     }
 
+    public MeModel howMe() throws UserRelatedException {
+        UserEntity userEntity = authenticationService.getUserEntity();
+        if(userEntity == null)
+            throw new UserRelatedException("no session exist");
+        return MeModel.builder()
+                .username(userEntity.getUsername())
+                .mobile(userEntity.getMobile())
+                .role(userEntity.getRoleType())
+                .rule(userEntity.getRuleType())
+                .build();
+    }
+
     public MeModel login(String mobile, String password) throws UserRelatedException {
         Example<UserEntity> userEntityExample = Example.of(
                 new UserEntity(mobile, pianaDigester.digest(password)));

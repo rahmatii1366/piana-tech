@@ -151,6 +151,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
+  /user-authentication/how-me:
+    get:
+      tags:
+        - user-authentication
+      summary: return me if session authenticated
+      operationId: howMe
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
   /user-authentication/logout:
     post:
       tags:
@@ -167,12 +186,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-  /user-group/group:
+  /user-group/member/groups:
     get:
       tags:
         - user-group
-      summary: get group
-      operationId: getGroup
+      summary: get user member groups
+      operationId: getMemberGroups
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/own/group:
+    get:
+      tags:
+        - user-group
+      summary: get owned group
+      operationId: getOwnedGroup
       responses:
         200:
           description: Successful operation.
@@ -204,6 +244,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-group/own/group/image:
+    post:
+      tags:
+        - user-group
+      summary: upload group image
+      operationId: uploadGroupImage
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+        required: true
+      responses:
+        200:
+          description: Successful operation.
         500:
           description: Error occurred during execution of request.
           content:

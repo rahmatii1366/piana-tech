@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng-swagger-gen -c ./ng-swagger-server.json && ng serve",
-    "build": "ng-swagger-gen -c ./ng-swagger-server.json && ng build",
+    "start": "ng-openapi-gen -c ./ng-openapi-server.json && ng serve",
+    "build": "ng-openapi-gen -c ./ng-openapi-server.json && ng build",
+    "generate-api": "ng-openapi-gen -c ./ng-openapi-server.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,6 +27,7 @@
     "@ngrx/router-store": "^8.1.0",
     "@ngrx/store": "^8.1.0",
     "@ngrx/store-devtools": "^8.1.0",
+    "angular2-image-upload": "^1.0.0-rc.2",
     "leaflet": "^1.5.1",
     "ng2-loading-spinner": "^1.3.0",
     "rxjs": "~6.4.0",
@@ -50,6 +52,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-swagger-gen": "^1.4.2",
+    "ng-openapi-gen": "^0.6.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

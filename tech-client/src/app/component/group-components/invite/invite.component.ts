@@ -39,9 +39,9 @@ export class InviteComponent implements OnInit {
   onFormSubmit() {
     console.log("submit");
     this._store.dispatch(new WaitRequestAction());
-    this.userService.inviteToGroupResponse({
-      mobiles: this.mobileList
-    }).subscribe(res => {
+    this.userService.inviteToGroup({body: {
+        mobiles: this.mobileList
+      }}).subscribe(res => {
       this._store.dispatch(new WaitExitAction());
       while (this.mobileList.length !== 0) {
         this.mobileList.pop()

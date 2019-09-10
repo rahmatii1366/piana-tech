@@ -9,3 +9,7 @@
 .special .btn {
   flex: 1
 }
+
+.nounderline {
+  text-decoration: none !important
+}

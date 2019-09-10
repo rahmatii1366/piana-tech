@@ -1,0 +1,11 @@
+.hovered-link {
+  background-color: #dfffc7;
+}
+
+.active-link {
+  background-color: #cfffa9;
+}
+
+.btn {
+  border-radius: 0px !important;
+}

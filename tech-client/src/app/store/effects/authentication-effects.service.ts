@@ -6,7 +6,7 @@ import * as authenticationActions from "../actions/authentication.action";
 import {
   AuthenticationActionEnum,
   ForgetPasswordNavigateAction,
-  ForgetPasswordRequestAction,
+  ForgetPasswordRequestAction, HowMeRequestAction,
   LoginNavigateAction,
   LoginRequestAction,
   LogoutNavigateAction,
@@ -36,12 +36,42 @@ export class AuthenticationEffects {
   ) {}
 
   @Effect()
+  howMe= this._actions$.pipe(
+    ofType<HowMeRequestAction>(AuthenticationActionEnum.HOWME_REQUEST),
+    switchMap(() => {
+      this._store.dispatch(new WaitRequestAction());
+      return this.userService.howMe().pipe(
+        map(meDto => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return new authenticationActions.HowMeSuccessAction(meDto);
+        }),
+        catchError(error => {
+          this._store.dispatch(new waitActions.WaitExitAction());
+          return of(new authenticationActions.HowMeErrorNavigateAction(error));
+        })
+      )
+    })
+  );
+
+  @Effect()
+  howMeErrorNavigate= this._actions$.pipe(
+    ofType<SignupNavigateAction>(AuthenticationActionEnum.HOWME_ERROR_NAVIGATE),
+    map(action => action.payload),
+    switchMap(error => {
+      return new Observable(observer => {
+        this.router.navigateByUrl("authentication")
+        observer.next(new authenticationActions.HowMeErrorAction(error));
+      });
+    })
+  );
+
+  @Effect()
   signup$ = this._actions$.pipe(
     ofType<SignupRequestAction>(AuthenticationActionEnum.SIGNUP_REQUEST),
     map(action => action.payload),
     switchMap(signupDto => {
       this._store.dispatch(new WaitRequestAction());
-      return this.guestService.signup(signupDto).pipe(
+      return this.guestService.signup({ body: signupDto }).pipe(
         map(tokenRequiredDto  => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new authenticationActions.SignupNavigateAction(tokenRequiredDto);
@@ -72,7 +102,7 @@ export class AuthenticationEffects {
     map(action => action.payload),
     switchMap(loginDto => {
       this._store.dispatch(new WaitRequestAction());
-      return this.guestService.login(loginDto).pipe(
+      return this.guestService.login({ body: loginDto }).pipe(
         map(meDto => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new authenticationActions.LoginNavigateAction(meDto);
@@ -91,7 +121,7 @@ export class AuthenticationEffects {
     map(action => action.payload),
     switchMap(meDto => {
       return new Observable(observer => {
-        this.router.navigateByUrl("dashboard")
+        this.router.navigateByUrl("dashboard/owned/admin")
         observer.next(new authenticationActions.LoginSuccessAction(meDto));
       });
     })
@@ -103,7 +133,7 @@ export class AuthenticationEffects {
     map(action => action.payload),
     switchMap(forgetPasswordDto => {
       this._store.dispatch(new WaitRequestAction());
-      return this.guestService.forgetPassword(forgetPasswordDto).pipe(
+      return this.guestService.forgetPassword({ body: forgetPasswordDto }).pipe(
         map(tokenRequiredDto => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new authenticationActions.ForgetPasswordNavigateAction(tokenRequiredDto);
@@ -140,7 +170,7 @@ export class AuthenticationEffects {
     switchMap(verifyTokenDto => {
       console.log(verifyTokenDto);
       this._store.dispatch(new WaitRequestAction());
-      return this.guestService.verifyToken(verifyTokenDto).pipe(
+      return this.guestService.verifyToken({ body: verifyTokenDto }).pipe(
         map(meDto => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new authenticationActions.VerifyTokenNavigateAction(meDto);

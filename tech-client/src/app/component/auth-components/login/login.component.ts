@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
               private rootContainerService: RootContainerService) { }
 
   ngOnInit() {
-    this.loginForm.controls['mobile'].setValue('09128855402', {onlySelf: true});
+    this.loginForm.controls['mobile'].setValue('09391366128', {onlySelf: true});
     this.loginForm.controls['password'].setValue('123456', {onlySelf: true});
   }
 

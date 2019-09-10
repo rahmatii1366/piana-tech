@@ -18,8 +18,12 @@
             <input type="text" class="form-control" id="lbl-group-name" formControlName="name">
           </div>
           <div class="form-group">
+            <label for="lbl-admin-name" class="text-right middle">نام مدیر گروه</label>
+            <input type="text" class="form-control" id="lbl-admin-name" formControlName="adminName">
+          </div>
+          <div class="form-group">
             <label for="lbl-age-level" class="text-right middle">رده سنی</label>
-            <select formControlName="ageLevel" id="lbl-age-level">
+            <select formControlName="ageLevel" class="form-control" id="lbl-age-level">
               <option *ngFor="let l of ageLevels$ | async"
                       [ngValue]="l">{{l.title}}</option>
             </select>

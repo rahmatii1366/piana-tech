@@ -5,6 +5,20 @@ export function AuthenticationReducers(state = initialMeState,
   action: AuthenticationActions
 ): MeState {
   switch (action.type) {
+    case AuthenticationActionEnum.HOWME_SUCCESS: {
+      return {
+        ...state,
+        meDto: action.payload,
+        tokenRequiredDto: null
+      };
+    }
+    case AuthenticationActionEnum.HOWME_ERROR: {
+      return {
+        ...state,
+        meDto: null,
+        tokenRequiredDto: null,
+      };
+    }
     case AuthenticationActionEnum.SIGNUP_SUCCESS: {
       return {
         ...state,

@@ -33,7 +33,7 @@ export class GroupEffects {
     map(action => action.payload),
     switchMap(createGroupDto => {
       this._store.dispatch(new WaitRequestAction());
-      return this.userService.createGroup(createGroupDto).pipe(
+      return this.userService.createGroup({ body: createGroupDto }).pipe(
         map(createGroupResponse  => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new groupActions.GroupCreateNavigateAction(createGroupResponse);
@@ -63,7 +63,7 @@ export class GroupEffects {
     ofType<GroupGetRequestAction>(GroupActionEnum.GROUP_GET_REQUEST),
     switchMap(() => {
       this._store.dispatch(new WaitRequestAction());
-      return this.userService.getGroup().pipe(
+      return this.userService.getOwnedGroup().pipe(
         map(groupDto => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new groupActions.GroupGetSuccessAction(groupDto);

@@ -46,7 +46,7 @@ export class InviteEffects {
     map(action => action.payload),
     switchMap(inviterDto => {
       this._store.dispatch(new WaitRequestAction());
-      return this.userService.acceptInviteRequest(inviterDto).pipe(
+      return this.userService.acceptInviteRequest({ body: inviterDto }).pipe(
         map(() => {
           this._store.dispatch(new waitActions.WaitExitAction());
           return new inviteActions.InviteAcceptSuccessAction(inviterDto);

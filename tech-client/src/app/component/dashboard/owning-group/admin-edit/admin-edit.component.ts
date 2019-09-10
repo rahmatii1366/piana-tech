@@ -1,28 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import {icon, latLng, marker, Marker, tileLayer} from "leaflet";
 import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../store/states/app.state";
-import {selectGroupState} from "../../../store/selectors/group.selectors";
-import {GroupGetRequestAction} from "../../../store/actions/group.action";
-import {selectAgeLevels} from "../../../store/selectors/age-level.selectors";
+import {AppState} from "../../../../store/states/app.state";
+import {selectGroupState} from "../../../../store/selectors/group.selectors";
+import {GroupGetRequestAction} from "../../../../store/actions/group.action";
+import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AgeLevelRequestAction} from "../../../store/actions/age-level.action";
+import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
 
 @Component({
-  selector: 'app-admin-group',
-  templateUrl: './admin-group.component.html',
-  styleUrls: ['./admin-group.component.css']
+  selector: 'app-admin-edit',
+  templateUrl: './admin-edit.component.html',
+  styleUrls: ['./admin-edit.component.css']
 })
-export class AdminGroupComponent implements OnInit {
+export class AdminEditComponent implements OnInit {
   group$ = this._store.pipe(select(selectGroupState))
   ageLevels$ = this._store.pipe(select(selectAgeLevels));
   ageLevels = null;
-  viewType : boolean = true;
 
   options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 14, maxZoom: 16, attribution: '...' })
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 14, maxZoom: 16,
+        attribution: '...',
+      })
     ],
+    zoomControl: true,
     zoom: 15,
     center: latLng(35.70099668759087, 51.39126741938528)
   };
@@ -32,7 +35,7 @@ export class AdminGroupComponent implements OnInit {
   groupForm: FormGroup;
 
   constructor(private _store: Store<AppState>, private fb: FormBuilder) {
-    this._store.dispatch(new AgeLevelRequestAction());
+    // this._store.dispatch(new AgeLevelRequestAction());
   }
 
   ngOnInit() {
@@ -51,7 +54,7 @@ export class AdminGroupComponent implements OnInit {
     });
     Marker.prototype.options.icon = iconDefault;
 
-    this._store.dispatch(new GroupGetRequestAction());
+    // this._store.dispatch(new GroupGetRequestAction());
     this.ageLevels$.subscribe(ageLevels => {
       if(ageLevels != null) {
         this.ageLevels = ageLevels;
@@ -66,7 +69,8 @@ export class AdminGroupComponent implements OnInit {
           ageLevel: [this.ageLevels[0]]
         });
       }
-    })
+    });
+
     this.group$.subscribe(group => {
       if(group) {
         this.groupForm.patchValue(group);
@@ -81,13 +85,9 @@ export class AdminGroupComponent implements OnInit {
     });
   }
 
-  viewTypeChange() {
-    console.log(this.viewType);
-    this.viewType = !this.viewType;
-  }
-
   onMapReady(map) {
     this.map = map;
+    // this.map.dragging.disable();
     this.myMarker = marker(latLng(35.70099668759087, 51.39126741938528));
   }
 

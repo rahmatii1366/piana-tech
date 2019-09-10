@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AppState} from "../../../store/states/app.state";
 import {select, Store} from "@ngrx/store";
 import {AuthenticationActions, SignupRequestAction} from "../../../store/actions/authentication.action";
@@ -11,7 +11,7 @@ import {RootContainerService} from "../../../services/root-container/root-contai
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, AfterViewInit {
   me$ = this._store.pipe(select(selectMeDto))
 
   userForm = new FormGroup({

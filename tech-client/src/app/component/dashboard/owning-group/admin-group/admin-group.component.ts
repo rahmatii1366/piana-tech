@@ -1,31 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {icon, latLng, marker, Marker, tileLayer} from "leaflet";
 import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../store/states/app.state";
-import {selectGroupState} from "../../../store/selectors/group.selectors";
-import {GroupGetRequestAction} from "../../../store/actions/group.action";
-import {selectAgeLevels} from "../../../store/selectors/age-level.selectors";
+import {AppState} from "../../../../store/states/app.state";
+import {selectGroupState} from "../../../../store/selectors/group.selectors";
+import {GroupGetRequestAction} from "../../../../store/actions/group.action";
+import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AgeLevelRequestAction} from "../../../store/actions/age-level.action";
+import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
+import {RootContainerService} from "../../../../services/root-container/root-container.service";
 
 @Component({
-  selector: 'app-admin-view',
-  templateUrl: './admin-view.component.html',
-  styleUrls: ['./admin-view.component.css']
+  selector: 'app-admin-group',
+  templateUrl: './admin-group.component.html',
+  styleUrls: ['./admin-group.component.css']
 })
-export class AdminViewComponent implements OnInit {
+export class AdminGroupComponent implements OnInit, AfterViewInit {
   group$ = this._store.pipe(select(selectGroupState))
   ageLevels$ = this._store.pipe(select(selectAgeLevels));
   ageLevels = null;
+  viewType : boolean = false;
 
   options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        minZoom: 15, maxZoom: 15,
-        attribution: '...',
-      })
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 14, maxZoom: 16, attribution: '...' })
     ],
-    zoomControl: false,
     zoom: 15,
     center: latLng(35.70099668759087, 51.39126741938528)
   };
@@ -34,8 +32,10 @@ export class AdminViewComponent implements OnInit {
   myMarker = null;
   groupForm: FormGroup;
 
-  constructor(private _store: Store<AppState>, private fb: FormBuilder) {
-    // this._store.dispatch(new AgeLevelRequestAction());
+  constructor(private _store: Store<AppState>,
+              private fb: FormBuilder,
+              private rootContainerService: RootContainerService) {
+    this._store.dispatch(new AgeLevelRequestAction());
   }
 
   ngOnInit() {
@@ -54,7 +54,7 @@ export class AdminViewComponent implements OnInit {
     });
     Marker.prototype.options.icon = iconDefault;
 
-    // this._store.dispatch(new GroupGetRequestAction());
+    this._store.dispatch(new GroupGetRequestAction());
     this.ageLevels$.subscribe(ageLevels => {
       if(ageLevels != null) {
         this.ageLevels = ageLevels;
@@ -68,10 +68,8 @@ export class AdminViewComponent implements OnInit {
           adminName: new FormControl('', [Validators.required]),
           ageLevel: [this.ageLevels[0]]
         });
-        this.groupForm.disable();
       }
-    });
-
+    })
     this.group$.subscribe(group => {
       if(group) {
         this.groupForm.patchValue(group);
@@ -86,18 +84,29 @@ export class AdminViewComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    // console.log("view init authentication")
+    // console.log("app component init")
+    // console.log(this.topbarView)
+    this.rootContainerService.changeInComponents();
+  }
+
+  viewTypeChange() {
+    console.log(this.viewType);
+    this.viewType = !this.viewType;
+  }
+
   onMapReady(map) {
     this.map = map;
-    this.map.dragging.disable();
     this.myMarker = marker(latLng(35.70099668759087, 51.39126741938528));
   }
 
   onMapClick(e) {
-    // console.log(e.latlng);
-    // this.myLatLng = e.latlng;
-    // this.myMarker = marker(this.myLatLng);
-    // console.log(this.groupForm.controls['name'].value);
-    // console.log(this.groupForm.controls['adminName'].value);
-    // console.log(this.groupForm.controls['ageLevel'].value);
+    console.log(e.latlng);
+    this.myLatLng = e.latlng;
+    this.myMarker = marker(this.myLatLng);
+    console.log(this.groupForm.controls['name'].value);
+    console.log(this.groupForm.controls['adminName'].value);
+    console.log(this.groupForm.controls['ageLevel'].value);
   }
 }

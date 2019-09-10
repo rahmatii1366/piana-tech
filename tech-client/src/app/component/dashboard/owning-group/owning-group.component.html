@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-3">
+      <div class="list-group">
+        <a href="#"
+           routerLink="create"
+           class="list-group-item list-group-item-action" [routerLinkActive]="'active'">جدید</a>
+        <a href="#"
+           routerLink="admin"
+           class="list-group-item list-group-item-action" [routerLinkActive]="'active'">ویرایش</a>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

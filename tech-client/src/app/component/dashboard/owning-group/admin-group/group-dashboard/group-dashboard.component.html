@@ -1,0 +1,161 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-3 order-2">
+      <div class="container-fluid margin-bottom-1">
+        <div class="row">
+          <div class="col-12">
+<!--            [imageDefaultUrl]="'../../../../../../assets/image/team/' + (group.hasImage ? groupName : 'team-unknown') + '.png'"-->
+            <app-image-uploader
+              *ngIf="group"
+              [imageDefaultUrl]="'http://localhost:8080/image/group/' + (group.imageExtension ? (groupName + '.' + group.imageExtension): 'team-unknown.png')"
+              (onChangeImage)="imageChanged($event)"></app-image-uploader>
+          </div>
+        </div>
+<!--        <div class="row">-->
+<!--          <div class="col-12">-->
+<!--            <div class="container-fluid mb-2 pb-2" style="border-bottom: 1px solid mediumseagreen;">-->
+<!--              <div class="row text-center justify-content-center">-->
+<!--                <div class="col-12 p-0" >-->
+<!--                  <button class="btn btn-block btn-success"-->
+<!--                          routerLink="../invite">ارسال دعوتنامه<i class="fa fa-plus" style="margin: 0px 2px;"></i>-->
+<!--                  </button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="row">
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="media" style="border-bottom: 1px solid mediumseagreen; margin-bottom: 6px;">
+              <img src="../../../../../assets/image/person/avatar-64.png">
+              <div class="media-body">
+                <h4>علیرضا حاتمی
+                  <button class="btn btn-link nounderline p-0" style="color: red; padding: 0px; font-size: 30px;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-9 order-1">
+      <div class="container-fluid margin-bottom-1">
+<!--        <div class="row">-->
+<!--          <div class="col-12">-->
+<!--            <div class="container-fluid mb-2 pb-2" style="border-bottom: 1px solid mediumseagreen;">-->
+<!--&lt;!&ndash;              <div class="row text-center justify-content-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="col-12 col-sm-12 col-md-12 col-lg-12 p-0" *ngIf="!viewType">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <button class="btn btn-warning btn-block "&ndash;&gt;-->
+<!--&lt;!&ndash;                          (click)="viewType = true">ویرایش</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="col-6 col-sm-6 col-md-6 col-lg-6 p-0" *ngIf="viewType">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <button class="btn btn-block btn-success"&ndash;&gt;-->
+<!--&lt;!&ndash;                          style="border-bottom-left-radius: 0px; border-top-left-radius: 0px;"&ndash;&gt;-->
+<!--&lt;!&ndash;                          (click)="viewType = !viewType">ثبت</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="col-6 col-sm-6 col-md-6 col-lg-6 p-0" *ngIf="viewType">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <button class="btn btn-block btn-danger"&ndash;&gt;-->
+<!--&lt;!&ndash;                          style="border-bottom-right-radius: 0px; border-top-right-radius: 0px;"&ndash;&gt;-->
+<!--&lt;!&ndash;                          (click)="viewType = !viewType">انصراف&ndash;&gt;-->
+<!--&lt;!&ndash;                  </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="row">
+          <div class="col-12 col-md-12">
+<!--            <app-admin-view *ngIf="!viewType"></app-admin-view>-->
+            <app-admin-edit ></app-admin-edit>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

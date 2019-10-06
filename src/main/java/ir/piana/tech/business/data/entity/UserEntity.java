@@ -30,9 +30,6 @@ public class UserEntity extends BaseEntity {
     private Long id;
 
     @Column
-    private String username;
-
-    @Column
     private String mobile;
 
     @Column
@@ -62,6 +59,9 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<GroupEntity> groupEntities;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private UserInfoEntity userInfoEntity;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "membership",
@@ -80,7 +80,6 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity(Long id, String username, String email, String mobile, String password, Boolean mobileVerified, Boolean emailVerified, GenderType gender, RoleType roleType, RuleType ruleType, List<GroupEntity> groupEntities) {
         this.id = id;
-        this.username = username;
         this.email = email;
         this.mobile = mobile;
         this.password = password;

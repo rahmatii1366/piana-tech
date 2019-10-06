@@ -4,6 +4,7 @@ import ir.piana.tech.business.data.entity.UserEntity;
 import ir.piana.tech.core.enums.TokenAction;
 import ir.piana.tech.core.enums.TokenType;
 import ir.piana.tech.core.exception.*;
+import ir.piana.tech.core.model.MeModel;
 import ir.piana.tech.core.model.TokenModel;
 import ir.piana.tech.core.secuity.PianaAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +52,9 @@ public class TokenService {
     public void checkAndRevokeToken(
             String code, TokenType tokenType, TokenAction tokenAction)
             throws PianaHttpException {
-        UserEntity userEntity = authenticationService.getUserEntity();
+        MeModel meModel = authenticationService.getMeModel();
         Cache cache = cacheManager.getCache("verify-token");
-        Cache.ValueWrapper valueWrapper = cache.get(userEntity.getMobile());
+        Cache.ValueWrapper valueWrapper = cache.get(meModel.getMobile());
         TokenModel tokenModel = null;
         if (valueWrapper == null) {
             throw new NotFoundRelatedException("token not exist!");
@@ -67,6 +68,6 @@ public class TokenService {
                 throw new UserRelatedException("verification code is incorrect!");
             }
         }
-        cache.evict(userEntity.getMobile());
+        cache.evict(meModel.getMobile());
     }
 }

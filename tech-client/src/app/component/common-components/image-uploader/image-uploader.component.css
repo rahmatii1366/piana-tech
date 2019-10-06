@@ -58,12 +58,12 @@ label {
   border: 1px solid #0C1CFF;
 }
 
-.btn-success,
-.btn-success:hover {
-  color: #312BC6;
-  border-color: #00FC79;
-  background-color: #00FC79;
-}
+/*.btn-success,*/
+/*.btn-success:hover {*/
+/*  color: #312BC6;*/
+/*  border-color: #00FC79;*/
+/*  background-color: #00FC79;*/
+/*}*/
 
 .btn-group-lg>.btn,
 .btn-lg {

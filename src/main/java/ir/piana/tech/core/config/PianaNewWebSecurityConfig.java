@@ -1,7 +1,6 @@
 package ir.piana.tech.core.config;
 
 
-import ir.piana.tech.core.enums.RuleType;
 import ir.piana.tech.core.secuity.UnauthorizedAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Date: 7/20/2019 11:40 AM
  **/
 @EnableWebSecurity
+//@EnableWebMvc
 @Configuration
 public class PianaNewWebSecurityConfig
         extends WebSecurityConfigurerAdapter
@@ -43,6 +42,7 @@ public class PianaNewWebSecurityConfig
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/guest/**").permitAll()
+                .antMatchers("/guest**").permitAll()
                 .antMatchers("/user/**").hasRole("USER");
         http.sessionManagement()
                 .maximumSessions(10)
@@ -59,11 +59,16 @@ public class PianaNewWebSecurityConfig
                 .exceptionHandling().authenticationEntryPoint(entryPoint);
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(
-                "/**")
-                .addResourceLocations(
-                        "classpath:/public/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(
+//                "/piana-resource/image/group/**")
+//                .addResourceLocations(
+//                        "C:/piana-resource/image/group");
+//        registry.addResourceHandler(
+//                "/**")
+//                .addResourceLocations(
+//                        "file:///C:/piana-resource/");
+//                        "classpath:/public/");
+//    }
 }

@@ -35,9 +35,11 @@ public abstract class GroupMapper {
             @Mapping(target = "latitude", source = "latitude"),
             @Mapping(target = "longitude", source = "longitude"),
             @Mapping(target = "ageLevel", source = "ageLevel"),
-            @Mapping(target = "adminName", source = "userEntity.username")
+            @Mapping(target = "adminName", source = "userEntity.userInfoEntity.username")
     })
     public abstract GroupDto toGroupDto(GroupEntity groupEntity);
+
+    public abstract List<GroupDto> toGroupDtoList(List<GroupEntity> groupEntity);
 
     @Mappings({
             @Mapping(target = "name", source = "name"),

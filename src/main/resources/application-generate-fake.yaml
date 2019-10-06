@@ -1,0 +1,4 @@
+piana:
+  generate:
+    fake:
+      count: 10

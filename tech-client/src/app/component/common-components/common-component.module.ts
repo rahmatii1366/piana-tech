@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {TopbarComponent} from "./topbar/topbar.component";
 import {FootbarComponent} from "./footbar/footbar.component";
 import {InfoComponent} from "./info/info.component";
@@ -9,6 +9,7 @@ import {SampleComponent} from "./sample/sample.component";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {PositionSelectorComponent} from "./position-selector/position-selector.component";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     InviterComponent,
     ImageUploaderComponent,
     SampleComponent,
+    PositionSelectorComponent,
   ],
   exports: [
     TopbarComponent,
@@ -28,6 +30,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     InviterComponent,
     ImageUploaderComponent,
     SampleComponent,
+    PositionSelectorComponent,
   ],
   imports: [
     CommonModule,

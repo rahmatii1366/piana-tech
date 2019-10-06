@@ -7,6 +7,7 @@ import {RootContainerService} from "../../services/root-container/root-container
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
+  hovered = null;
 
   constructor(private rootContainerService: RootContainerService) { }
 

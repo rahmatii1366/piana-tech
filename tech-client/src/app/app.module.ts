@@ -21,7 +21,6 @@ import {Ng2LoadingSpinnerModule} from "ng2-loading-spinner";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {AgeLevelEffects} from "./store/effects/age-level-effects.service";
 import {GroupEffects} from "./store/effects/group-effects.service";
-import {InviteComponent} from './component/group-components/invite/invite.component';
 import {InviteEffects} from "./store/effects/invite-effects.service";
 import {NgbActiveModal, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {PianaWindowRefService} from "./services/window-ref/window-ref.service";
@@ -30,6 +29,9 @@ import {ImageUploadModule} from "angular2-image-upload";
 import {AppLoadService} from "./app-load.service";
 import {CommonComponentModule} from "./component/common-components/common-component.module";
 import {RouterModule} from "@angular/router";
+import {SettingComponent} from "./component/auth-components/setting/setting.component";
+import {PositionEffects} from "./store/effects/position-effects.service";
+import {PlayerEffects} from "./store/effects/player-effects.service";
 
 export function init_app(appLoadService: AppLoadService) {
   return () => appLoadService.initializeApp();
@@ -42,7 +44,7 @@ export function init_app(appLoadService: AppLoadService) {
     VerifyTokenComponent,
     LoginComponent,
     AuthenticationComponent,
-    InviteComponent,
+    SettingComponent,
   ],
   imports: [
     RouterModule,
@@ -61,8 +63,10 @@ export function init_app(appLoadService: AppLoadService) {
     EffectsModule.forRoot([
       AuthenticationEffects,
       AgeLevelEffects,
+      PositionEffects,
       GroupEffects,
-      InviteEffects
+      InviteEffects,
+      PlayerEffects,
     ]),
     StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

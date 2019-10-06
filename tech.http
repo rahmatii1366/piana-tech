@@ -60,5 +60,11 @@ cookie: JSESSIONID=SbH23HeaFJTlaxuTW7UAKImbmPiJt9hKeTLSrMlv
   "groupName": "vahdat",
   "isSeen": false
 }
+###
+GET http://localhost:8080/image/group/vahdat.jpeg
+Referer: http://localhost/
+###
+GET http://localhost:8080/guest-player/players/10/1
 
 ###
+

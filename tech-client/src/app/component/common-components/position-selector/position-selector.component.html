@@ -1,0 +1,20 @@
+<div class="container-fluid pb-1 mb-2">
+  <div class="row custom-wrapper">
+    <div class="col-12 col-sm-12 col-md-12 text-center" *ngIf="positions">
+      <form *ngIf="positionForm" [formGroup]="positionForm">
+        <div class="form-group">
+          <label for="lbl-positions" class="text-right middle">پست بازیکن</label>
+          <select (change)="positionChange($event)"
+                  formControlName="position" class="form-control" id="lbl-positions">
+            <option *ngFor="let l of positions"
+                    [value]="l.value" >{{l.title}}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 text-center">
+      <img [src]="positionDefaultUrl + positionForm.get('position').value + '.png'"
+           class="img-fluid" style="border-radius: 4px;"/>
+    </div>
+  </div>
+</div>

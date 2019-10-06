@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-9">
+      <div class="container-fluid">
+        <div class="row pt-3 pb-3 mb-3" style="border: 1px solid #ddd4d4; border-radius: 8px;">
+          <div class="col-12 col-sm-12 col-md-12 text-center" *ngIf="playerPositionDto && positions">
+            <app-position-selector
+              (onChangePosition)="positionChange($event)"
+              [positionDefaultUrl]="'http://localhost:8080/image/position/'"
+              [position]="playerPositionDto.position"
+              [positions]="positions"></app-position-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-3">
+      <div class="container-fluid">
+        <div class="row pt-3 pb-3 mb-3" style="border: 1px solid #ddd4d4; border-radius: 8px;">
+          <div class="col-12 col-sm-12 col-md-12 text-center" *ngIf="meDto">
+            <app-image-uploader *ngIf="meDto"
+                                [imageDefaultUrl]="'http://localhost:8080/image/user/' + (meDto.imageExtension ? (meDto.username + '.' + meDto.imageExtension): 'user-unknown.png')"
+                                (onChangeImage)="imageChanged($event)"></app-image-uploader>
+          </div>
+        </div>
+        <div class="row pt-3 pb-3 mb-3" style="border: 1px solid #ddd4d4; border-radius: 8px;">
+          <div class="col-12 col-sm-12 col-md-12 text-center">
+            <form *ngIf="infoForm"
+                  (ngSubmit)="onFormSubmit()"
+                  [formGroup]="infoForm">
+              <div class="form-group">
+                <label for="lbl-first-name" class="text-right middle">نام</label>
+                <input type="text" class="form-control" id="lbl-first-name" formControlName="firstName">
+              </div>
+              <div class="form-group">
+                <label for="lbl-last-name" class="text-right middle">نام خانوادگی</label>
+                <input type="text" class="form-control" id="lbl-last-name" formControlName="lastName">
+              </div>
+              <div class="form-group">
+                <label for="lbl-national-code" class="text-right middle">شماره ملی</label>
+                <input type="text" class="form-control" id="lbl-national-code" formControlName="nationalCode">
+              </div>
+              <button class="btn btn-block btn-outline-success" type="submit"
+                      [disabled]="(playerInfoDto.firstName === infoForm.get('firstName').value && playerInfoDto.lastName === infoForm.get('lastName').value && playerInfoDto.nationalCode === infoForm.get('nationalCode').value) || infoForm.invalid">ثبت تغییرات</button>
+            </form>
+<!--            <button class="btn btn-block btn-outline-success" (click)="print()">print</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

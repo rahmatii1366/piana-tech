@@ -1,0 +1,68 @@
+{
+  "states": [
+    {
+      "name": "تهران",
+      "abbr": "teh",
+      "cities": [
+        {
+          "name": "اسلام‌شهر",
+          "abbr": "teh-esl"
+        },
+        {
+          "name": "پاکدشت",
+          "abbr": "teh-pak"
+        },
+        {
+          "name": "تهران",
+          "abbr": "teh-teh"
+        },
+        {
+          "name": "دماوند",
+          "abbr": "teh-dam"
+        },
+        {
+          "name": "رباط‌کریم",
+          "abbr": "teh-rob"
+        },
+        {
+          "name": "ری",
+          "abbr": "teh-rey"
+        },
+        {
+          "name": "ساوجبلاغ",
+          "abbr": "teh-svj"
+        },
+        {
+          "name": "شمیرانات",
+          "abbr": "teh-shm"
+        },
+        {
+          "name": "شهریار",
+          "abbr": "teh-shr"
+        },
+        {
+          "name": "فیروزکوه",
+          "abbr": "teh-fir"
+        },
+        {
+          "name": "ورامین",
+          "coords": []
+        }
+      ]
+    },
+    {
+      "name": "البرز",
+      "abbr": "alb",
+      "cities": [
+        {
+          "name": "کرج",
+          "abbr": "alb-krj"
+        },
+        {
+          "name": "نظرآباد",
+          "abbr": "alb-nzr"
+        }
+      ]
+    }
+  ]
+}

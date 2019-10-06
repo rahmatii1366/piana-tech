@@ -1,7 +1,9 @@
 package ir.piana.tech.core.secuity;
 
 import ir.piana.tech.business.data.entity.UserEntity;
+import ir.piana.tech.business.data.service.UserService;
 import ir.piana.tech.core.enums.RuleType;
+import ir.piana.tech.core.exception.ServerRelatedException;
 import ir.piana.tech.core.exception.UserRelatedException;
 import ir.piana.tech.core.model.MeModel;
 import org.jasypt.encryption.StringEncryptor;
@@ -21,8 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ir.piana.tech.business.data.entity.QUserEntity.userEntity;
-
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
  * Date: 7/15/2019 3:36 PM
@@ -39,17 +39,33 @@ public class PianaAuthenticationService {
     private StringEncryptor stringEncryptor;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     @Qualifier("sessionRegistry")
     private SessionRegistry sessionRegistry;
 
-    private void refreshSession(UserEntity userEntity) throws UserRelatedException {
+    private void refreshSession(MeModel meModel) throws UserRelatedException {
         if(!session.isNew())
             session.invalidate();
-        session.setAttribute("mobile", userEntity);
+        session.setAttribute("mobile", meModel);
+    }
+
+    protected MeModel createMeModel(UserEntity userEntity) {
+        return MeModel.builder()
+                .userId(userEntity.getId())
+                .username(userEntity.getUserInfoEntity().getUsername())
+                .mobile(userEntity.getMobile())
+                .role(userEntity.getRoleType())
+                .rule(userEntity.getRuleType())
+                .imageExtension(userEntity.getUserInfoEntity().getImageExtension())
+                .position(userEntity.getUserInfoEntity().getPositionType())
+                .build();
     }
 
     public MeModel authenticateMe(UserEntity userEntity) {
-        refreshSession(userEntity);
+        MeModel meModel = createMeModel(userEntity);
+        refreshSession(meModel);
         List<PianaGrantedAuthority> authorities = null;
         if(userEntity.getRuleType() != RuleType.FREE) {
             authorities = Arrays.asList(new PianaGrantedAuthority(userEntity.getRuleType().getRole()));
@@ -57,17 +73,12 @@ public class PianaAuthenticationService {
             authorities = Arrays.asList(new PianaGrantedAuthority(userEntity.getRoleType().getRole()));
         }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userEntity, null, authorities);
+                meModel, null, authorities);
         SecurityContext securityContext = SecurityContextHolder.getContext();
 //        Authentication authentication = securityContext.getAuthentication();
         securityContext.setAuthentication(authenticationToken);
         sessionRegistry.registerNewSession(session.getId(), authenticationToken);
-        return MeModel.builder()
-                .username(userEntity.getUsername())
-                .mobile(userEntity.getMobile())
-                .role(userEntity.getRoleType())
-                .rule(userEntity.getRuleType())
-                .build();
+        return meModel;
     }
 
     public void logout() {
@@ -80,9 +91,22 @@ public class PianaAuthenticationService {
         sessionRegistry.removeSessionInformation(sessionId);
     }
 
+    public MeModel getMeModel() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        if(authentication.getPrincipal() instanceof MeModel) {
+            return (MeModel) authentication.getPrincipal();
+        }
+        throw new ServerRelatedException("session not correct!");
+    }
+
     public UserEntity getUserEntity() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        return (UserEntity) authentication.getPrincipal();
+        if(authentication.getPrincipal() instanceof MeModel) {
+            return userService.findUserEntity(
+                    ((MeModel) authentication.getPrincipal()).getUserId());
+        }
+        throw new ServerRelatedException("session not correct!");
     }
 }

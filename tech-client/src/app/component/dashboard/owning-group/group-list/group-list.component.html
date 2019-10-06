@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center">
+<!--      <img class="img-fluid" src="../../../../assets/image/team/new-team.png"-->
+      <img class="img-fluid" src="http://localhost:8080/image/group/new-team.png"
+           (load)="ngAfterViewInit()">
+      <div class="container-fluid">
+        <div class="row align-items-end">
+          <div class="col-12">
+            <a routerLink="../create"
+               [routerLinkActive]="'item-active'"
+              class="btn btn-block btn-outline-success">افزودن تیم جدید</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 text-center"
+         *ngFor="let group of groups">
+<!--      <img class="img-fluid" src="../../../../assets/image/team/{{group.hasImage == true? group.name : 'team-unknown'}}.png">-->
+      <img class="img-fluid"
+           src="http://localhost:8080/image/group/{{group.imageExtension ? (group.name + '.' + group.imageExtension): 'team-unknown.png'}}">
+<!--      [routerLink]="['../admin/' + group.name]"-->
+      <a class="btn btn-block btn-outline-success"
+         [routerLink]="['../admin/' + group.name]"
+         [routerLinkActive]="'item-active'">{{group.name}}</a>
+    </div>
+  </div>
+</div>

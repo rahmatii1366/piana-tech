@@ -4,9 +4,8 @@ import {AuthenticationComponent} from "./component/auth-components/authenticatio
 import {InfoComponent} from "./component/common-components/info/info.component";
 import {VerifyTokenComponent} from "./component/auth-components/verify-token/verify-token.component";
 import {AuthenticationGuard} from "./guard/authentication/authentication-guard.service";
-import {InviteComponent} from "./component/group-components/invite/invite.component";
 import {InviterComponent} from "./component/common-components/inviter/inviter.component";
-import {DashboardRoutingModule} from "./component/dashboard/dashboard-routing.module";
+import {SettingComponent} from "./component/auth-components/setting/setting.component";
 
 
 const routes: Routes = [
@@ -16,7 +15,7 @@ const routes: Routes = [
   { path: 'authentication', component: AuthenticationComponent, canActivate: [AuthenticationGuard] },
   { path: 'authentication/verify-token', component: VerifyTokenComponent },
   { path: 'signup/info', component: InfoComponent },
-  { path: 'group/invite', component: InviteComponent },
+  { path: 'setting', component: SettingComponent },
   { path: 'user/invite', component: InviterComponent },
 ];
 

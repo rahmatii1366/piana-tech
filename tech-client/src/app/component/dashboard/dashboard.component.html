@@ -1,5 +1,53 @@
 <!--<app-topbar></app-topbar>-->
-<app-user-view-pannel></app-user-view-pannel>
+<div class="container-fluid mb-2 pb-2" style="border-bottom: 1px solid mediumseagreen;">
+  <div class="row text-center">
+    <div class="col-3 col-sm-3 col-md-3 col-lg-3 p-0">
+      <button [routerLink]="'/dashboard/owned'"
+              [routerLinkActive]="'active-link'"
+              title="تیم من"
+              class="btn btn-block p-0" style="border: none;"
+              (mouseover)="hovered = 'eye'"
+              (mouseout)="hovered = null"
+              [class.hovered-link]="hovered === 'eye'">
+        <span style="color: #397e2f;" class="fa fa-eye"></span>
+      </button>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3 col-lg-3 p-0">
+      <button [routerLink]="'group/invite'"
+              [routerLinkActive]="'active-link'"
+              title="تیم های عضو"
+              class="btn btn-block p-0" style="border: none;"
+              (mouseover)="hovered = 'futbol'"
+              (mouseout)="hovered = null"
+              [class.hovered-link]="hovered === 'futbol'">
+        <span style="color: #397e2f;" class="fa fa-futbol"></span>
+      </button>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3 col-lg-3 p-0">
+      <button [routerLink]="'/dashboard/search'"
+              [routerLinkActive]="'active-link'"
+              title="جستجوی تیم ها"
+              class="btn btn-block p-0" style="border: none;"
+              (mouseover)="hovered = 'globe'"
+              (mouseout)="hovered = null"
+              [class.hovered-link]="hovered === 'globe'">
+        <span style="color: #397e2f;" class="fa fa-globe"></span>
+      </button>
+    </div>
+    <div class="col-3 col-sm-3 col-md-3 col-lg-3 p-0">
+      <button [routerLink]="'/dashboard/search-players'"
+              [routerLinkActive]="'active-link'"
+              title="جستجوی بازیکنان"
+              class="btn btn-block p-0" style="border: none;"
+              (mouseover)="hovered = 'running'"
+              (mouseout)="hovered = null"
+              [class.hovered-link]="hovered === 'running'">
+        <span style="color: #397e2f;" class="fa fa-running"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
 
 <router-outlet></router-outlet>
 

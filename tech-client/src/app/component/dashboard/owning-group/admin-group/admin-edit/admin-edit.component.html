@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row pr-3 pl-3 pb-4" *ngIf="group">
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6 p-0">
+      <button class="btn btn-block btn-success"
+              style="border-bottom-left-radius: 0px; border-top-left-radius: 0px;"
+              [disabled]="group.ageLevel === groupForm.get('ageLevel').value && group.latitude == myLatLng.lat && group.longitude == myLatLng.lng"
+              (click)="updateClick()">ثبت</button>
+    </div>
+    <div class="col-6 col-sm-6 col-md-6 col-lg-6 p-0">
+      <button class="btn btn-block btn-danger"
+              style="border-bottom-right-radius: 0px; border-top-right-radius: 0px;"
+              [disabled]="group.ageLevel === groupForm.get('ageLevel').value && group.latitude == myLatLng.lat && group.longitude == myLatLng.lng"
+              (click)="cancelClick()">انصراف
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div style="height: 300px;"
+           leaflet
+           [leafletOptions]="options"
+           (leafletClick)="onMapClick($event)"
+           (leafletMapReady)="onMapReady($event)">
+        <!--      <div [leafletLayer]="layer"></div>-->
+        <div *ngIf="myMarker" [leafletLayer]="myMarker"></div>
+      </div>
+    </div>
+<!--    <div class="col-12">-->
+<!--      <div class="form-group">-->
+<!--        <label for="lbl-admin-name" class="text-right middle">نام مدیر گروه</label>-->
+<!--        <input type="text" class="form-control" id="lbl-admin-name" formControlName="adminName">-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="col-12">
+      <div class="container-fluid">
+        <form *ngIf="groupForm" [formGroup]="groupForm">
+<!--          <div class="form-group">-->
+<!--            <label for="lbl-group-name" class="text-right middle">نام گروه</label>-->
+<!--            <input type="text" class="form-control" id="lbl-group-name" formControlName="name">-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="lbl-admin-name" class="text-right middle">نام مدیر گروه</label>-->
+<!--            <input type="text" class="form-control" id="lbl-admin-name" formControlName="adminName">-->
+<!--          </div>-->
+          <div class="form-group">
+            <label for="lbl-age-level" class="text-right middle">رده سنی</label>
+            <select (change)="ageLevelChange($event)"
+                    formControlName="ageLevel" class="form-control" id="lbl-age-level">
+              <option *ngFor="let l of ageLevels$ | async"
+                      [value]="l.value" >{{l.title}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

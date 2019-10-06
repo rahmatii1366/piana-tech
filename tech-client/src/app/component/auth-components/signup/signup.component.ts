@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AppState} from "../../../store/states/app.state";
 import {select, Store} from "@ngrx/store";
-import {AuthenticationActions, SignupRequestAction} from "../../../store/actions/authentication.action";
+import {SignupRequestAction} from "../../../store/actions/authentication.action";
 import {selectMeDto} from "../../../store/selectors/me.selectors";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RootContainerService} from "../../../services/root-container/root-container.service";

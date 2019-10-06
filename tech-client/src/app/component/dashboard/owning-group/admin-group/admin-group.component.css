@@ -13,3 +13,19 @@
 .nounderline {
   text-decoration: none !important
 }
+
+.list-group {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.list-group-item {
+  border: none !important;
+  border-bottom: 1px solid #397e2f !important;
+  border-bottom-right-radius: unset;
+  border-bottom-left-radius: unset;
+}
+
+.item-active {
+  background-color: #a5ff9d;
+}

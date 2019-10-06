@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
@@ -47,6 +46,9 @@ public class GroupEntity extends BaseEntity {
 
     @Column
     private Double longitude;
+
+    @Column(columnDefinition = "varchar(4)")
+    private String imageExtension;
 
     @Column
     @Enumerated(EnumType.STRING)

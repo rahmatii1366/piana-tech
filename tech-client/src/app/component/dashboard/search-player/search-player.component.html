@@ -1,0 +1,10 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4" *ngFor="let playerProfile of playerProfiles">
+      <img class="img-fluid" [src]="'http://localhost:8080/image/user/' + (playerProfile.imageExtension ? (playerProfile.userName + '.' + playerProfile.imageExtension) : 'user-unknown.png')" (load)="ngAfterViewInit()">
+      <h5 class="text-center">{{playerProfile.username}}</h5>
+      <p class="text-center">{{playerProfile.position}}</p>
+      <button class="btn btn-block membership">مشاهده</button>
+    </div>
+  </div>
+</div>

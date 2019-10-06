@@ -1,6 +1,9 @@
 spring:
+#  profiles:
+#    active: generate-fake
   resources:
-    static-locations: classpath:/public
+    static-locations: file:///c:/piana-resource/
+#    static-locations: classpath:/static/
     add-mappings: true
 #  thymeleaf:
 #    prefix: file:src/main/resources/templates/
@@ -76,3 +79,7 @@ jasypt:
     property:
       prefix: "ENC("
       suffix: ")"
+resource:
+  image:
+    group.path: C:/piana-resource/image/group
+    user.path: C:/piana-resource/image/user

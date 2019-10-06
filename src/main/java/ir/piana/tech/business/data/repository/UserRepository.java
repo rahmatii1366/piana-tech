@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface UserRepository
         extends PagingAndSortingRepository<UserEntity, Long>, JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByMobile(String mobile);
+//    Optional<UserEntity> findByUsername(String username);
 }

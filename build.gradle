@@ -90,6 +90,9 @@ dependencies {
 	compile 'org.projectlombok:lombok'
 	compile 'mysql:mysql-connector-java'
 
+// https://mvnrepository.com/artifact/com.github.mifmif/generex
+	compile group: 'com.github.mifmif', name: 'generex', version: '1.0.2'
+
 	compile 'com.github.kavenegar:kavenegar-java:v2.0.1'
 
 	compile  "org.mapstruct:mapstruct:${mapstructVersion}"
@@ -100,7 +103,8 @@ dependencies {
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 	testCompile 'org.springframework.security:spring-security-test'
-	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.9'
+//	compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.9.+')
 
 //	compile('io.swagger:swagger-codegen:2.4.1') {
 //		exclude group: 'org.slf4j'

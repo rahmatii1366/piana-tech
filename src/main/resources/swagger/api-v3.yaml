@@ -207,19 +207,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
-  /user-group/own/group:
+  /user-group/own/groups:
     get:
       tags:
         - user-group
-      summary: get owned group
-      operationId: getOwnedGroup
+      summary: get group
+      operationId: getOwnGroups
       responses:
         200:
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupDto'
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupDto'
         500:
           description: Error occurred during execution of request.
           content:
@@ -250,6 +252,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
+    put:
+      tags:
+        - user-group
+      summary: update a group
+      operationId: updateGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGroupDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
   /user-group/own/group/image:
     post:
       tags:
@@ -258,13 +284,9 @@ paths:
       operationId: uploadGroupImage
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
-              properties:
-                image:
-                  type: string
-                  format: binary
+              $ref: '#/components/schemas/GroupImageDto'
         required: true
       responses:
         200:
@@ -357,6 +379,254 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDto'
+  /guest-group/groups/{page-size}/{page-number}:
+    get:
+      tags:
+        - guest-group
+      summary: get all groups by page size and number
+      operationId: getGroups
+      parameters:
+        - name: page-size
+          in: path
+          description: page size
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: page-number
+          in: path
+          description: page number
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-player/positions:
+    get:
+      tags:
+        - guest-player
+      summary: get player positions
+      operationId: getPositions
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleValueListDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /guest-player/players/{page-size}/{page-number}:
+    get:
+      tags:
+        - guest-player
+      summary: get players by page size and number
+      operationId: getProfileOfPlayers
+      parameters:
+        - name: page-size
+          in: path
+          description: page size
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: page-number
+          in: path
+          description: page number
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlayerProfileDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-player/image:
+    post:
+      tags:
+        - user-player
+      summary: upload player image
+      operationId: uploadPlayerImage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerImageDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-player/location:
+    post:
+      tags:
+        - user-player
+      summary: update player location
+      operationId: updatePlayerLocation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    get:
+      tags:
+        - user-player
+      summary: return player location
+      operationId: getPlayerLocation
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-player/info:
+    post:
+      tags:
+        - user-player
+      summary: update player location
+      operationId: updatePlayerInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerInfoDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    get:
+      tags:
+        - user-player
+      summary: return player location
+      operationId: getPlayerInfo
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerInfoDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-player/position:
+    post:
+      tags:
+        - user-player
+      summary: update player position
+      operationId: updatePlayerPosition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerPositionDto'
+        required: true
+      responses:
+        200:
+          description: Successful operation.
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+    get:
+      tags:
+        - user-player
+      summary: return player location
+      operationId: getPlayerPosition
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerPositionDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
+  /user-player/user-info:
+    get:
+      tags:
+        - user-player
+      summary: return user info
+      operationId: getUserInfo
+      responses:
+        200:
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfoDto'
+        500:
+          description: Error occurred during execution of request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDto'
 components:
   schemas:
     TokenRequiredDto:
@@ -403,6 +673,32 @@ components:
           type: string
         path:
           type: string
+    ZoneEnum:
+      type: string
+      enum:
+        - NONE
+        - C
+        - N
+        - S
+        - E
+        - W
+        - NE
+        - NW
+        - SE
+        - SW
+    PositionEnum:
+      type: string
+      enum:
+        - NONE
+        - G
+        - CB
+        - LB
+        - RB
+        - DM
+        - CM
+        - LM
+        - RM
+        - CF
     RuleEnum:
       type: string
       enum:
@@ -411,6 +707,36 @@ components:
         - VERIFY_EMAIL
         - REGISTER_MOBILE
         - VERIFY_MOBILE
+    UpdateGroupDto:
+      type: object
+      properties:
+        currentName:
+          type: string
+        newName:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ageLevel:
+          type: string
+    #          $ref: '#/components/schemas/AgeLevelDto'
+    CreateGroupDto:
+      type: object
+      properties:
+        name:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        ageLevel:
+          type: string
+    #          $ref: '#/components/schemas/AgeLevelDto'
     GroupDto:
       type: object
       properties:
@@ -424,8 +750,15 @@ components:
         longitude:
           type: number
           format: double
+        imageExtension:
+          type: string
         ageLevel:
-          $ref: '#/components/schemas/AgeLevelDto'
+          type: string
+    #          $ref: '#/components/schemas/AgeLevelDto'
+    GroupListDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/GroupDto'
     MeDto:
       type: object
       properties:
@@ -439,6 +772,10 @@ components:
           $ref: '#/components/schemas/RoleEnum'
         rule:
           $ref: '#/components/schemas/RuleEnum'
+        position:
+          $ref: '#/components/schemas/PositionEnum'
+        imageExtension:
+          type: string
     AgeLevelEnum:
       type: string
       enum:
@@ -465,6 +802,17 @@ components:
           type: string
         path:
           type: string
+    TitleValueDto:
+      type: object
+      properties:
+        title:
+          type: string
+        value:
+          type: string
+    TitleValueListDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/TitleValueDto'
     AgeLevelDto:
       type: object
       properties:
@@ -481,6 +829,8 @@ components:
     InviteDto:
       type: object
       properties:
+        groupName:
+          type: string
         mobiles:
           type: array
           items:
@@ -542,3 +892,72 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/AgeLevelDto'
+    GroupImageDto:
+      type: object
+      properties:
+        groupName:
+          type: string
+        image:
+          type: string
+    PlayerImageDto:
+      type: object
+      properties:
+        playerUsername:
+          type: string
+        image:
+          type: string
+    LocationDto:
+      type: object
+      properties:
+        abbr:
+          type: string
+        zone:
+          $ref: '#/components/schemas/ZoneEnum'
+    PlayerPositionDto:
+      type: object
+      properties:
+        position:
+          $ref: '#/components/schemas/PositionEnum'
+    PlayerInfoDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nationalCode:
+          type: string
+    UserInfoDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nationalCode:
+          type: string
+        position:
+          $ref: '#/components/schemas/PositionEnum'
+        abbr:
+          type: string
+        zone:
+          $ref: '#/components/schemas/ZoneEnum'
+    PlayerProfileDto:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nationalCode:
+          type: string
+        position:
+          $ref: '#/components/schemas/PositionEnum'
+        imageExtension:
+          type: string
+        abbreviatedCity:
+          type: string
+        zone:
+          $ref: '#/components/schemas/ZoneEnum'

@@ -1,9 +1,6 @@
 package ir.piana.tech.core.api;
 
-import ir.piana.pianatech.server.api.dto.GroupDto;
-import ir.piana.pianatech.server.api.dto.InviteDto;
-import ir.piana.pianatech.server.api.dto.InviterDto;
-import ir.piana.pianatech.server.api.dto.InviterListDto;
+import ir.piana.pianatech.server.api.dto.*;
 import ir.piana.pianatech.server.api.service.UserGroupApi;
 import ir.piana.tech.business.data.entity.GroupEntity;
 import ir.piana.tech.business.data.service.GroupService;
@@ -12,13 +9,16 @@ import ir.piana.tech.core.mapper.GroupMapper;
 import ir.piana.tech.core.mapper.InvitedMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,19 +42,30 @@ public class UserGroupApiImpl implements UserGroupApi {
 
     @Override
     public ResponseEntity<GroupDto> createGroup(GroupDto createGroupDto) {
-        groupService.createGroup(
+        GroupEntity group = groupService.createGroup(
                 createGroupDto.getName(),
                 createGroupDto.getLatitude(),
                 createGroupDto.getLongitude(),
-                AgeLevelType.fromValue(createGroupDto.getAgeLevel().getValue()));
-        return ResponseEntity.ok().body(createGroupDto);
+                AgeLevelType.fromValue(createGroupDto.getAgeLevel()));
+        return ResponseEntity.ok().body(groupMapper.toGroupDto(group));
     }
 
     @Override
-    public ResponseEntity<GroupDto> getOwnedGroup() {
-        GroupEntity group = groupService.getGroup();
-        GroupDto groupDto = groupMapper.toGroupDto(group);
-        return ResponseEntity.ok().body(groupDto);
+    public ResponseEntity<GroupDto> updateGroup(UpdateGroupDto groupDto) {
+        GroupEntity group = groupService.updateGroup(
+                groupDto.getCurrentName(),
+                groupDto.getNewName(),
+                groupDto.getLatitude(),
+                groupDto.getLongitude(),
+                AgeLevelType.fromValue(groupDto.getAgeLevel()));
+        return ResponseEntity.ok().body(groupMapper.toGroupDto(group));
+    }
+
+    @Override
+    public ResponseEntity<List<GroupDto>> getOwnGroups() {
+        List<GroupEntity> groups = groupService.getGroups();
+        List<GroupDto> groupDtoList = groupMapper.toGroupDtoList(groups);
+        return ResponseEntity.ok().body(groupDtoList);
     }
 
     @Override
@@ -76,19 +87,13 @@ public class UserGroupApiImpl implements UserGroupApi {
 
     @Override
     public ResponseEntity<Void> inviteToGroup(InviteDto inviteDto) {
-        groupService.invite(invitedMapper.toInvitedModels(inviteDto));
+        groupService.invite(invitedMapper.toInvitedModels(inviteDto), inviteDto.getGroupName());
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<Void> uploadGroupImage(@Valid MultipartFile image) {
-        try {
-            byte[] bytes = image.getBytes();
-            String contentType = image.getContentType();
-            System.out.println(contentType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public ResponseEntity<Void> uploadGroupImage(GroupImageDto groupImageDto) {
+        groupService.addGroupImage(groupImageDto.getImage(), groupImageDto.getGroupName());
+        return ResponseEntity.ok().build();
     }
 }

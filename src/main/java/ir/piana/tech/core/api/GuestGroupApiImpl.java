@@ -1,6 +1,7 @@
 package ir.piana.tech.core.api;
 
 import ir.piana.pianatech.server.api.dto.AgeLevelDto;
+import ir.piana.pianatech.server.api.dto.GroupDto;
 import ir.piana.pianatech.server.api.service.GuestGroupApi;
 import ir.piana.tech.core.enums.AgeLevelType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,10 @@ import java.util.stream.Collectors;
  **/
 @RestController
 public class GuestGroupApiImpl implements GuestGroupApi {
+    @Override
+    public ResponseEntity<List<GroupDto>> getGroups(Integer pageSize, Integer pageNumber) {
+        return null;
+    }
 
     @Override
     public ResponseEntity<List<AgeLevelDto>> getAgeLevels() {

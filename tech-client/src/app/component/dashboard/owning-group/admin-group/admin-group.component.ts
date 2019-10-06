@@ -1,13 +1,11 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {icon, latLng, marker, Marker, tileLayer} from "leaflet";
-import {select, Store} from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import {AppState} from "../../../../store/states/app.state";
-import {selectGroupState} from "../../../../store/selectors/group.selectors";
-import {GroupGetRequestAction} from "../../../../store/actions/group.action";
-import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
 import {RootContainerService} from "../../../../services/root-container/root-container.service";
+import {ActivatedRoute} from "@angular/router";
+import {SetActiveGroupRequestAction} from "../../../../store/actions/active-group.action";
 
 @Component({
   selector: 'app-admin-group',
@@ -15,73 +13,22 @@ import {RootContainerService} from "../../../../services/root-container/root-con
   styleUrls: ['./admin-group.component.css']
 })
 export class AdminGroupComponent implements OnInit, AfterViewInit {
-  group$ = this._store.pipe(select(selectGroupState))
-  ageLevels$ = this._store.pipe(select(selectAgeLevels));
-  ageLevels = null;
-  viewType : boolean = false;
-
-  options = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { minZoom: 14, maxZoom: 16, attribution: '...' })
-    ],
-    zoom: 15,
-    center: latLng(35.70099668759087, 51.39126741938528)
-  };
-  map = null;
-  myLatLng = null;
-  myMarker = null;
-  groupForm: FormGroup;
+  groupName = null;
 
   constructor(private _store: Store<AppState>,
               private fb: FormBuilder,
+              private route: ActivatedRoute,
               private rootContainerService: RootContainerService) {
     this._store.dispatch(new AgeLevelRequestAction());
+    this.route.params.subscribe(params => {
+      console.log(params['groupName']);
+      this.groupName = params['groupName'];
+      this._store.dispatch(new SetActiveGroupRequestAction(this.groupName));
+    });
+
   }
 
   ngOnInit() {
-    const iconRetinaUrl = 'assets/image/leaflet/marker-icon-2x.png';
-    const iconUrl = 'assets/image/leaflet/marker-icon.png';
-    const shadowUrl = 'assets/image/leaflet/marker-shadow.png';
-    let iconDefault = icon({
-      iconRetinaUrl,
-      iconUrl,
-      shadowUrl,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      tooltipAnchor: [16, -28],
-      shadowSize: [41, 41],
-    });
-    Marker.prototype.options.icon = iconDefault;
-
-    this._store.dispatch(new GroupGetRequestAction());
-    this.ageLevels$.subscribe(ageLevels => {
-      if(ageLevels != null) {
-        this.ageLevels = ageLevels;
-        console.log(this.ageLevels[0])
-        this.groupForm = this.fb.group({
-          name: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-            Validators.maxLength(40)
-          ]),
-          adminName: new FormControl('', [Validators.required]),
-          ageLevel: [this.ageLevels[0]]
-        });
-      }
-    })
-    this.group$.subscribe(group => {
-      if(group) {
-        this.groupForm.patchValue(group);
-        for (let i = 0; i < this.ageLevels.length; i++) {
-          if (this.ageLevels[i]['value'] === group.ageLevel['value']){
-            this.ageLevels[i] = group.ageLevel;
-            break;
-          }
-        }
-        // this.groupForm.controls['ageLevel'].setValue(this.ageLevels[0], {onlySelf: true});
-      }
-    });
   }
 
   ngAfterViewInit() {
@@ -91,22 +38,4 @@ export class AdminGroupComponent implements OnInit, AfterViewInit {
     this.rootContainerService.changeInComponents();
   }
 
-  viewTypeChange() {
-    console.log(this.viewType);
-    this.viewType = !this.viewType;
-  }
-
-  onMapReady(map) {
-    this.map = map;
-    this.myMarker = marker(latLng(35.70099668759087, 51.39126741938528));
-  }
-
-  onMapClick(e) {
-    console.log(e.latlng);
-    this.myLatLng = e.latlng;
-    this.myMarker = marker(this.myLatLng);
-    console.log(this.groupForm.controls['name'].value);
-    console.log(this.groupForm.controls['adminName'].value);
-    console.log(this.groupForm.controls['ageLevel'].value);
-  }
 }

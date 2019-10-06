@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col col-lg-4 offset-lg-4">
+    <div class="col-12 col-sm-12 col-md-8 offset-md-2">
       <div style="height: 300px;"
            leaflet
            [leafletOptions]="options"
@@ -11,10 +11,8 @@
       </div>
     </div>
   </div>
-</div>
-<div class="container">
   <div class="row">
-    <div class="col col-lg-4 offset-lg-4">
+    <div class="col-12 col-sm-12 col-md-8 offset-md-2">
       <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
         <div class="form-group">
           <label for="lbl-name" class="text-right" style="direction: ltr">
@@ -33,7 +31,7 @@
                   id="lbl-age"
                   class="form-control"
                   [style.background-color]="groupForm.get('ageLevel').invalid ? '#ffd4eb' : '#CFFFA9'">
-            <option *ngFor="let l of ageLevels$ | async" [ngValue]="l">{{l.title}}</option>
+            <option *ngFor="let l of ageLevels$ | async" [value]="l.value">{{l.title}}</option>
           </select>
         </div>
         <div class="btn-group">

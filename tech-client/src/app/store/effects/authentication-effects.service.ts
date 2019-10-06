@@ -121,7 +121,7 @@ export class AuthenticationEffects {
     map(action => action.payload),
     switchMap(meDto => {
       return new Observable(observer => {
-        this.router.navigateByUrl("dashboard/owned/admin")
+        this.router.navigateByUrl("dashboard/owned")
         observer.next(new authenticationActions.LoginSuccessAction(meDto));
       });
     })

@@ -1,4 +1,14 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 
 @Component({
@@ -6,8 +16,13 @@ import {FormBuilder} from "@angular/forms";
   templateUrl: './image-uploader.component.html',
   styleUrls: ['./image-uploader.component.css']
 })
-export class ImageUploaderComponent implements OnInit {
+export class ImageUploaderComponent implements OnInit, AfterViewInit {
   submitted = false;
+
+  @Input()
+  imageDefaultUrl: string = null;
+
+  @Output() onChangeImage: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public fb: FormBuilder,
@@ -40,6 +55,7 @@ export class ImageUploaderComponent implements OnInit {
         });
         this.editFile = false;
         this.removeUpload = true;
+        this.onChangeImage.emit(this.registrationForm.controls['file'].value);
       }
       // ChangeDetectorRef since file is loading outside the zone
       this.cd.markForCheck();
@@ -48,14 +64,15 @@ export class ImageUploaderComponent implements OnInit {
 
   // Function to remove uploaded file
   removeUploadedFile() {
-    console.log("removeUploadedFile")
     let newFileList = Array.from(this.el.nativeElement.files);
-    this.imageUrl = '../../../../assets/image/common/no-image.png';
+    this.imageUrl = this.imageDefaultUrl;
+    // this.imageUrl = '../../../../assets/image/common/no-image.png';
     this.editFile = true;
     this.removeUpload = false;
     this.registrationForm.patchValue({
       file: [null]
     });
+    this.el.nativeElement.value = ''
   }
 
   // Submit Registration Form
@@ -71,5 +88,11 @@ export class ImageUploaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.imageDefaultUrl);
+    this.imageUrl = this.imageDefaultUrl;
+  }
+
+  ngAfterViewInit() {
+
   }
 }

@@ -7,7 +7,8 @@ import ir.piana.tech.business.data.repository.GroupRepository;
 import ir.piana.tech.business.data.repository.InviteRepository;
 import ir.piana.tech.business.data.repository.UserRepository;
 import ir.piana.tech.business.helper.EmailHelper;
-import ir.piana.tech.core.enums.*;
+import ir.piana.tech.business.helper.ImageHelper;
+import ir.piana.tech.core.enums.AgeLevelType;
 import ir.piana.tech.core.exception.NotFoundRelatedException;
 import ir.piana.tech.core.exception.PianaHttpException;
 import ir.piana.tech.core.exception.UserRelatedException;
@@ -20,12 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 /**
  * @author Mohamad Rahmati (rahmatii1366@gmail.com)
@@ -54,6 +60,9 @@ public class GroupService {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    private ImageHelper imageHelper;
+
     @Value("${piana.email.link.prefix}")
     private String linkPrefix;
 
@@ -68,22 +77,19 @@ public class GroupService {
     private GroupMapper groupMapper;
 
     @Transactional
-    public GroupEntity getGroup()
+    public List<GroupEntity> getGroups()
             throws PianaHttpException {
         UserEntity userEntity = authenticationService.getUserEntity();
-        Optional<GroupEntity> optionalGroupEntity = groupRepository.findByUserEntity(userEntity);
+        List<GroupEntity> groupEntities = groupRepository.findByUserEntity(userEntity);
 //        GroupDto groupDto = groupMapper.toGroupDto(optionalGroupEntity.get());
-        return optionalGroupEntity.orElseThrow(() -> new NotFoundRelatedException("group not exist!"));
+        return groupEntities;//new NotFoundRelatedException("group not exist!"));
     }
 
     @Transactional
-    public void createGroup(String name, double latitude, double longitude, AgeLevelType ageLevelType)
+    public GroupEntity createGroup(String name, double latitude, double longitude, AgeLevelType ageLevelType)
             throws PianaHttpException {
         UserEntity userEntity = authenticationService.getUserEntity();
-        Optional<GroupEntity> optionalGroupEntity = groupRepository.findByUserEntity(userEntity);
-        if(optionalGroupEntity.isPresent())
-            throw new UserRelatedException("double group not permission");
-        optionalGroupEntity = groupRepository.findByName(name);
+        Optional<GroupEntity> optionalGroupEntity = groupRepository.findByName(name);
         if(optionalGroupEntity.isPresent())
             throw new UserRelatedException("name is already registered");
 
@@ -93,13 +99,39 @@ public class GroupService {
                 .latitude(latitude).longitude(longitude)
                 .members(new ArrayList<>())
                 .build();
-        groupRepository.save(groupEntity);
+        return groupRepository.save(groupEntity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<GroupEntity> getGroups(Integer pageSize, Integer pageNumber) {
+//        MeModel meModel = authenticationService.getMeModel();
+        Page<GroupEntity> all = groupRepository.findAll(PageRequest.of(pageNumber, pageSize));
+        return all.getContent();
+    }
+
+    @Transactional
+    public GroupEntity updateGroup(String currentName, String newName, double latitude, double longitude, AgeLevelType ageLevelType)
+            throws PianaHttpException {
+        UserEntity userEntity = authenticationService.getUserEntity();
+        if(!newName.equalsIgnoreCase(currentName)) {
+            Optional<GroupEntity> optionalGroupEntity = groupRepository.findByName(newName);
+            if (optionalGroupEntity.isPresent())
+                throw new UserRelatedException("name is already registered");
+        }
+        Optional<GroupEntity> optionalGroupEntity = groupRepository.findByName(currentName);
+        GroupEntity groupEntity = optionalGroupEntity.orElseThrow(() -> new NotFoundRelatedException("group by this name not exst."));
+        groupEntity.setName(newName);
+        groupEntity.setAgeLevel(ageLevelType);
+        groupEntity.setLatitude(latitude);
+        groupEntity.setLongitude(longitude);
+        return groupRepository.save(groupEntity);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void invite(List<InvitedUserModel> invitedUserModels)
+    public void invite(List<InvitedUserModel> invitedUserModels, String groupName)
             throws PianaHttpException {
-        GroupEntity groupEntity = getGroup();
+        GroupEntity groupEntity = groupRepository.findByName(groupName)
+                .orElseThrow(() -> new NotFoundRelatedException("group name not exist!"));
         List<InvitedUserModel> shouldInviteList = getShouldInviteList(groupEntity.getInvitedUserModels(), invitedUserModels);
         for (InvitedUserModel invitedUserModel : shouldInviteList) {
 //            Optional<UserEntity> userEntity = userRepository.findByMobile(invitedUserModel.getMobile());
@@ -150,6 +182,20 @@ public class GroupService {
         groupEntityOptional.get().setInvitedUserModels(removeFromInvertedUsers(
                 groupEntityOptional.get().getInvitedUserModels(), userEntity.getMobile()));
         groupRepository.save(groupEntityOptional.get());
+    }
+
+    @Value("${resource.image.group.path}")
+    private String groupPath;
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void addGroupImage(String image, String groupName) {
+        Optional<GroupEntity> byName = groupRepository.findByName(groupName);
+        GroupEntity groupEntity = byName.orElseThrow(() -> new NotFoundRelatedException("this group not founded!"));
+
+        String extension = imageHelper.saveByBase64ImageString(image, groupPath, groupName);
+
+        groupEntity.setImageExtension(extension);
+        groupRepository.save(groupEntity);
     }
 
 //    public List<SingletonMap> getAgeLevels()

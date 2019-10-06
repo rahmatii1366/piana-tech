@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {icon, latLng, Marker, marker, tileLayer} from "leaflet";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
@@ -6,13 +6,14 @@ import {AppState} from "../../../../store/states/app.state";
 import {selectAgeLevels} from "../../../../store/selectors/age-level.selectors";
 import {AgeLevelRequestAction} from "../../../../store/actions/age-level.action";
 import {GroupCreateRequestAction} from "../../../../store/actions/group.action";
+import {RootContainerService} from "../../../../services/root-container/root-container.service";
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.css']
 })
-export class CreateGroupComponent implements OnInit {
+export class CreateGroupComponent implements OnInit, AfterViewInit {
   ageLevels$ = this._store.pipe(select(selectAgeLevels));
 
   options = {
@@ -56,7 +57,9 @@ export class CreateGroupComponent implements OnInit {
   // });
   groupForm: FormGroup;
 
-  constructor(private _store: Store<AppState>, private fb: FormBuilder) {
+  constructor(private _store: Store<AppState>,
+              private fb: FormBuilder,
+              private rootContainerService: RootContainerService) {
     this.groupForm = this.fb.group({
       name: new FormControl('', [
         Validators.required,
@@ -83,6 +86,10 @@ export class CreateGroupComponent implements OnInit {
       shadowSize: [41, 41],
     });
     Marker.prototype.options.icon = iconDefault;
+  }
+
+  ngAfterViewInit() {
+    this.rootContainerService.changeInComponents();
   }
 
   onMapReady(map) {

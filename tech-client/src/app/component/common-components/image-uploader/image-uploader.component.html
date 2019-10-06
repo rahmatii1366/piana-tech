@@ -10,7 +10,8 @@
           <!-- Upload image -->
           <div class="avatar-upload">
             <div class="avatar-edit">
-              <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput (change)="uploadFile($event)" />
+              <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"
+                     #fileInput (change)="uploadFile($event)" />
             </div>
             <div class="avatar-preview">
               <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
@@ -20,7 +21,12 @@
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-danger btn-block" (click)="fileInput.click()">بارگزاری تصویر</button>
+        <button type="submit"
+                class="btn btn-success btn-block"
+                (click)="fileInput.click()">بارگزاری تصویر</button>
+<!--        <button *ngIf="removeUpload"-->
+<!--                class="btn btn-danger btn-block"-->
+<!--                (click)="removeUploadedFile()">حذف تصویر</button>-->
 
       </form><!-- Form ends -->
 

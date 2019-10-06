@@ -1,9 +1,11 @@
 import {GroupDto} from "../../api/web-console/models/group-dto";
 
 export interface GroupState {
-  group: GroupDto;
+  groups: GroupDto[];
+  groupMap: {[key: string]: GroupDto}
 }
 
 export const initialGroupState: GroupState = {
-  group: null
+  groups: [],
+  groupMap: {}
 }

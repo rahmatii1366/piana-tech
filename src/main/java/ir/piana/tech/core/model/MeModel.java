@@ -1,6 +1,8 @@
 package ir.piana.tech.core.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ir.piana.tech.core.enums.PlayerPositionType;
 import ir.piana.tech.core.enums.RoleType;
 import ir.piana.tech.core.enums.RuleType;
 import lombok.Builder;
@@ -13,8 +15,14 @@ import lombok.Data;
 @Data
 @Builder
 public class MeModel {
+    @JsonIgnore
+    private Long userId;
+
     @JsonProperty("username")
     private String username = null;
+
+    @JsonProperty("position")
+    private PlayerPositionType position = null;
 
     @JsonProperty("email")
     private String email = null;
@@ -27,4 +35,7 @@ public class MeModel {
 
     @JsonProperty("rule")
     private RuleType rule = null;
+
+    @JsonProperty("imageExtension")
+    private String imageExtension;
 }
